@@ -23,6 +23,11 @@ public class RegisterPhone
         this.token = token;
     }
 
+    public void setToken()
+    {
+        this.token = "55942ee3894f51000530894";
+    }
+
     public String getToken()
     {
         return  this.token;
