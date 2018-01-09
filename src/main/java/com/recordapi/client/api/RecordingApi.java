@@ -99,13 +99,13 @@ public class RecordingApi
 //
 //        return  request;
 //    }
-    public RegisterPhone_Response RegisterPhoneCall(int i)
+    public RegisterPhone_Response RegisterPhoneCall()
     {
 
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("phone", data.getPhonenumber()));
         param.add(new BasicNameValuePair("token", data.getToken()));
-        
+
          if (data.getPhonenumber()=="")
             return new RegisterPhone_Response("please enter phonenumber");
         if(data.getToken().equals(""))
