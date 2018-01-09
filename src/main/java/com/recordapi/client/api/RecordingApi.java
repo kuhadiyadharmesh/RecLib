@@ -56,12 +56,13 @@ public class RecordingApi
 
         if(i == 1 )
         {
-            FormEncodingBuilder builder = new FormEncodingBuilder();
-            builder.addEncoded("phone",data.getPhonenumber());
-            builder.addEncoded("token",data.getToken());
+            //FormEncodingBuilder builder = new FormEncodingBuilder();
+            //builder.addEncoded("phone",data.getPhonenumber());
+            //builder.addEncoded("token",data.getToken());
+            String dd = "phone:"+data.getPhonenumber()+" token"+data.getToken();
 
             //MultipartBuilder body = new MultipartBuilder();
-            requestBody = RequestBody.create(MEDIA_TYPE,builder.toString());
+            requestBody = RequestBody.create(MEDIA_TYPE,dd.toString());
         }
         else
         {
