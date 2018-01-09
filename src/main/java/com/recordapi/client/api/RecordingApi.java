@@ -7,11 +7,20 @@ import com.recordapi.client.RecApi;
 import com.recordapi.client.model.RegisterPhone;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.squareup.okhttp.Call;
+import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.HttpUrl;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+
+import okio.BufferedSink;
 
 /**
  * Created by Dharmesh-PC on 1/5/2018.
@@ -21,6 +30,10 @@ public class RecordingApi
 {
     public RegisterPhone data ;
     HttpUrl.Builder urlBuilder;
+    RequestBody requestBody;
+
+    public static final MediaType MEDIA_TYPE =
+            MediaType.parse("application/x-www-form-urlencoded");
     public RecordingApi(RegisterPhone data)
     {
         this.data = data ;
@@ -34,11 +47,39 @@ public class RecordingApi
 //
 //        return  request;
 //    }
-    public RegisterPhone_Response RegisterPhoneCall()
+    public RegisterPhone_Response RegisterPhoneCall(int i)
     {
         urlBuilder = HttpUrl.parse(ApiClient.BasePath+"register_phone/").newBuilder();
-        urlBuilder.addQueryParameter("phone", data.getPhonenumber());
-        urlBuilder.addQueryParameter("token", data.getToken());
+        //urlBuilder.addQueryParameter("phone", data.getPhonenumber());
+       // urlBuilder.addQueryParameter("token", data.getToken());
+
+
+        if(i == 1 )
+        {
+            FormEncodingBuilder builder = new FormEncodingBuilder();
+            builder.addEncoded("phone",data.getPhonenumber());
+            builder.addEncoded("token",data.getToken());
+
+            //MultipartBuilder body = new MultipartBuilder();
+            requestBody = RequestBody.create(MEDIA_TYPE,builder.toString());
+        }
+        else
+        {
+            urlBuilder.setEncodedQueryParameter("phone", data.getPhonenumber());
+            urlBuilder.setEncodedQueryParameter("token", data.getToken());
+        }
+
+       // RequestBody requestBody = RequestBody.create().
+
+
+        //body.addPart("phone",new StringBod);
+
+//        requestBody = new Request.Builder()
+//                .setType(MediaType.parse("application/x-www-form-urlencoded"))
+//                .addFormDataPart("somParam", "someValue")
+//                .build();
+
+
        // RegisterPhone_Response response_data = new RegisterPhone_Response();
 
 
@@ -94,7 +135,11 @@ public class RecordingApi
     {
         String url = urlBuilder.build().toString();
 
+        //RequestBody requestBody = Req
+
         Request request = new Request.Builder()
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .post(requestBody)
                 .url(url)
                 .build();
        // Request request = MakeRequest();
