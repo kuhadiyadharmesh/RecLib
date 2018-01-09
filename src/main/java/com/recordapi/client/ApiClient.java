@@ -2,9 +2,6 @@ package com.recordapi.client;
 
 //import com.
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
@@ -15,26 +12,26 @@ import java.io.IOException;
 public class ApiClient
 {
     public static String BasePath = "https://app2.virtualbrix.net/rapi/";
-    private OkHttpClient httpClient;
-
-    public ApiClient()
-    {
-        httpClient = new OkHttpClient();
-    }
-
-
-    public String RegisterPhone(Request request)
-    {
-        try
-        {
-            Response response = httpClient.newCall(request).execute();
-            return response.body().string();
-        }
-        catch (IOException ed)
-        {
-            return "";
-        }
-    }
+//    private OkHttpClient httpClient;
+//
+//    public ApiClient()
+//    {
+//        httpClient = new OkHttpClient();
+//    }
+//
+//
+//    public String RegisterPhone(Request request)
+//    {
+//        try
+//        {
+//            Response response = httpClient.newCall(request).execute();
+//            return response.body().string();
+//        }
+//        catch (IOException ed)
+//        {
+//            return "";
+//        }
+//    }
 
 
 

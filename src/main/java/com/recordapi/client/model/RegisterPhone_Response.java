@@ -10,6 +10,8 @@ public class RegisterPhone_Response
     //
     boolean status = false ;
     String msg ="no response from server";
+    String phone ;
+    String body;
 
     //{"status":"ok","phone":"+16463742122","code":"54004","msg":"Verification Code Sent"}
 
@@ -42,4 +44,13 @@ public class RegisterPhone_Response
     {
         return  this.msg;
     }
+    public String getPhone()
+    {
+        return this.phone;
+    }
+    public void setPhone(String phone)
+    {
+        this.phone = phone;
+    }
+
 }
