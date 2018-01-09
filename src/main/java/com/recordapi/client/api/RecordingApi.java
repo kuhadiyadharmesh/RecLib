@@ -101,7 +101,7 @@ public class RecordingApi
 //    }
     public RegisterPhone_Response RegisterPhoneCall()
     {
-
+        Log.e("new method called","new called");
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("phone", data.getPhonenumber()));
         param.add(new BasicNameValuePair("token", data.getToken()));
