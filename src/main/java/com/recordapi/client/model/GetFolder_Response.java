@@ -29,7 +29,7 @@ public class GetFolder_Response
 
     public String getMsg()
     {
-        return  this.getMsg();
+        return  this.msg;
     }
     public boolean getStatus()
     {
