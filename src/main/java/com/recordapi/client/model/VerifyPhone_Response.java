@@ -37,7 +37,7 @@ public class VerifyPhone_Response
     }
     public String getMsg()
     {
-        return  this.getMsg();
+        return  this.msg;
     }
 
     public boolean getStatus()
