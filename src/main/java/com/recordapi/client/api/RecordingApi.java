@@ -99,7 +99,7 @@ public class RecordingApi
 //
 //        return  request;
 //    }
-    public RegisterPhone_Response RegisterPhoneCall()
+    public RegisterPhone_Response RegisterPhoneCall(String s)
     {
         Log.e("new method called","new called");
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
