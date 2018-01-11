@@ -3,9 +3,8 @@ package com.recordapi.client.api;
 import com.recordapi.client.ApiClient;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.model.Common.FolderData;
-import com.recordapi.client.model.GetFolder;
-import com.recordapi.client.model.GetFolder_Response;
-import com.recordapi.client.model.RegisterPhone_Response;
+import com.recordapi.client.model.Folder.GetFolder;
+import com.recordapi.client.model.Folder.GetFolder_Response;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;

@@ -2,14 +2,11 @@ package com.recordapi.client.api;
 
 import com.recordapi.client.ApiClient;
 import com.recordapi.client.RecordingApi;
-import com.recordapi.client.model.Common.FolderData;
-import com.recordapi.client.model.CreateFolder;
-import com.recordapi.client.model.CreateFolder_Response;
-import com.recordapi.client.model.GetFolder_Response;
+import com.recordapi.client.model.Folder.CreateFolder;
+import com.recordapi.client.model.Folder.CreateFolder_Response;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

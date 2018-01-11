@@ -1,4 +1,4 @@
-package com.recordapi.client.model;
+package com.recordapi.client.model.Folder;
 
 import com.recordapi.client.model.Common.FolderData;
 

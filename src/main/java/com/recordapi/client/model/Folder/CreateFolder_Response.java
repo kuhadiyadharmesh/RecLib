@@ -1,4 +1,4 @@
-package com.recordapi.client.model;
+package com.recordapi.client.model.Folder;
 
 /**
  * Created by Dharmesh-PC on 1/9/2018.
