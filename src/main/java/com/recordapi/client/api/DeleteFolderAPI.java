@@ -19,8 +19,8 @@ import java.util.ArrayList;
 public class DeleteFolderAPI
 {
 
-    DeleteFolder data ;
-    RecordingApi recordingApi;
+    private DeleteFolder data ;
+    private RecordingApi recordingApi;
 
     public DeleteFolderAPI(DeleteFolder data)
     {

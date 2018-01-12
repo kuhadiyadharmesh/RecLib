@@ -22,8 +22,8 @@ public class GetFolderAPI
 {
     //{"status":"ok","folders":[{"id":"29","name":"test","created":"1433989312"},{"id":"31","name":"test3","created":"1434009445"}],"msg":"Success"}
 
-    GetFolder data ;
-    RecordingApi recordingApi;
+    private GetFolder data ;
+    private RecordingApi recordingApi;
 
     public GetFolderAPI(GetFolder data)
     {

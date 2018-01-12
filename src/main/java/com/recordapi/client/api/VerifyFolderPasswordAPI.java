@@ -20,8 +20,8 @@ import java.util.ArrayList;
 
 public class VerifyFolderPasswordAPI
 {
-    VerifyFolderPassword data ;
-    RecordingApi recordingApi;
+    private VerifyFolderPassword data ;
+    private RecordingApi recordingApi;
 
     public VerifyFolderPasswordAPI(VerifyFolderPassword data)
     {

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class VerifyPhoneAPI
 {
     private RecordingApi recordingApi;
-    public VerifyPhone data ;
+    private VerifyPhone data ;
 
     public VerifyPhoneAPI(VerifyPhone data)
     {

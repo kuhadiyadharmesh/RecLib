@@ -18,8 +18,8 @@ import java.util.ArrayList;
 
 public class UpdateFolderAPI
 {
-    UpdateFolder data ;
-    RecordingApi recordingApi;
+    private UpdateFolder data ;
+    private RecordingApi recordingApi;
 
     public UpdateFolderAPI(UpdateFolder data)
     {

@@ -20,8 +20,8 @@ import java.util.ArrayList;
 
 public class StartUnStartFileFolderAPI
 {
-    StartUnStarFolderFile data ;
-    RecordingApi recordingApi;
+    private StartUnStarFolderFile data ;
+    private RecordingApi recordingApi;
 
     public StartUnStartFileFolderAPI(StartUnStarFolderFile data)
     {
