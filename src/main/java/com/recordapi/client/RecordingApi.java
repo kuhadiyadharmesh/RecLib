@@ -173,6 +173,97 @@ public class RecordingApi
 
     }
 
+    public JSONArray makeHttpRequestFor_SSL_Array(String url, String method, List<NameValuePair> param)
+    {
+        // TODO Auto-generated method stub
+        try {
+            // check for request method
+            if (method == "POST") {
+                System.out.println(" In post Method");
+                //DefaultHttpClient httpClient = new DefaultHttpClient();
+                HttpClient httpClient = createHttpClient();
+                HttpPost httpPost = new HttpPost(url+"/");
+                httpPost.setEntity(new UrlEncodedFormEntity(param));
+                //httpPost.setS
+
+                //Multiple
+                MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+                for (int index = 0; index < param.size(); index++) {
+                    if (param.get(index).getName().equalsIgnoreCase("file")) {
+                        // If the key equals to "image", we use FileBody to transfer the data
+                        entity.addPart(param.get(index).getName(), new FileBody(new File(param.get(index).getValue())));
+
+                    } else {
+                        // Normal string data
+                        entity.addPart(param.get(index).getName(), new StringBody(param.get(index).getValue()));
+                    }
+                }
+
+                httpPost.setEntity(entity);
+                //Multiple
+
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+                HttpEntity httpEntity = httpResponse.getEntity();
+                is = httpEntity.getContent();
+                System.out.println(" In post Method");
+            } else if (method == "GET") {
+                // request method is GET
+                DefaultHttpClient httpClient = new DefaultHttpClient();
+                String paramString = URLEncodedUtils.format(param, "utf-8");
+                url += "" + paramString;
+                HttpGet httpGet = new HttpGet(url);
+                //String basicAuth = "Basic " + new String(Base64.encode("tomcat:tomcat".getBytes(),Base64.NO_WRAP ));
+                //post.setRequestProperty ("Authorization", basicAuth);
+                //httpGet.setHeader("Authorization", basicAuth);
+                HttpResponse httpResponse = httpClient.execute(httpGet);
+                HttpEntity httpEntity = httpResponse.getEntity();
+                is = httpEntity.getContent();
+            }
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return Error_Exception_Array();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+            return Error_Exception_Array();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Error_Exception_Array();
+        }
+
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    is, "iso-8859-1"), 8);
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            is.close();
+            System.out.println(" In post Method");
+            json = sb.toString().trim();
+            Log.e("data prints", json);
+        } catch (Exception e) {
+            Log.e("Buffer Error", "Error converting result " + e.toString());
+            return Error_Exception_Array();
+        }
+
+        // try parse the string to a JSON object
+        try {
+           // jObj = new JSONObject(json);
+             Jarray = new JSONArray(json);
+        } catch (JSONException e) {
+            Log.e("JSON Parser", "Error parsing data " + e.toString());
+            return Error_Exception_Array();
+        }
+
+        // return JSON String
+         return Jarray;
+       // return jObj;
+
+    }
+
     public static HttpClient createHttpClient() {
         try {
             KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -234,6 +325,18 @@ public class RecordingApi
         JSONObject json = null;
         try {
             json = new JSONObject("{\"status\":\"faliar\",\"msg\":\"Please Contact your Service Provide Or please Check your internet Connection\"}");
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return json;
+    }
+    public JSONArray Error_Exception_Array()
+    {
+        JSONArray json = null;
+        try {
+//            json = new JSONArray("[{\"status\":\"faliar\",\"msg\":\"Please Contact your Service Provide Or please Check your internet Connection\"}]");
+            json = new JSONArray("[]");
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
