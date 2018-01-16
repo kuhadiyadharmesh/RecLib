@@ -69,7 +69,8 @@ public class BuyCreditAPI
             {
                 if (jobj.getString("status").equals("ok"))
                 {
-                    response_data = new BuyCredit_Response(true,jobj.getString("msg"));
+                    //Credits","code":"amount_added","credits_added":300,"credits":8550,"credits_trans":300,"rem_expiry":null
+                    response_data = new BuyCredit_Response(jobj.getString("msg"),jobj.getString("credits_added"),jobj.getString("credits"),jobj.getString("credits_trans"),jobj.getString("rem_expiry"));
                     return response_data;
                 }
                 else

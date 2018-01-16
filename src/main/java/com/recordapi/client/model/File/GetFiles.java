@@ -23,31 +23,43 @@ public class GetFiles
     private boolean reminder = false;
 
 
-    public GetFiles(String api_key)
-    {
-        this.api_key = api_key;
-    }
+//    public GetFiles(String api_key)
+//    {
+//        this.api_key = api_key;
+//    }
+//
+//    public void setPage(String page)
+//    {
+//        this.page = page;
+//    }
+//    public void setFolder_id(String folder_id)
+//    {
+//        this.folder_id = folder_id;
+//    }
+//    public void setSource(String source)
+//    {
+//        this.source = source;
+//    }
+//    public void setPass(String pass)
+//    {
+//        this.pass = pass;
+//    }
+//    public void setReminder(boolean reminder)
+//    {
+//        this.reminder = reminder;
+//    }
 
-    public void setPage(String page)
+    public GetFiles(String api_key, String page , String folder_id, String source, String pass, boolean reminder)
     {
+            this.api_key = api_key;
         this.page = page;
-    }
-    public void setFolder_id(String folder_id)
-    {
         this.folder_id = folder_id;
-    }
-    public void setSource(String source)
-    {
         this.source = source;
-    }
-    public void setPass(String pass)
-    {
         this.pass = pass;
-    }
-    public void setReminder(boolean reminder)
-    {
         this.reminder = reminder;
     }
+
+
 
     public String getApi_key()
     {

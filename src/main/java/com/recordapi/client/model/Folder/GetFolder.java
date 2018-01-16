@@ -9,7 +9,7 @@ public class GetFolder
     //api_key=553a431e192d2553a431e1930f
     public String api_key ;
 
-    public void setApi_key(String api_key)
+    public void GetFolder(String api_key)
     {
         this.api_key = api_key;
     }

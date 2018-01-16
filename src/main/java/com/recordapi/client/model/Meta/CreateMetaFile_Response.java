@@ -1,21 +1,21 @@
-package com.recordapi.client.model.File;
+package com.recordapi.client.model.Meta;
 
 /**
- * Created by Dharmesh-PC on 1/11/2018.
+ * Created by Dharmesh-PC on 1/16/2018.
  */
 
-public class CreateFile_Response
+public class CreateMetaFile_Response
 {
     //{"status":"ok","msg":”File Uploaded Successfully"}
     private  boolean status = false ;
     private String msg = "server not responding", id;
 
 
-    public CreateFile_Response(String msg)
+    public CreateMetaFile_Response(String msg)
     {
         this.msg = msg;
     }
-    public CreateFile_Response(String msg , String id )
+    public CreateMetaFile_Response(String msg , String id )
     {
         this.msg = msg ;
         this.status = true;
