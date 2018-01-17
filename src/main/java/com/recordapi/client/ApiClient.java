@@ -12,7 +12,7 @@ import java.io.IOException;
 public class ApiClient
 {
     public static String BasePath = "https://app2.virtualbrix.net/rapi/";
-    public static String Profile_Img_Path = "https://app2.virtualbrix.net/upload/update_profile_img/";
+    public static String Profile_Img_Path = "https://app2.virtualbrix.net/upload/update_profile_img";
 //    private OkHttpClient httpClient;
 //
 //    public ApiClient()

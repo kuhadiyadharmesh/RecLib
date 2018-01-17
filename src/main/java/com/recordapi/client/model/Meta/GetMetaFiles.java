@@ -8,7 +8,7 @@ public class GetMetaFiles
 {
     public String api_key ;
 
-    public void GetMetaFiles(String api_key)
+    public  GetMetaFiles(String api_key)
     {
         this.api_key = api_key;
     }

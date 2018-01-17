@@ -58,7 +58,7 @@ public class NotifyUserAPI
 
 
         JSONObject jobj = null ;
-        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"update_folders_order","POST",param);
+        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"notify_user_custom","POST",param);
         NotifyUser_Response response_data  = null;
 
         if(jobj == null)

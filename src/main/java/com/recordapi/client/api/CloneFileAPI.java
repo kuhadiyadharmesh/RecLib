@@ -54,7 +54,7 @@ public class CloneFileAPI
         // Call service
         JSONObject jobj = null;
         CloneFile_Response response_data  = null;
-        jobj =  recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"clone_files","POST",param);
+        jobj =  recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"clone_file","POST",param);
         if(jobj == null)
         {
             response_data = new CloneFile_Response("Something Wrong");

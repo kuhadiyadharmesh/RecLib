@@ -59,7 +59,7 @@ public class GetSettingAPI
                 if (jobj.getString("status").equals("ok"))
                 {
                     Settings settings = new Settings(jobj.getJSONObject("settings").getString("play_beep"),jobj.getJSONObject("settings").getString("files_permission"));
-                    response_data = new GetSetting_Response(jobj.getString("app"),jobj.getString("credit"),"Get Setting Successfully",settings);
+                    response_data = new GetSetting_Response(jobj.getString("app"),jobj.getString("credits"),"Get Setting Successfully",settings);
                     return response_data;
                 }
                 else

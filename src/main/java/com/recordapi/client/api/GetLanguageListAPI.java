@@ -47,7 +47,7 @@ public class GetLanguageListAPI
         //param.add(new BasicNameValuePair("data",data.getData()));
 
         JSONObject jobj = null ;
-        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"get_msgs","POST",param);
+        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"get_languages","POST",param);
         GetLanguageList_Response response_data  = null;
 
         if(jobj == null)
@@ -69,7 +69,7 @@ public class GetLanguageListAPI
                         lang = new Language(jo.getString("code"),jo.getString("name"));//(jo.getString("id"),jo.getString("title"),jo.getString("body"),jo.getString("time"));
                         languageslist.add(lang);
                     }
-                    response_data = new GetLanguageList_Response(jobj.getString("msg"),languageslist);
+                    response_data = new GetLanguageList_Response("language List get successfully . ",languageslist);
                     return response_data;
                 }
                 else

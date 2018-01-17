@@ -44,7 +44,7 @@ public class UpdateProfilePicureAPI
         //param.add(new BasicNameValuePair("data",data.getData()));
 
         JSONObject jobj = null ;
-        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"update_profile_img","POST",param);
+        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.Profile_Img_Path,"POST",param);
         UpdateProfilePicure_Response response_data  = null;
 
         if(jobj == null)
