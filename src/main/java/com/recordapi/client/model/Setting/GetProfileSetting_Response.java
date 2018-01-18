@@ -39,6 +39,7 @@ public class GetProfileSetting_Response
         this.time_zone = time_zone;
         this.credits = credits ;
         this.credits_trans = credits_trans;
+        this.msg = "Profile Get successfully";
     }
 
     public String getPic()

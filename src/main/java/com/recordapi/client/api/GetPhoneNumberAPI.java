@@ -60,7 +60,7 @@ public class GetPhoneNumberAPI
                 if (jobj.length() > 0)
                 {
                     JSONObject jo = jobj.getJSONObject(0);
-                    response_data = new GetPhoneNumber_Response(jo.getString("phone_number"),jo.getString("number"),jo.getString("prefix"),jo.getString("flag"),"Get Phone Number Data");
+                    response_data = new GetPhoneNumber_Response(jo.getString("phone_number"),jo.getString("number"),jo.getString("prefix"),jo.getString("friendly_name"),jo.getString("flag"),jo.getString("country"));
                     return response_data;
                 }
                 else

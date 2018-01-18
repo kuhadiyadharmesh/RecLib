@@ -70,7 +70,7 @@ public class GetMetaFilesAPI
                         fo = new MetaFileData(jo.getString("id"),jo.getString("name"),jo.getString("file"),jo.getString("parent_id"),jo.getString("user_id"),jo.getString("time"));
                         fdata.add(fo);
                     }
-                    response_data = new GetMetaFiles_Response(jobj.getString("msg"),fdata);
+                    response_data = new GetMetaFiles_Response("Metafile get successfully .",fdata);
                     return response_data;
                 }
                 else
