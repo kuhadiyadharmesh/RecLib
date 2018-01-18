@@ -70,7 +70,7 @@ public class GetMessageAPI
                         messagelist.add(msg);
 
                     }
-                    response_data = new GetMessage_Response(jobj.getString("msg"),messagelist);
+                    response_data = new GetMessage_Response("Message list get Successfully .",messagelist);
                     return response_data;
                 }
                 else

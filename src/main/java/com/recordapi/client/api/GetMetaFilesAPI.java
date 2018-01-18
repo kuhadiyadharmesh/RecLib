@@ -39,9 +39,12 @@ public class GetMetaFilesAPI
         //Validation
         if(data.getApi_key().equals(""))
             return new GetMetaFiles_Response("Plese set ApiKey");
+        if(data.getParent_id().equals(""))
+            return new GetMetaFiles_Response("Plese set Parent Key");
 
 
         param.add(new BasicNameValuePair("api_key", data.getApi_key()));
+        param.add(new BasicNameValuePair("parent_id", data.getParent_id()));
 
 
         JSONObject jobj = null;
