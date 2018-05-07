@@ -46,4 +46,22 @@ compile 'com.github.kuhadiyadharmesh:RecLib:0.1.4'
 
 Please follow the [installation](#installation) instruction and execute the following Java code:
 
-*BusinessApi* | [**addNewEmployee**](docs/BusinessApi.md#addNewEmployee) | **POST** /v1/Business/AddNewEmployee | Add Comapny Employee
+*RegisterAPI* | [**PhoneRegisterAPI**](docs/PhoneRegisterAPI.md#addNewEmployee) | **POST** | PhoneRegisterAPI
+
+*MODEL-RegisterPhone*  
+```
+RegisterPhone obj = new RegisterPhone();
+obj.setPhonenumber("+049632587410");
+RegisterPhone_Response obj_response = obj.RegisterPhoneCall()
+
+if (obj_response.getStatus())
+{
+	Log.e("Response ok .",obj_response.getMsg())
+}
+else
+{
+	Log.e("Response not ok .",obj_response.getMsg())
+}
+
+
+```
