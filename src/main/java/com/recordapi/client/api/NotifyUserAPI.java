@@ -68,15 +68,15 @@ public class NotifyUserAPI
         else
         {
             try
-            {
-                if (jobj.getString("status").equals("ok"))
+            {//"success":1
+                if (jobj.getString("success").equals("1"))
                 {
-                    response_data = new NotifyUser_Response(true,jobj.getString("msg"));
+                    response_data = new NotifyUser_Response(true,"Message sent!");
                     return response_data;
                 }
                 else
                 {
-                    response_data = new NotifyUser_Response(jobj.getString("msg"));
+                    response_data = new NotifyUser_Response("Message not sent");
                     return  response_data;
                 }
             }
