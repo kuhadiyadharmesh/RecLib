@@ -49,8 +49,8 @@ public class GetFilesAPI
             param.add(new BasicNameValuePair("source", data.getSource()));
         if (data.getReminder())
             param.add(new BasicNameValuePair("reminder", ""+data.getReminder()));
-
-            param.add(new BasicNameValuePair("api_key", data.getApi_key()));
+        if (data.getSearch_text()!="")
+            param.add(new BasicNameValuePair("q", data.getSearch_text()));
 
 
         JSONObject jobj = null;

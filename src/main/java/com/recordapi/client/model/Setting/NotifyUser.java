@@ -18,7 +18,7 @@ public class NotifyUser
         this.title = title;
         this.body = body;
     }
-
+//
     public String getApi_key()
     {
         return this.api_key;

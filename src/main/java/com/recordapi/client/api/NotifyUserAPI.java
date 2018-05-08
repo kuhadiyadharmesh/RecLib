@@ -37,8 +37,6 @@ public class NotifyUserAPI
             return new NotifyUser_Response("Please set body");
         if(data.getTitle().equals(""))
             return new NotifyUser_Response("Please set title");
-//        if(data.getDevice_type().equals(""))
-//            return new UpdateFolderOrder_Response("Please set Device Type android or iphone");
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
@@ -68,15 +66,15 @@ public class NotifyUserAPI
         else
         {
             try
-            {
-                if (jobj.getString("status").equals("ok"))
+            {//"success":1
+                if (jobj.getString("success").equals("1"))
                 {
-                    response_data = new NotifyUser_Response(true,jobj.getString("msg"));
+                    response_data = new NotifyUser_Response(true,"Message sent!");
                     return response_data;
                 }
                 else
                 {
-                    response_data = new NotifyUser_Response(jobj.getString("msg"));
+                    response_data = new NotifyUser_Response("Message not sent");
                     return  response_data;
                 }
             }

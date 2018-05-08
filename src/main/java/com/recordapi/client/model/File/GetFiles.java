@@ -19,7 +19,7 @@ public class GetFiles
 //    reminder=true // for getting file reminders
 
 
-    private  String api_key ,page,folder_id,source,pass;
+    private  String api_key ,page,folder_id,source,pass,search_text;
     private boolean reminder = false;
 
 
@@ -49,7 +49,7 @@ public class GetFiles
 //        this.reminder = reminder;
 //    }
 
-    public GetFiles(String api_key, String page , String folder_id, String source, String pass, boolean reminder)
+    public GetFiles(String api_key, String page , String folder_id, String source, String pass, boolean reminder,String search_text)
     {
             this.api_key = api_key;
         this.page = page;
@@ -57,6 +57,7 @@ public class GetFiles
         this.source = source;
         this.pass = pass;
         this.reminder = reminder;
+        this.search_text = search_text;
     }
 
 
@@ -85,6 +86,8 @@ public class GetFiles
     {
         return this.pass;
     }
+
+    public String getSearch_text(){return this.search_text;}
 
 
 }
