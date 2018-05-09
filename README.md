@@ -337,8 +337,8 @@ Please follow the [installation](#installation) instruction and execute the foll
  Common_Response response = papi.UpdateOrderFileCall();
  Log.e("Response", response.getStatus()  "---"  response.getMsg());
  ```
- * 32> UpdateOrderFileAPI* | [**UpdateOrderFileAPI**](docs/UpdateOrderFileAPI.md#UpdateOrderFileAPI) | **POST** | UpdateOrderFileAPI
- *MODEL-UpdateOrderFileAPI*
+ * 32> UpdateOrderFolderAPI* | [**UpdateOrderFolderAPI**](docs/UpdateOrderFolderAPI.md#UpdateOrderFolderAPI) | **POST** | UpdateOrderFileAPI
+ *MODEL-UpdateOrderFolderAPI*
  ```
  UpdateOrderData updateOrderData = new UpdateOrderData(String apikey,int id , int index)
 
