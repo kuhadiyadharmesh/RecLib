@@ -67,7 +67,7 @@ Please follow the [installation](#installation) instruction and execute the foll
  Log.e("Response", response.getStatus()  "---"  response.getMsg());
  ```
 
- * 3> GetFolderAPI* | [**GetFolderAPI**](docs/GetFolderAPI.md#addNewEmployee) | **POST** | GetFolderAPI
+ * 3> GetFolderAPI* | [**GetFolderAPI**](docs/GetFolderAPI.md#GetFolderAPI) | **POST** | GetFolderAPI
  *MODEL-GetFolderAPI*
  ```
  GetFolder getFolder = new GetFolder("5a0c3c58957ab5a0c3c58957ed");
@@ -76,7 +76,7 @@ Please follow the [installation](#installation) instruction and execute the foll
  Log.e("Response", response.getStatus()  "---"  response.getMsg());
  ```
 
- * 4> CreateFolderAPI* | [**CreateFolderAPI**](docs/CreateFolderAPI.md#addNewEmployee) | **POST** | CreateFolderAPI
+ * 4> CreateFolderAPI* | [**CreateFolderAPI**](docs/CreateFolderAPI.md#CreateFolderAPI) | **POST** | CreateFolderAPI
  *MODEL-CreateFolderAPI*
  ```
  CreateFolder getFolder = new CreateFolder();
@@ -88,7 +88,7 @@ Please follow the [installation](#installation) instruction and execute the foll
  Log.e("Response", response.getStatus()  "---"  response.getMsg());
  ```
 
- * 5> UpdateFolderAPI* | [**UpdateFolderAPI**](docs/UpdateFolderAPI.md#addNewEmployee) | **POST** | UpdateFolderAPI
+ * 5> UpdateFolderAPI* | [**UpdateFolderAPI**](docs/UpdateFolderAPI.md#UpdateFolderAPI) | **POST** | UpdateFolderAPI
  *MODEL-UpdateFolderAPI*
  ```
  UpdateFolder UpdFolder = new UpdateFolder("5a0c3c58957ab5a0c3c58957ed", folder_id, "Sunil Update Test");
@@ -97,7 +97,7 @@ Please follow the [installation](#installation) instruction and execute the foll
  Log.e("Response", response.getStatus()  "---"  response.getMsg());
  ```
 
- * 6> UpdateFolderOrderAPI* | [**UpdateFolderOrderAPI**](docs/UpdateFolderOrderAPI.md#addNewEmployee) | **POST** | UpdateFolderOrderAPI
+ * 6> UpdateFolderOrderAPI* | [**UpdateFolderOrderAPI**](docs/UpdateFolderOrderAPI.md#UpdateFolderOrderAPI) | **POST** | UpdateFolderOrderAPI
  *MODEL-UpdateFolderOrderAPI*
  ```
  ArrayList<Folders> fd = new ArrayList<>();
@@ -108,7 +108,7 @@ Please follow the [installation](#installation) instruction and execute the foll
  Log.e("Response", response.getStatus()  "---"  response.getMsg());
  ```
 
- * 7> VerifyFolderPasswordAPI* | [**VerifyFolderPasswordAPI**](docs/VerifyFolderPasswordAPI.md#addNewEmployee) | **POST** | VerifyFolderPasswordAPI
+ * 7> VerifyFolderPasswordAPI* | [**VerifyFolderPasswordAPI**](docs/VerifyFolderPasswordAPI.md#VerifyFolderPasswordAPI) | **POST** | VerifyFolderPasswordAPI
  *MODEL-VerifyFolderPassword*
  ```
  VerifyFolderPassword VerfFolder = new VerifyFolderPassword("5a0c3c58957ab5a0c3c58957ed", folder_id, "11111");
@@ -117,7 +117,7 @@ Please follow the [installation](#installation) instruction and execute the foll
  Log.e("Response", response.getStatus()  "---"  response.getMsg());
  ```
 
- * 8> DeleteFolderAPI* | [**DeleteFolderAPI**](docs/DeleteFolderAPI.md#addNewEmployee) | **POST** | DeleteFolderAPI
+ * 8> DeleteFolderAPI* | [**DeleteFolderAPI**](docs/DeleteFolderAPI.md#DeleteFolderAPI) | **POST** | DeleteFolderAPI
  *MODEL-DeleteFolder*
  ```
  DeleteFolder DelFolder = new DeleteFolder("5a0c3c58957ab5a0c3c58957ed", folder_id, "31");  //pass move to '31' mandatory.
@@ -126,7 +126,7 @@ Please follow the [installation](#installation) instruction and execute the foll
  Log.e("Response", response.getStatus()  "---"  response.getMsg());
  ```
 
- * 9> GetFilesAPI* | [**GetFilesAPI**](docs/GetFilesAPI.md#addNewEmployee) | **POST** | GetFilesAPI
+ * 9> GetFilesAPI* | [**GetFilesAPI**](docs/GetFilesAPI.md#GetFilesAPI) | **POST** | GetFilesAPI
  *MODEL-GetFilesAPI*
  ```
  GetFiles methd = new GetFiles("5a0c3c58957ab5a0c3c58957ed", "", "", "", "", false);
@@ -135,7 +135,7 @@ Please follow the [installation](#installation) instruction and execute the foll
  Log.e("Response", response.getStatus()  "---"  response.getMsg());
  ```
 
- * 10> CreateFileAPI* | [**CreateFileAPI**](docs/CreateFileAPI.md#addNewEmployee) | **POST** | CreateFileAPI
+ * 10> CreateFileAPI* | [**CreateFileAPI**](docs/CreateFileAPI.md#CreateFileAPI) | **POST** | CreateFileAPI
  *MODEL-CreateFileAPI*
  ```
  CreateFile creat_file = new CreateFile("5a0c3c58957ab5a0c3c58957ed", "/storage/emulated/0/Call Rec/rec_audio_file.mp3", "sp_file", "sp_note");
@@ -326,5 +326,23 @@ Please follow the [installation](#installation) instruction and execute the foll
  CreateMetaFile methd = new CreateMetaFile("5a0c3c58957ab5a0c3c58957ed", path, "Test Meta", "338");
  CreateMetaFileAPI m_api = new CreateMetaFileAPI(methd);
  CreateMetaFile_Response response = m_api.CreateMetaFileCall();
+ Log.e("Response", response.getStatus()  "---"  response.getMsg());
+ ```
+  * 31> UpdateOrderFileAPI* | [**UpdateOrderFileAPI**](docs/UpdateOrderFileAPI.md#UpdateOrderFileAPI) | **POST** | UpdateOrderFileAPI
+ *MODEL-UpdateOrderFileAPI*
+ ```
+ UpdateOrderData updateOrderData = new UpdateOrderData(String apikey,int id , int index)
+
+ UpdateOrderFileAPI papi = new UpdateOrderFileAPI(updateOrderData);
+ Common_Response response = papi.UpdateOrderFileCall();
+ Log.e("Response", response.getStatus()  "---"  response.getMsg());
+ ```
+ * 32> UpdateOrderFileAPI* | [**UpdateOrderFileAPI**](docs/UpdateOrderFileAPI.md#UpdateOrderFileAPI) | **POST** | UpdateOrderFileAPI
+ *MODEL-UpdateOrderFileAPI*
+ ```
+ UpdateOrderData updateOrderData = new UpdateOrderData(String apikey,int id , int index)
+
+ UpdateOrderFolderAPI papi = new UpdateOrderFolderAPI(updateOrderData);
+ Common_Response response = papi.UpdateOrderFolderCall();
  Log.e("Response", response.getStatus()  "---"  response.getMsg());
  ```
