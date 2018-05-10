@@ -38,7 +38,7 @@ allprojects {
 
 
 ```groovy
-compile 'com.github.kuhadiyadharmesh:RecLib:0.1.4'
+implementation 'com.github.kuhadiyadharmesh:RecLib:0.1.11'
 ```
 
 
