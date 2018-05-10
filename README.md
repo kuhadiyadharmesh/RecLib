@@ -20,7 +20,7 @@ Add this dependency to your project's POM:
 <dependency>
 	    <groupId>com.github.kuhadiyadharmesh</groupId>
 	    <artifactId>RecLib</artifactId>
-	    <version>0.1.4</version>
+	    <version>0.1.11</version>
 </dependency>
 ```
 ### Gradle users
