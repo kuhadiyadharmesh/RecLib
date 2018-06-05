@@ -20,7 +20,7 @@ Add this dependency to your project's POM:
 <dependency>
 	    <groupId>com.github.kuhadiyadharmesh</groupId>
 	    <artifactId>RecLib</artifactId>
-	    <version>0.1.4</version>
+	    <version>0.1.12</version>
 </dependency>
 ```
 ### Gradle users
@@ -38,12 +38,12 @@ allprojects {
 
 
 ```groovy
-compile 'com.github.kuhadiyadharmesh:RecLib:0.1.4'
+implementation 'com.github.kuhadiyadharmesh:RecLib:0.1.12'
 ```
 
 
 ## Getting Started
- *Api* | [**PhoneRegisterAPI**](docs/Api.md#PhoneRegisterAPI) | **POST** | To Register Phone Number
+
    =======
   * 1> RegisterAPI* | [**PhoneRegisterAPI**](docs/PhoneRegisterAPI.md#addNewEmployee) | **POST** | PhoneRegisterAPI
   *MODEL RegisterPhone*
