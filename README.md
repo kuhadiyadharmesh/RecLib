@@ -325,3 +325,20 @@ compile 'com.github.kuhadiyadharmesh:RecLib:0.1.4'
   CreateMetaFile_Response response = m_api.CreateMetaFileCall();
   Log.e("Response", response.getStatus()  "   "  response.getMsg());
   ```
+  * 31> UpdateOrderFolderAPI* | [**UpdateOrderFolderAPI**](docs/UpdateOrderFolderAPI.md#UpdateProfilePicureAPI) | **POST** | UpdateOrderFolderAPI
+    *MODEL UpdateOrderFolderAPI*
+    ```
+    UpdateOrderData methd = new UpdateOrderData(apikey, id ,  index)
+    UpdateOrderFolderAPI m_api = new UpdateOrderFolderAPI(methd);
+    Common_Response response = m_api.UpdateOrderFolderCall();
+    Log.e("Response", response.getStatus()  "   "  response.getMsg());
+    ```
+
+  * 32> UpdateOrderFileAPI* | [**UpdateOrderFileAPI**](docs/UpdateOrderFileAPI.md#UpdateOrderFileAPI) | **POST** | UpdateOrderFileAPI
+    *MODEL UpdateOrderFileAPI*
+    ```
+    UpdateOrderData methd = new UpdateOrderData(String apikey,int id , int index)
+    UpdateOrderFileAPI m_api = new UpdateOrderFileAPI(methd);
+    Common_Response response = m_api.UpdateOrderFileCall();
+    Log.e("Response", response.getStatus()  "   "  response.getMsg());
+    ```
