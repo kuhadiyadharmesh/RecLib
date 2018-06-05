@@ -37,6 +37,10 @@ public class CreateFileAPI
             return new CreateFile_Response("Please select file");
         if(data.getData().equals(""))
             return new CreateFile_Response("Please Enter folder name and notes");
+        if (data.getRemind_days().equals(""))
+            return new CreateFile_Response("Please Enter RemindDays.");
+        if (data.getRemind_date().equals(""))
+            return new CreateFile_Response("Please Enter RemindDate.");
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();

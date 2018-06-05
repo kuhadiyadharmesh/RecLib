@@ -25,6 +25,23 @@ public class FileData
         //            "download_url": "https://app2.virtualbrix.net/records/player/file/32/download/557931e49b4f9_1434005988_71056787.mp3"
         //}
 
+    /*
+
+     f_name=first&
+    l_name=lasttest&
+    notes=test_notes
+    &email=test@gmail.com&
+    phone=%2B18104763057&
+    tags=tagone&
+    meta[duration]=00:20&
+    meta[note]=metanote&
+    meta[url]=google&
+    folder_id=0&
+    name=first reording&
+    remind_days=10&
+    remind_date=10-jan-2017 23:23:52
+     */
+
     private String id , access_number , name , f_name , l_name , email , phone,notes,meta, source , url , credits , duration , time , share_url , download_url ;
     private String meta_duration , meta_url , meta_notes , folder_id , reminder_days, reminder_dates,tags;
 

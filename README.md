@@ -135,7 +135,7 @@ compile 'com.github.kuhadiyadharmesh:RecLib:0.1.4'
   * 10> CreateFileAPI* | [**CreateFileAPI**](docs/CreateFileAPI.md#addNewEmployee) | **POST** | CreateFileAPI
   *MODEL CreateFileAPI*
   ```
-  CreateFile creat_file = new CreateFile("5a0c3c58957ab5a0c3c58957ed", "/storage/emulated/0/Call Rec/rec_audio_file.mp3", "sp_file", "sp_note");
+  CreateFile creat_file = new CreateFile("5a0c3c58957ab5a0c3c58957ed", "/storage/emulated/0/Call Rec/rec_audio_file.mp3", "sp_file", "sp_note","remind_days","reminde_date  ");
   CreateFileAPI cfapi = new CreateFileAPI(creat_file);
   CreateFile_Response response = cfapi.CreateFileCall();
   Log.e("Response", response.getStatus()  "   "  response.getMsg());
