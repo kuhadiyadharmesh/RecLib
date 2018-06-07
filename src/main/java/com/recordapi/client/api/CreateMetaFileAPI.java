@@ -49,7 +49,7 @@ public class CreateMetaFileAPI
         param.add(new BasicNameValuePair("parent_id",data.getParent_id()));
 
         JSONObject jobj = null ;
-        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"create_meta_file","POST",param);
+        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"upload_meta_file","POST",param);
         CreateMetaFile_Response response_data  = null;
 
         if(jobj == null)
