@@ -29,19 +29,24 @@ public class CreateFolderAPI
 
     public CreateFolder_Response CreateFolderCall()
     {
+        ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
+        param.add(new BasicNameValuePair("api_key",createFolder.getApi_key()));
+        param.add(new BasicNameValuePair("name",createFolder.getName()));
+
         // Validation
         if (createFolder.getApi_key().equals(""))
             return  new CreateFolder_Response("Please enter api key");
         if(createFolder.getName().equals(""))
             return  new CreateFolder_Response("Please enter folder name ");
-        if (createFolder.getPass().equals(""))
-            return  new CreateFolder_Response("Please enter password of this folder");
+        if (createFolder.getPass()!="")
+        {
+            param.add(new BasicNameValuePair("pass",createFolder.getPass()));
+        }
+           // return  new CreateFolder_Response("Please enter password of this folder");
 
         // Set parameter
-        ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",createFolder.getApi_key()));
-        param.add(new BasicNameValuePair("name",createFolder.getName()));
-        param.add(new BasicNameValuePair("pass",createFolder.getPass()));
+
+
 
 
         // Call service

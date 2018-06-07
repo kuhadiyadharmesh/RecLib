@@ -35,8 +35,8 @@ public class DeleteFilesAPI
 
         if(data.getApi_key().equals(""))
             return  new DeleteFile_Response("Please set Api Key ");
-        if (data.getDeletePermanent())
-            param.add(new BasicNameValuePair("action","remove_forever"));
+        //if (data.getDeletePermanent())
+        //    param.add(new BasicNameValuePair("action","remove_forever"));
         if(data.getFile_ids().equals(""))
             return  new DeleteFile_Response("Please Select At least one File for delete");
         else

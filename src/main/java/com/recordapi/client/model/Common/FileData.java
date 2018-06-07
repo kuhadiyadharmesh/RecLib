@@ -197,7 +197,7 @@ public class FileData
     }
     public String getReminder_dates()
     {
-        return this.reminder_days;
+        return this.reminder_dates;
     }
     public String getTags()
     {

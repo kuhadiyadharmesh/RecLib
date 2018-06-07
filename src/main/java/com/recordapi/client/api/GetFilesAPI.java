@@ -52,6 +52,7 @@ public class GetFilesAPI
         if (data.getSearch_text()!="")
             param.add(new BasicNameValuePair("q", data.getSearch_text()));
 
+        param.add(new BasicNameValuePair("api_key", data.getApi_key()));
 
         JSONObject jobj = null;
         GetFiles_Response response_data  = null;//new GetFolder_Response();

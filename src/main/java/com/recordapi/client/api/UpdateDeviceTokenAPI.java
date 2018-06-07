@@ -45,7 +45,7 @@ public class UpdateDeviceTokenAPI
 
 
         JSONObject jobj = null ;
-        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"","POST",param);
+        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"update_device_toke","POST",param);
         UpdateDeviceToken_Response response_data  = null;
 
         if(jobj == null)
