@@ -20,7 +20,7 @@ Add this dependency to your project's POM:
 <dependency>
 	    <groupId>com.github.kuhadiyadharmesh</groupId>
 	    <artifactId>RecLib</artifactId>
-	    <version>0.1.12</version>
+	    <version>0.1.15</version>
 </dependency>
 ```
 ### Gradle users
@@ -38,7 +38,7 @@ allprojects {
 
 
 ```groovy
-implementation 'com.github.kuhadiyadharmesh:RecLib:0.1.12'
+implementation 'com.github.kuhadiyadharmesh:RecLib:0.1.15'
 ```
 
 
