@@ -2,6 +2,7 @@ package com.recordapi.client.api;
 
 import com.recordapi.client.ApiClient;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.model.Common.NumberData;
 import com.recordapi.client.model.Setting.GetPhoneNumber;
 import com.recordapi.client.model.Setting.GetPhoneNumber_Response;
 import com.recordapi.client.model.Setting.UpdateDeviceToken;
@@ -14,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dharmesh-PC on 1/13/2018.
@@ -59,8 +61,16 @@ public class GetPhoneNumberAPI
             {
                 if (jobj.length() > 0)
                 {
-                    JSONObject jo = jobj.getJSONObject(0);
-                    response_data = new GetPhoneNumber_Response(jo.getString("phone_number"),jo.getString("number"),jo.getString("prefix"),jo.getString("friendly_name"),jo.getString("flag"),jo.getString("country"));
+                    JSONObject jo = null;
+                    ArrayList<NumberData> data = new ArrayList<>();
+                    for(int i = 0 ; i <jo.length() ; i++)
+                    {
+                        jo = jobj.getJSONObject(0);
+
+                        data.add(new NumberData(jo.getString("phone_number"),jo.getString("number"),jo.getString("prefix"),jo.getString("friendly_name"),jo.getString("flag"),jo.getString("country")));
+                    }
+
+                    response_data = new GetPhoneNumber_Response("data get successfully!!",data);
                     return response_data;
                 }
                 else

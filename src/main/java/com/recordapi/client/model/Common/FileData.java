@@ -1,10 +1,12 @@
 package com.recordapi.client.model.Common;
 
+import java.io.Serializable;
+
 /**
  * Created by Dharmesh-PC on 1/11/2018.
  */
 
-public class FileData
+public class FileData implements Serializable
 {
     //{
         //    "id": "12",
@@ -43,11 +45,11 @@ public class FileData
      */
 
     private String id , access_number , name , f_name , l_name , email , phone,notes,meta, source , url , credits , duration , time , share_url , download_url ;
-    private String meta_duration , meta_url , meta_notes , folder_id , reminder_days, reminder_dates,tags;
+    private String meta_duration , meta_url , meta_notes , folder_id , reminder_days, reminder_dates,tags , is_star ;
 
 
     // For Create Files
-    public FileData(String id , String access_number,String name , String f_name , String l_name , String email ,String phone , String notes , String meta , String source , String url , String credits, String duration , String time , String share_url , String download_url )
+    public FileData(String id , String access_number,String name , String f_name , String l_name , String email ,String phone , String notes , String meta , String source , String url , String credits, String duration , String time , String share_url , String download_url , String is_star )
     {
         this.id = id ;
         this.access_number = access_number;
@@ -65,6 +67,9 @@ public class FileData
         this.time = time ;
         this.share_url = share_url;
         this.download_url = download_url;
+        this.is_star = is_star;
+
+
     }
 
     // tags=tagone&meta[duration]=00:20&
@@ -106,6 +111,7 @@ public class FileData
         this.reminder_dates = remider_dates;
         this.reminder_days = reminder_days;
         this.tags = tags;
+        //this.IsStar = IsStar;
 
     }
 
@@ -203,6 +209,9 @@ public class FileData
     {
         return this.tags;
     }
-
+    public String getIs_Star()
+    {
+        return this.is_star;
+    }
 
 }
