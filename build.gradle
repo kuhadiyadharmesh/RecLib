@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.2'
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
@@ -32,21 +32,6 @@ dependencies
             implementation files('libs/httpmime-4.0.1.jar')
             implementation files('libs/apache-mime4j-0.6.jar')
             implementation 'com.android.support:appcompat-v7:26.0.0-alpha1'
-//    testCompile 'junit:junit:4.12'
-
-//    compile 'io.swagger:swagger-annotations:1.5.15'
-//    compile 'com.squareup.okhttp:okhttp:2.7.5'
-//    compile 'com.squareup.okhttp3:okhttp:3.9.0'
-//    compile 'com.squareup.okhttp:logging-interceptor:2.7.5'
-//    compile 'com.google.code.gson:gson:2.8.1'
-//    compile 'joda-time:joda-time:2.9.9'
             testImplementation 'junit:junit:4.12'
 
-
-
-//    compile 'io.swagger:swagger-annotations:1.5.15'
-//    compile 'com.squareup.okhttp:okhttp:2.7.5'
-//    compile 'com.squareup.okhttp:logging-interceptor:2.7.5'
-//    compile 'com.google.code.gson:gson:2.8.1'
-//    compile 'joda-time:joda-time:2.9.9'
 }
