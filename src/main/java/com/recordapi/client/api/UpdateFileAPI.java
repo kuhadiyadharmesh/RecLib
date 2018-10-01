@@ -56,8 +56,10 @@ public class UpdateFileAPI
             return new UpdateFile_Response("Please set Reminder Date");
         if(data.getFileInfo().getReminder_days().equals(""))
            return new UpdateFile_Response("Please set Reminder Days");
-        if(data.getFileInfo().getTags().equals(""))
+      /*  if(data.getFileInfo().getTags().equals(""))
             return new UpdateFile_Response("Please set Tags");
+        if(data.getFileInfo().getIsStar().equals(""))
+            return new UpdateFile_Response("Please set IsStart");*/
 
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("api_key",data.getApi_key()));
@@ -92,7 +94,7 @@ public class UpdateFileAPI
             {
                 if (jobj.getString("status").equals("ok"))
                 {
-                    response_data = new UpdateFile_Response(true,jobj.getString("msg"));
+                    response_data = new UpdateFile_Response(true,jobj.getString("msg"),jobj.getString("id"));
                     return response_data;
                 }
                 else

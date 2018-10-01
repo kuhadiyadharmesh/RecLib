@@ -32,7 +32,7 @@ public class UpdateOrderFolderAPI
             return new Common_Response("Please set ApiKey");
         if(data.getId()== 0)
             return new Common_Response("Please set file/folder id .");
-        if(data.getIndex()==0)
+        if(data.getTop_Id()==0)
             return new Common_Response("Please set Index position .");
 //        if(data.getDevice_type().equals(""))
 //            return new UpdateFolderOrder_Response("Please set Device Type android or iphone");
@@ -41,7 +41,8 @@ public class UpdateOrderFolderAPI
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("api_key",data.getApikey()));
         param.add(new BasicNameValuePair("id",""+data.getId()));
-        param.add(new BasicNameValuePair("index",""+data.getIndex()));
+        //param.add(new BasicNameValuePair("index",""+data.getIndex()));
+        param.add(new BasicNameValuePair("top_id",""+data.getTop_Id()));
         param.add(new BasicNameValuePair("type","folder"));
 
 
