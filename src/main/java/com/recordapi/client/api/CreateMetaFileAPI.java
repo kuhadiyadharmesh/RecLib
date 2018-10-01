@@ -40,8 +40,6 @@ public class CreateMetaFileAPI
             return new CreateMetaFile_Response("Please Enter Name");
         if(data.getParent_id().equals(""))
             return new CreateMetaFile_Response("Please set parent id");
-        if(data.getId().equals(""))
-            return new CreateMetaFile_Response("Please set id default 0");
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
@@ -49,7 +47,6 @@ public class CreateMetaFileAPI
         param.add(new BasicNameValuePair("api_key",data.getApi_key()));
         param.add(new BasicNameValuePair("name",data.getName()));
         param.add(new BasicNameValuePair("parent_id",data.getParent_id()));
-        param.add(new BasicNameValuePair("id",data.getId()));
 
         JSONObject jobj = null ;
         jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"upload_meta_file","POST",param);

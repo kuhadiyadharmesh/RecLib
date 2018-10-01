@@ -65,7 +65,7 @@ public class CloneFileAPI
             {
                 if (jobj.getString("status").equals("ok"))
                 {
-                    response_data = new CloneFile_Response(true,jobj.getString("msg"),jobj.getString("id"));
+                    response_data = new CloneFile_Response(true,jobj.getString("msg"));
                     return response_data;
                 }
                 else

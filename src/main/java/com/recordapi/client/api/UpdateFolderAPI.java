@@ -29,7 +29,6 @@ public class UpdateFolderAPI
 
     public UpdateFolder_Response UpdateFolderCall()
     {
-        ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         // Validation
         if (data.getApi_key().equals(""))
             return  new UpdateFolder_Response("Please enter api key");
@@ -37,12 +36,9 @@ public class UpdateFolderAPI
             return  new UpdateFolder_Response("Please set folder Id ");
         if (data.getName().equals(""))
             return  new UpdateFolder_Response("Please set Folder Name");
-        if (data.getPass()!="")
-        {
-            param.add(new BasicNameValuePair("pass",data.getPass()));
-        }
-        // Set parameter
 
+        // Set parameter
+        ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("api_key",data.getApi_key()));
         param.add(new BasicNameValuePair("id",data.getFolder_id()));
         param.add(new BasicNameValuePair("name",data.getName()));
