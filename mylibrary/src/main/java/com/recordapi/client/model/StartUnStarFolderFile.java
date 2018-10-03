@@ -9,11 +9,11 @@ public class StartUnStarFolderFile
     //"api_key=553a431e192d2553a431e1930f&star=1&type=file&id=55"
 
     private String api_key,folder_id,type;
-    private boolean star = false ;
+    private String star = "0" ;
 
     //file or folder
     //star=true or false
-    public StartUnStarFolderFile(String api_key,String id , String type,boolean star )
+    public StartUnStarFolderFile(String api_key,String id , String type,String star )
     {
         this.api_key = api_key;
         this.folder_id = id ;
@@ -34,6 +34,6 @@ public class StartUnStarFolderFile
         return this.type;
     }
     public String getStar(){
-        return (star==true ? "1":"0");
+        return this.star;
     }
 }
