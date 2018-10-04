@@ -44,8 +44,8 @@ public class FileData implements Serializable
     remind_date=10-jan-2017 23:23:52
      */
 
-    private String id , access_number , name , f_name , l_name , email , phone,notes,meta, source , url , credits , duration , time , share_url , download_url ;
-    private String meta_duration , meta_url , meta_notes , folder_id , reminder_days, reminder_dates,tags , is_star ;
+    private String id , access_number , sid , name , f_name , l_name , email , phone,notes,meta, source , url , credits , duration , time , share_url , download_url ;
+    private String meta_duration , meta_url , meta_notes , folder_id , reminder_days, reminder_dates,tags , is_star , order_id ;
 
 
     // For Create Files
@@ -73,10 +73,10 @@ public class FileData implements Serializable
     }
 
     // For Create Files
-    public FileData(String id , String access_number,String name , String f_name , String l_name , String email ,String phone , String notes  , String source , String url , String credits, String duration , String time , String share_url , String download_url , String is_star )
+    public FileData(String id , String order_id , String sid,String name , String f_name , String l_name , String email ,String phone , String notes  , String source , String url ,  String duration , String time , String share_url , String download_url , String is_star )
     {
         this.id = id ;
-        this.access_number = access_number;
+        this.order_id = order_id;
         this.name = name ;
         this.f_name = f_name ;
         this.l_name = l_name;
@@ -86,7 +86,7 @@ public class FileData implements Serializable
         //this.meta = meta;
         this.source = source;
         this.url =url;
-        this.credits = credits;
+        this.sid = sid;
         this.duration = duration ;
         this.time = time ;
         this.share_url = share_url;
