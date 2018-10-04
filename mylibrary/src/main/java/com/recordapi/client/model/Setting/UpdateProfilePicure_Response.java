@@ -12,17 +12,18 @@ public class UpdateProfilePicure_Response
 
     //{"status":"ok","msg":"Successfully saved"}
     private boolean status = false ;
-    private String msg = "Service not Responding" , file ;
+    private String msg = "Service not Responding" , file , path ;
 
     public UpdateProfilePicure_Response(String msg)
     {
         this.msg = msg;
     }
-    public UpdateProfilePicure_Response(String msg,String file  )
+    public UpdateProfilePicure_Response(String msg,String file ,String path )
     {
         this.msg= msg;
         this.file = file;
         this.status = true ;
+        this.path = path;
     }
     public String getMsg()
     {
@@ -36,4 +37,5 @@ public class UpdateProfilePicure_Response
     {
         return this.file;
     }
+    public String getPath(){return  this.path;}
 }

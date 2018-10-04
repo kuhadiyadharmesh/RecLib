@@ -47,7 +47,7 @@ public class UpdateProfileSettingAPI
             {
                 if(0 == Integer.parseInt(data.getIs_public().toString()) | Integer.parseInt(data.getIs_public().toString()) == 1)
                 {
-                    param.add(new BasicNameValuePair("data[is_public]",data.getMax_length()));
+                    param.add(new BasicNameValuePair("data[is_public]",data.getIs_public()));
                 }
                 else
                 {
@@ -75,7 +75,7 @@ public class UpdateProfileSettingAPI
         {
             if(0 == Integer.parseInt(data.getPlay_beep().toString()) | Integer.parseInt(data.getPlay_beep().toString()) == 1)
             {
-                param.add(new BasicNameValuePair("data[play_beep]",data.getMax_length()));
+                param.add(new BasicNameValuePair("data[play_beep]",data.getPlay_beep()));
             }
             else
             {

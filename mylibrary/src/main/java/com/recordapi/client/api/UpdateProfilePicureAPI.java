@@ -57,7 +57,7 @@ public class UpdateProfilePicureAPI
             {
                 if (jobj.getString("status").equals("ok"))
                 {
-                    response_data = new UpdateProfilePicure_Response(jobj.getString("msg"),jobj.getString("file"));
+                    response_data = new UpdateProfilePicure_Response(jobj.getString("msg"),jobj.getString("file"),jobj.getString("path"));
                     return response_data;
                 }
                 else
