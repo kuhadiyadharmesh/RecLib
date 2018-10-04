@@ -63,7 +63,7 @@ public class GetPhoneNumberAPI
                 {
                     JSONObject jo = null;
                     ArrayList<NumberData> data = new ArrayList<>();
-                    for(int i = 0 ; i <jo.length() ; i++)
+                    for(int i = 0 ; i <jobj.length() ; i++)
                     {
                         jo = jobj.getJSONObject(0);
 
