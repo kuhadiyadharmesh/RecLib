@@ -65,7 +65,7 @@ public class GetPhoneNumberAPI
                     ArrayList<NumberData> data = new ArrayList<>();
                     for(int i = 0 ; i <jobj.length() ; i++)
                     {
-                        jo = jobj.getJSONObject(0);
+                        jo = jobj.getJSONObject(i);
 
                         data.add(new NumberData(jo.getString("phone_number"),jo.getString("number"),jo.getString("prefix"),jo.getString("friendly_name"),jo.getString("flag"),jo.getString("country")));
                     }

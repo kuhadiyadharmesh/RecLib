@@ -20,6 +20,7 @@ public class GetPhoneNumber_Response
         this.status = true ;
 
         this.msg = "get succuessfully";
+        this.data = data;
         //this.country = country;
     }
     public GetPhoneNumber_Response(String msg)
