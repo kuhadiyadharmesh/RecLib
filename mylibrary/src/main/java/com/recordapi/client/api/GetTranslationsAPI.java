@@ -58,7 +58,7 @@ public class GetTranslationsAPI
             {
                 if (jobj.getString("status").equals("ok"))
                 {
-                    response_data = new GetTranslations_Response("Translations get successfully.",jobj.getJSONObject("translation").getString("Trash"),jobj.getJSONObject("translation").getString("All Files"));
+                    response_data = new GetTranslations_Response("Translations get successfully.",jobj.getJSONObject("translation").getString("Trash"),jobj.getJSONObject("translation").getString("All Files"),jobj.getJSONObject("translation").toString());
                     return response_data;
                 }
                 else

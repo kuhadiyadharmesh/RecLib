@@ -72,6 +72,30 @@ public class FileData implements Serializable
 
     }
 
+    // For Create Files
+    public FileData(String id , String access_number,String name , String f_name , String l_name , String email ,String phone , String notes  , String source , String url , String credits, String duration , String time , String share_url , String download_url , String is_star )
+    {
+        this.id = id ;
+        this.access_number = access_number;
+        this.name = name ;
+        this.f_name = f_name ;
+        this.l_name = l_name;
+        this.email = email;
+        this.phone = phone;
+        this.notes = notes;
+        //this.meta = meta;
+        this.source = source;
+        this.url =url;
+        this.credits = credits;
+        this.duration = duration ;
+        this.time = time ;
+        this.share_url = share_url;
+        this.download_url = download_url;
+        this.is_star = is_star;
+
+
+    }
+
     // tags=tagone&meta[duration]=00:20&
     // meta[note]=metanote&
     // meta[url]=google&
