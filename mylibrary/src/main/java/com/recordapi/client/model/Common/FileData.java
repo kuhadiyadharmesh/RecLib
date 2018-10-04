@@ -73,7 +73,7 @@ public class FileData implements Serializable
     }
 
     // For Create Files
-    public FileData(String id , String order_id , String sid,String name , String f_name , String l_name , String email ,String phone , String notes  , String source , String url ,  String duration , String time , String share_url , String download_url , String is_star )
+    public FileData(String id , String order_id , String sid,String name , String f_name , String l_name , String email ,String phone , String notes  , String source , String url ,  String duration , String time , String share_url , String download_url , String is_star ,String remind_days, String remind_date)
     {
         this.id = id ;
         this.order_id = order_id;
@@ -92,6 +92,8 @@ public class FileData implements Serializable
         this.share_url = share_url;
         this.download_url = download_url;
         this.is_star = is_star;
+        this.reminder_days = remind_days;
+        this.reminder_dates = remind_date;
 
 
     }

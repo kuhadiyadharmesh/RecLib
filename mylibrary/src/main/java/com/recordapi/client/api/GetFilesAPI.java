@@ -74,7 +74,9 @@ public class GetFilesAPI
                     for (int i = 0; i < jar.length(); i++)
                     {
                         JSONObject jo = jar.getJSONObject(i);//jo.getString("access_number")
-                       fo = new FileData(jo.getString("id"), jo.getString("order_id"),jo.getString("sid"),jo.getString("name"),jo.getString("f_name"),jo.getString("l_name"),jo.getString("email"),jo.getString("phone"),jo.getString("notes"),jo.getString("source"),jo.getString("url"),jo.getString("duration"),jo.getString("time"),jo.getString("share_url"),jo.getString("download_url"),jo.getString("is_star"));
+
+
+                       fo = new FileData(jo.getString("id"), jo.getString("order_id"),jo.getString("sid"),jo.getString("name"),jo.getString("f_name"),jo.getString("l_name"),jo.getString("email"),jo.getString("phone"),jo.getString("notes"),jo.getString("source"),jo.getString("url"),jo.getString("duration"),jo.getString("time"),jo.getString("share_url"),jo.getString("download_url"),jo.getString("is_star"), data.getReminder() == true ?jo.getString("remind_days"):"",data.getReminder() ==true?jo.getString("remind_date"):"");
                         fdata.add(fo);
                     }
                     response_data = new GetFiles_Response("File List Available.",fdata,""+jobj.getInt("credits"));

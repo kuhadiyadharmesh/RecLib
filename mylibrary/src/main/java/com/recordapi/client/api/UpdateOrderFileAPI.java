@@ -35,8 +35,8 @@ public class UpdateOrderFileAPI
             return new Common_Response("Please set ApiKey");
         if(data.getId()== 0)
             return new Common_Response("Please set file/folder id .");
-        if(data.getTop_Id()==0)
-            return new Common_Response("Please set Index position .");
+//        if(data.getTop_Id()==0)
+//            return new Common_Response("Please set Index position .");
 //        if(data.getDevice_type().equals(""))
 //            return new UpdateFolderOrder_Response("Please set Device Type android or iphone");
 
