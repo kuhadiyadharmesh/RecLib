@@ -22,6 +22,7 @@ public class GetTranslations_Response
         this.trash= trash;
         this.allfiles = allfile;
         this.extraData = extraData;
+        this.status = true ;
     }
 
     public String getMsg()

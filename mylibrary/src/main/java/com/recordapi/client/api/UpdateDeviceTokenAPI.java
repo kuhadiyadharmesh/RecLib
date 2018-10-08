@@ -34,14 +34,14 @@ public class UpdateDeviceTokenAPI
             return new UpdateDeviceToken_Response("Please set ApiKey");
         if(data.getDevice_token().equals(""))
             return new UpdateDeviceToken_Response("Please set Device Token");
-        if(data.getDevice_type().equals(""))
-            return new UpdateDeviceToken_Response("Please set Device Type android or iphone");
+        //if(data.getDevice_type().equals(""))
+        //    return new UpdateDeviceToken_Response("Please set Device Type android or iphone");
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("api_key",data.getApi_key()));
         param.add(new BasicNameValuePair("device_token",data.getDevice_token()));
-        param.add(new BasicNameValuePair("device_type",data.getDevice_type()));
+        param.add(new BasicNameValuePair("device_type","android"));
 
 
         JSONObject jobj = null ;

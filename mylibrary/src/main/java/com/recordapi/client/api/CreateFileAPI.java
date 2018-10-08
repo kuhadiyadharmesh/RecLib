@@ -30,23 +30,27 @@ public class CreateFileAPI
 
     public CreateFile_Response CreateFileCall()
     {
+        ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
+
         //Validation
         if(data.getApi_key().equals(""))
             return new CreateFile_Response("Please set ApiKey");
         if(data.getFile().equals(""))
             return new CreateFile_Response("Please select file");
-        if(data.getData().equals(""))
-            return new CreateFile_Response("Please Enter folder name and notes");
-        if (data.getRemind_days().equals(""))
-            return new CreateFile_Response("Please Enter RemindDays.");
-        if (data.getRemind_date().equals(""))
-            return new CreateFile_Response("Please Enter RemindDate.");
+       // if(data.getData().equals(""))
+      //      return new CreateFile_Response("Please Enter folder name and notes");
+       // if (data.getRemind_days().equals(""))
+        //    return new CreateFile_Response("Please Enter RemindDays.");
+        if (data.getRemind_date()!="")
+            param.add(new BasicNameValuePair("data",data.getData()));
+        //if (data.getRemind_date()!="")
+        //    param.add(new BasicNameValuePair("data",data.getData()));
 
         // Set parameter
-        ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
+       // ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("file",data.getFile()));
         param.add(new BasicNameValuePair("api_key",data.getApi_key()));
-        param.add(new BasicNameValuePair("data",data.getData()));
+
 
         JSONObject jobj = null ;
         jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"create_file","POST",param);
