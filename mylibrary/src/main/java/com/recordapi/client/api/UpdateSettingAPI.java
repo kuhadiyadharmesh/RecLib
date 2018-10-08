@@ -44,7 +44,7 @@ public class UpdateSettingAPI
 
         param.add(new BasicNameValuePair("api_key",data.getApi_key()));
         param.add(new BasicNameValuePair("play_beep",data.getPlay_beep()));
-        param.add(new BasicNameValuePair("file_permission",data.getFile_permission()));
+        param.add(new BasicNameValuePair("files_permission",data.getFile_permission()));
 
         JSONObject jobj = null ;
         jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"update_settings","POST",param);

@@ -37,6 +37,7 @@ public class CreateFileAPI
             return new CreateFile_Response("Please set ApiKey");
         if(data.getFile().equals(""))
             return new CreateFile_Response("Please select file");
+        //if(data.getId().equals())
        // if(data.getData().equals(""))
       //      return new CreateFile_Response("Please Enter folder name and notes");
        // if (data.getRemind_days().equals(""))
@@ -50,6 +51,7 @@ public class CreateFileAPI
        // ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("file",data.getFile()));
         param.add(new BasicNameValuePair("api_key",data.getApi_key()));
+        param.add(new BasicNameValuePair("id",data.getId()));
 
 
         JSONObject jobj = null ;

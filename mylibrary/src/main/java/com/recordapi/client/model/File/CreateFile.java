@@ -18,10 +18,10 @@ public class CreateFile
 
     */
 
-    private String api_key,file,data;
+    private String api_key,file,data , id;
     private String name , notes , remind_days,remind_date;
 
-    public CreateFile(String api_key,String file , String name,String notes,String remind_days , String remind_date)
+    public CreateFile(String api_key,String file , String name,String notes,String remind_days , String remind_date , String id)
     {
         this.api_key = api_key;
         this.file = file;
@@ -29,7 +29,7 @@ public class CreateFile
         this.notes = notes;
         this.remind_days = remind_days;
         this.remind_date = remind_date;
-
+        this.id = id ;
 
         if(name.equals("") | notes.equals(""))
             data = "";
@@ -50,6 +50,7 @@ public class CreateFile
         return this.data;
     }
 
+    public String getId(){return  this.id;}
     public String getRemind_days(){return this.remind_days;}
     public String getRemind_date(){return this.remind_date;}
 
