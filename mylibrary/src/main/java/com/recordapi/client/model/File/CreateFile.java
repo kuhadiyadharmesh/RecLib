@@ -21,20 +21,34 @@ public class CreateFile
     private String api_key,file,data , id;
     private String name , notes , remind_days,remind_date;
 
-    public CreateFile(String api_key,String file , String name,String notes,String remind_days , String remind_date , String id)
+    public CreateFile(String api_key,String file , String id)
     {
         this.api_key = api_key;
         this.file = file;
-        this.name = name ;
-        this.notes = notes;
-        this.remind_days = remind_days;
-        this.remind_date = remind_date;
         this.id = id ;
-
+/*
         if(name.equals("") | notes.equals(""))
             data = "";
         else
+        */
             data="{\"name\":\""+name+"\",\"notes\":\""+notes+"\",\"remind_days\":\""+remind_days+"\",\"remind_date\":\""+remind_date+"\"}";
+    }
+
+    public void setName(String name)
+    {
+        this.name = name ;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setRemind_days(String remind_days) {
+        this.remind_days = remind_days;
+    }
+
+    public void setRemind_date(String remind_date) {
+        this.remind_date = remind_date;
     }
 
     public String getApi_key()

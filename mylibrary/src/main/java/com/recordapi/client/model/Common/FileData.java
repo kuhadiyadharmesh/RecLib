@@ -48,6 +48,11 @@ public class FileData implements Serializable
     private String meta_duration , meta_url , meta_notes , folder_id , reminder_days, reminder_dates,tags , is_star , order_id ;
 
 
+    public FileData(String id )
+    {
+        this.id = id ;
+    }
+
     // For Create Files
     public FileData(String id , String access_number,String name , String f_name , String l_name , String email ,String phone , String notes , String meta , String source , String url , String credits, String duration , String time , String share_url , String download_url , String is_star )
     {
@@ -68,8 +73,6 @@ public class FileData implements Serializable
         this.share_url = share_url;
         this.download_url = download_url;
         this.is_star = is_star;
-
-
     }
 
     // For Create Files
@@ -98,26 +101,6 @@ public class FileData implements Serializable
 
     }
 
-    // tags=tagone&meta[duration]=00:20&
-    // meta[note]=metanote&
-    // meta[url]=google&
-    // remind_days=10&
-    // remind_date=10-jan-2017 23:23:52
-
-    //id=11&
-    // f_name=first&
-    // l_name=lasttest&
-    // notes=test_notes&
-    // email=test@gmail.com&
-    // phone=%2B18104763057&
-    // tags=tagone&
-    // meta[duration]=00:20&
-    // meta[note]=metanote&
-    // meta[url]=google&
-    // folder_id=0&
-    // name=first reording&
-    // remind_days=10&
-    // remind_date=10-jan-2017 23:23:52b
 
     // For update FIle
     public FileData(String id , String name , String f_name , String l_name , String email ,String phone , String notes , String meta_duration , String meta_note , String meta_url , String folder_id, String reminder_days , String remider_dates,String tags)
@@ -139,6 +122,110 @@ public class FileData implements Serializable
         this.tags = tags;
         //this.IsStar = IsStar;
 
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setAccess_number(String access_number) {
+        this.access_number = access_number;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setF_name(String f_name) {
+        this.f_name = f_name;
+    }
+
+    public void setL_name(String l_name) {
+        this.l_name = l_name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setMeta(String meta) {
+        this.meta = meta;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setCredits(String credits) {
+        this.credits = credits;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setShare_url(String share_url) {
+        this.share_url = share_url;
+    }
+
+    public void setDownload_url(String download_url) {
+        this.download_url = download_url;
+    }
+
+    public void setMeta_duration(String meta_duration) {
+        this.meta_duration = meta_duration;
+    }
+
+    public void setMeta_url(String meta_url) {
+        this.meta_url = meta_url;
+    }
+
+    public void setMeta_notes(String meta_notes) {
+        this.meta_notes = meta_notes;
+    }
+
+    public void setFolder_id(String folder_id) {
+        this.folder_id = folder_id;
+    }
+
+    public void setReminder_days(String reminder_days) {
+        this.reminder_days = reminder_days;
+    }
+
+    public void setReminder_dates(String reminder_dates) {
+        this.reminder_dates = reminder_dates;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public void setIs_star(String is_star) {
+        this.is_star = is_star;
+    }
+
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
     }
 
     public String getId()
