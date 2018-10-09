@@ -31,7 +31,7 @@ public class CreateFile
             data = "";
         else
         */
-            data="{\"name\":\""+name+"\",\"notes\":\""+notes+"\",\"remind_days\":\""+remind_days+"\",\"remind_date\":\""+remind_date+"\"}";
+
     }
 
     public void setName(String name)
@@ -61,7 +61,7 @@ public class CreateFile
     }
     public String getData()
     {
-        return this.data;
+        return  "{\"name\":\""+name+"\",\"notes\":\""+notes+"\",\"remind_days\":\""+remind_days+"\",\"remind_date\":\""+remind_date+"\"}";
     }
 
     public String getId(){return  this.id;}
