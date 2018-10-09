@@ -42,8 +42,8 @@ public class CreateFileAPI
       //      return new CreateFile_Response("Please Enter folder name and notes");
        // if (data.getRemind_days().equals(""))
         //    return new CreateFile_Response("Please Enter RemindDays.");
-        if (data.getRemind_date()!="")
-            param.add(new BasicNameValuePair("data",data.getData()));
+        //if (data.getRemind_date()!="")
+
         //if (data.getRemind_date()!="")
         //    param.add(new BasicNameValuePair("data",data.getData()));
 
@@ -52,6 +52,7 @@ public class CreateFileAPI
         param.add(new BasicNameValuePair("file",data.getFile()));
         param.add(new BasicNameValuePair("api_key",data.getApi_key()));
         param.add(new BasicNameValuePair("id",data.getId()));
+        param.add(new BasicNameValuePair("data",data.getData()));
 
 
         JSONObject jobj = null ;
