@@ -3,6 +3,7 @@ package com.recordapi.client.api;
 import android.util.Log;
 
 import com.recordapi.client.ApiClient;
+import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.model.RegisterPhone;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -22,21 +23,33 @@ public class PhoneRegisterAPI
 {
     public RegisterPhone data ;
     private RecordingApi recordingApi;
+    private RecordingApiListener mListener;
+    private RegisterPhone_Response returnObject;
 
-    public PhoneRegisterAPI(RegisterPhone data)
+    public PhoneRegisterAPI(RegisterPhone data,RecordingApiListener mListener)
     {
         this.data= data;
         recordingApi = new RecordingApi();
+        this.mListener = mListener;
+        RegisterPhoneCall(mListener);
     }
-
-    public RegisterPhone_Response RegisterPhoneCall()
+//RegisterPhone_Response
+    public void RegisterPhoneCall(RecordingApiListener mListener)
     {
         Log.e("new method called","new called");
+        //this.mListener = mListener;
 
         if (data.getPhonenumber()=="")
-            return new RegisterPhone_Response("please enter phonenumber");
+        {
+            returnObject = new RegisterPhone_Response("please enter phonenumber");
+            mListener.onFailure();
+        }//return new RegisterPhone_Response("please enter phonenumber");
         if(data.getToken().equals(""))
-            return new RegisterPhone_Response("please enter valid token");
+        {
+            returnObject = new RegisterPhone_Response("please enter valid token");
+            mListener.onFailure();
+        }
+
 
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("phone", data.getPhonenumber()));
@@ -55,27 +68,38 @@ public class PhoneRegisterAPI
             response_data = new RegisterPhone_Response("Something wrong ");
         }
         else
-        {try
-        {if (jobj.getString("status").equals("ok"))
-        {response_data.setStatus(true);
-            response_data.setMsg(jobj.getString("msg"));
-            response_data.setPhone(jobj.getString("phone"));
-
-            return response_data;
-        }
-        else
         {
-            response_data.setStatus(false);
-            response_data.setMsg(jobj.getString("msg"));
-            return  response_data;
-        }
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
+            try
+            {
+                if (jobj.getString("status").equals("ok"))
+                {response_data.setStatus(true);
+                    response_data.setMsg(jobj.getString("msg"));
+                    response_data.setPhone(jobj.getString("phone"));
+
+                    returnObject = response_data;
+                    mListener.onSuccess();
+                }
+                else
+                {
+                    response_data.setStatus(false);
+                    response_data.setMsg(jobj.getString("msg"));
+
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+                //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
+            }
 
         }
-        return  response_data;
+        returnObject = response_data;
+        mListener.onFailure();
+       // return  response_data;
+    }
+
+    public RegisterPhone_Response ResponseData()
+    {
+        return returnObject;
     }
 }
