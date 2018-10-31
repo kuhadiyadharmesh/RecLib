@@ -35,6 +35,7 @@ dependencies
             implementation files('libs/httpmime-4.0.1.jar')
             implementation files('libs/apache-mime4j-0.6.jar')
             implementation 'com.android.support:appcompat-v7:26.1.0'
+            implementation 'com.android.tools.lint:lint-gradle-api:26.1.2'
 //    testCompile 'junit:junit:4.12'
 
 //    compile 'io.swagger:swagger-annotations:1.5.15'
