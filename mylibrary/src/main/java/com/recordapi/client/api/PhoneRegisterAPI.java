@@ -3,6 +3,7 @@ package com.recordapi.client.api;
 import android.util.Log;
 
 import com.recordapi.client.ApiClient;
+import com.recordapi.client.Listener.InternalApiListener;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.model.RegisterPhone;
@@ -36,7 +37,7 @@ public class PhoneRegisterAPI
         RegisterPhoneCall(mListener);
     }
 //RegisterPhone_Response
-    public void RegisterPhoneCall(RecordingApiListener mListener)
+    public void RegisterPhoneCall(final RecordingApiListener mListener)
     {
         Log.e("new method called","new called");
         //this.mListener = mListener;
@@ -44,16 +45,16 @@ public class PhoneRegisterAPI
         if (data.getPhonenumber()=="")
         {
             returnObject = new RegisterPhone_Response("please enter phonenumber");
-            mListener.onFailure();
+            mListener.onFailure(returnObject);
         }//return new RegisterPhone_Response("please enter phonenumber");
         if(data.getToken().equals(""))
         {
             returnObject = new RegisterPhone_Response("please enter valid token");
-            mListener.onFailure();
+            mListener.onFailure(returnObject);
         }
 
 
-        ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
+        final ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("phone", data.getPhonenumber()));
         param.add(new BasicNameValuePair("token", data.getToken()));
 
@@ -63,6 +64,54 @@ public class PhoneRegisterAPI
 
         JSONObject jobj = null;
         RegisterPhone_Response response_data  = new RegisterPhone_Response();
+
+        recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath + "register_phone", "POST", param, new InternalApiListener() {
+            @Override
+            public void onSuccess(JSONObject jobj)
+            {
+                RegisterPhone_Response response_data  = new RegisterPhone_Response();
+                //jobj =  recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"register_phone","POST",param);
+                if(jobj == null)
+                {
+                    response_data = new RegisterPhone_Response("Something wrong ");
+                }
+                else
+                {
+                    try
+                    {
+                        if (jobj.getString("status").equals("ok"))
+                        {response_data.setStatus(true);
+                            response_data.setMsg(jobj.getString("msg"));
+                            response_data.setPhone(jobj.getString("phone"));
+
+                            returnObject = response_data;
+                            mListener.onSuccess(returnObject);
+                        }
+                        else
+                        {
+                            response_data.setStatus(false);
+                            response_data.setMsg(jobj.getString("msg"));
+
+                        }
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                        //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
+                    }
+
+                }
+                returnObject = response_data;
+                mListener.onFailure(returnObject);
+            }
+
+            @Override
+            public void onError(JSONObject jdata)
+            {
+                mListener.onFailure(new RegisterPhone_Response("Something wrong "));
+            }
+        });
+
 
         jobj =  recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"register_phone","POST",param);
         if(jobj == null)
@@ -80,14 +129,7 @@ public class PhoneRegisterAPI
 
                     returnObject = response_data;
 
-                    Map<String,Object> dd = new HashMap<>();
-                    dd.put("val",response_data);
-
-                    /*
-                    mListener.onResponse(dd);
-                    */
-
-                    mListener.onSuccess(dd.get("val"));
+                    mListener.onSuccess(returnObject);
                 }
                 else
                 {
@@ -104,7 +146,7 @@ public class PhoneRegisterAPI
 
         }
         returnObject = response_data;
-        mListener.onFailure();
+        mListener.onFailure(returnObject);
        // return  response_data;
     }
 

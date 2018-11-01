@@ -11,5 +11,5 @@ public  interface RecordingApiListener
 
     public abstract void onSuccess(Object obj);
 
-    public abstract void onFailure();
+    public abstract void onFailure(Object obj);
 }
