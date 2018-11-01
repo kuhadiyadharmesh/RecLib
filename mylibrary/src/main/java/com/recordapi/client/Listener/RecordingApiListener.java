@@ -3,13 +3,13 @@ package com.recordapi.client.Listener;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.Setting.GetPhoneNumber_Response;
 
-public interface RecordingApiListener
+import java.util.Map;
+
+public  interface RecordingApiListener
 {
-    public void onSuccess(final Class<?> response);
 
-    public void onSuccess(RegisterPhone_Response data);
 
-    public void onSuccess(GetPhoneNumber_Response data);
+    public abstract void onSuccess(Object obj);
 
-    public void onFailure();
+    public abstract void onFailure();
 }

@@ -14,6 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Dharmesh-PC on 1/9/2018.
@@ -77,7 +79,15 @@ public class PhoneRegisterAPI
                     response_data.setPhone(jobj.getString("phone"));
 
                     returnObject = response_data;
-                    mListener.onSuccess(response_data);
+
+                    Map<String,Object> dd = new HashMap<>();
+                    dd.put("val",response_data);
+                    
+                    /*
+                    mListener.onResponse(dd);
+                    */
+
+                    mListener.onSuccess(dd.get("data"));
                 }
                 else
                 {
