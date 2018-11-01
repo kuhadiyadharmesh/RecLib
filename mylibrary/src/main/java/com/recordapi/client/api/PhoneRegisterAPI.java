@@ -82,12 +82,12 @@ public class PhoneRegisterAPI
 
                     Map<String,Object> dd = new HashMap<>();
                     dd.put("val",response_data);
-                    
+
                     /*
                     mListener.onResponse(dd);
                     */
 
-                    mListener.onSuccess(dd.get("data"));
+                    mListener.onSuccess(dd.get("val"));
                 }
                 else
                 {
