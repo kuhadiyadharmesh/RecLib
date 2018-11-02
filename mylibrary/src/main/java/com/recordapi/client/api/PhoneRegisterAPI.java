@@ -153,7 +153,7 @@ public class PhoneRegisterAPI
         param.add(new BasicNameValuePair("phone", data.getPhonenumber()));
         param.add(new BasicNameValuePair("token", data.getToken()));
 
-
+        webservice_call.handleRequest(1 ,ApiClient.BasePath + "register_phone", param,"POST");//(Constant.get_mob_register_type,Constant.Generate_request(str),"POST");
 
 
 
