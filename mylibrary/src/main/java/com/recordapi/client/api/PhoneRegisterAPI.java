@@ -29,12 +29,8 @@ import java.util.Map;
 public class PhoneRegisterAPI
 {
     public RegisterPhone data ;
-   // private RecordingApi recordingApi;
     private RecordingApiListener mListener;
-    private RegisterPhone_Response returnObject;
-    private AsyncClass asyncClass;
     private Parse webservice_call ;
-
     public Handler uiHandler;
 
     public PhoneRegisterAPI(RegisterPhone data,RecordingApiListener mListener)
@@ -45,7 +41,7 @@ public class PhoneRegisterAPI
         this.mListener = mListener;
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
-        RegisterPhoneCall(mListener);
+        RegisterPhoneCall();
     }
 
     private void Handlar_call()
@@ -73,7 +69,7 @@ public class PhoneRegisterAPI
         JSONObject response = (JSONObject) obj;
 
         RegisterPhone_Response response_data  = new RegisterPhone_Response();
-        //jobj =  recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"register_phone","POST",param);
+
         if(response == null)
         {
             response_data = new RegisterPhone_Response("Something wrong ");
@@ -87,8 +83,8 @@ public class PhoneRegisterAPI
                     response_data.setMsg(response.getString("msg"));
                     response_data.setPhone(response.getString("phone"));
 
-                    returnObject = response_data;
-                    mListener.onSuccess(returnObject);
+                    //returnObject = response_data;
+                    mListener.onSuccess(response_data);
                 }
                 else
                 {
@@ -104,48 +100,22 @@ public class PhoneRegisterAPI
             }
 
         }
-        returnObject = response_data;
-        mListener.onFailure(returnObject);
-/*
-        if (what == Constant.get_mob_register_type)
-        {
+        //returnObject = response_data;
+        mListener.onFailure(response_data);
 
-            Log.e("","response -"+response);
-
-                if (response.getString("status").contentEquals("ok"))
-                {
-                    String msg = response.getString("msg");
-                    //Log.e("Respoce", "ok:" + msg);
-                    Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT).show();
-
-                }
-                else
-                    {
-                    String msg = response.getString("msg");
-                    Log.e("Respoce", "Error:" + msg);
-                    Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT).show();
-                }
-
-        }
-        Prg_dialog(false);
-    */
     }
 
 //RegisterPhone_Response
-    public void RegisterPhoneCall(final RecordingApiListener mListener)
+    public void RegisterPhoneCall()
     {
         Log.e("new method called","new called");
-        //this.mListener = mListener;
-
         if (data.getPhonenumber()=="")
         {
-            returnObject = new RegisterPhone_Response("please enter phonenumber");
-            mListener.onFailure(returnObject);
-        }//return new RegisterPhone_Response("please enter phonenumber");
+            mListener.onFailure(new RegisterPhone_Response("please enter phonenumber"));
+        }
         if(data.getToken().equals(""))
         {
-            returnObject = new RegisterPhone_Response("please enter valid token");
-            mListener.onFailure(returnObject);
+            mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
         }
 
 
