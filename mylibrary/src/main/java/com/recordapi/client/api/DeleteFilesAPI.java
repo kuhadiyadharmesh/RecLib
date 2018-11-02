@@ -1,9 +1,16 @@
 package com.recordapi.client.api;
 
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
 import com.recordapi.client.ApiClient;
+import com.recordapi.client.Listener.Parse;
+import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.model.File.DeleteFile;
 import com.recordapi.client.model.File.DeleteFile_Response;
+import com.recordapi.client.model.RegisterPhone_Response;
 //import com.recordapi.client.model.Folder.UpdateFolder_Response;
 
 import org.apache.http.NameValuePair;
@@ -21,37 +28,105 @@ public class DeleteFilesAPI
 {
     //action=remove_forever
     private DeleteFile data ;
-    private RecordingApi recordingApi;
+    private RecordingApiListener mListener;
+    private Parse webservice_call ;
+    private Handler uiHandler;
 
     public DeleteFilesAPI(DeleteFile data)
     {
         this.data = data ;
-        recordingApi = new RecordingApi();
+        this.mListener = mListener;
+        Handlar_call();
+        webservice_call = new Parse(uiHandler,null);
+        DeleteFileCall();
+    }
+    private void Handlar_call()
+    {
+        uiHandler = new Handler() {
+            public void handleMessage(Message msg)
+            {
+                try
+                {
+                    handleEvent(msg.what, msg.obj);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    Log.e("error", "::" + e);
+                    e.printStackTrace();
+                    //Prg_dialog(false);
+                }
+            }
+        };
     }
 
-    public DeleteFile_Response DeleteFileCall()
+    private void handleEvent(int what, Object obj) throws JSONException
+    {
+        // TODO Auto-generated method stub
+        Log.e("Event ", "response : " + obj.toString());
+        JSONObject response = (JSONObject) obj;
+
+        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+
+        if(response == null)
+        {
+            response_data = new RegisterPhone_Response("Something wrong ");
+        }
+        else
+        {
+            try
+            {
+                if (response.getString("status").equals("ok"))
+                {response_data.setStatus(true);
+                    response_data.setMsg(response.getString("msg"));
+                    response_data.setPhone(response.getString("phone"));
+
+                    //returnObject = response_data;
+                    mListener.onSuccess(response_data);
+                }
+                else
+                {
+                    response_data.setStatus(false);
+                    response_data.setMsg(response.getString("msg"));
+
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+                //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
+            }
+
+        }
+        //returnObject = response_data;
+        mListener.onFailure(response_data);
+
+    }
+
+    public void DeleteFileCall()
     {
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
 
         if(data.getApi_key().equals(""))
-            return  new DeleteFile_Response("Please set Api Key ");
+            mListener.onFailure( new DeleteFile_Response("Please set Api Key "));
         //if (data.getDeletePermanent())
         //    param.add(new BasicNameValuePair("action","remove_forever"));
         if(data.getFile_ids().equals(""))
-            return  new DeleteFile_Response("Please Select At least one File for delete");
+            mListener.onFailure(new DeleteFile_Response("Please Select At least one File for delete"));
         else
         {
             String s = data.getFile_ids();
             String[] ars = s.split(",");
             if(ars.length > 30)
             {
-                return new DeleteFile_Response("Maximum 30 File you can delete once right now you selected "+ars.length+" .");
+                mListener.onFailure(new DeleteFile_Response("Maximum 30 File you can delete once right now you selected "+ars.length+" ."));
             }
         }
 
         param.add(new BasicNameValuePair("api_key",data.getApi_key()));
         param.add(new BasicNameValuePair("ids",data.getFile_ids()));
 
+        webservice_call.handleRequest(1,ApiClient.BasePath+"delete_files",param,"POST");
+
+        /*
         // Call service
         JSONObject jobj = null;
         DeleteFile_Response response_data  = null;
@@ -82,7 +157,7 @@ public class DeleteFilesAPI
 
         }
         return  response_data;
-
+*/
     }
 
 

@@ -1,9 +1,16 @@
 package com.recordapi.client.api;
 
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
 import com.recordapi.client.ApiClient;
+import com.recordapi.client.Listener.Parse;
+import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.model.BuyCredit;
 import com.recordapi.client.model.BuyCredit_Response;
+import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.Setting.UpdateProfilePicture;
 import com.recordapi.client.model.Setting.UpdateProfilePicure_Response;
 
@@ -21,24 +28,92 @@ import java.util.ArrayList;
 public class BuyCreditAPI
 {
     private BuyCredit data ;
-    private RecordingApi recordingApi;
+    //private RecordingApi recordingApi;
+    private RecordingApiListener mListener;
+    private Parse webservice_call ;
+    private Handler uiHandler;
 
     public BuyCreditAPI(BuyCredit data)
     {
         this.data = data ;
-        recordingApi = new RecordingApi();
+        //recordingApi = new RecordingApi();
+        this.mListener = mListener;
+        Handlar_call();
+        webservice_call = new Parse(uiHandler,null);
+        BuyCreditCall();
     }
 
-    public BuyCredit_Response BuyCreditCall()
+    private void Handlar_call()
+    {
+        uiHandler = new Handler() {
+            public void handleMessage(Message msg)
+            {
+                try
+                {
+                    handleEvent(msg.what, msg.obj);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    Log.e("error", "::" + e);
+                    e.printStackTrace();
+                    //Prg_dialog(false);
+                }
+            }
+        };
+    }
+
+    private void handleEvent(int what, Object obj) throws JSONException
+    {
+        // TODO Auto-generated method stub
+        Log.e("Event ", "response : " + obj.toString());
+        JSONObject response = (JSONObject) obj;
+
+        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+
+        if(response == null)
+        {
+            response_data = new RegisterPhone_Response("Something wrong ");
+        }
+        else
+        {
+            try
+            {
+                if (response.getString("status").equals("ok"))
+                {response_data.setStatus(true);
+                    response_data.setMsg(response.getString("msg"));
+                    response_data.setPhone(response.getString("phone"));
+
+                    //returnObject = response_data;
+                    mListener.onSuccess(response_data);
+                }
+                else
+                {
+                    response_data.setStatus(false);
+                    response_data.setMsg(response.getString("msg"));
+
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+                //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
+            }
+
+        }
+        //returnObject = response_data;
+        mListener.onFailure(response_data);
+
+    }
+
+    public void BuyCreditCall()
     {
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         //Validation
         if(data.getApi_key().equals(""))
-            return new BuyCredit_Response("Please set ApiKey");
+            mListener.onFailure(new BuyCredit_Response("Please set ApiKey"));
         if(data.getAmount().equals(""))
-            return new BuyCredit_Response("Please set Amount");
+            mListener.onFailure( new BuyCredit_Response("Please set Amount"));
         if(data.getReciept().equals(""))
-            return new BuyCredit_Response("Please set Reciept");
+            mListener.onFailure( new BuyCredit_Response("Please set Reciept"));
         if(data.getProduct_id()!="")
         {
             param.add(new BasicNameValuePair("product_id",data.getProduct_id()));
@@ -55,10 +130,13 @@ public class BuyCreditAPI
         param.add(new BasicNameValuePair("reciept",data.getReciept()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
-        JSONObject jobj = null ;
-        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"buy_credits","POST",param);
-        BuyCredit_Response response_data  = null;
 
+        webservice_call.handleRequest(1,ApiClient.BasePath+"buy_credits",param,"POST");
+       // JSONObject jobj = null ;
+       // jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"buy_credits","POST",param);
+        //BuyCredit_Response response_data  = null;
+
+        /*
         if(jobj == null)
         {
             response_data = new BuyCredit_Response("Something Wrong");
@@ -86,6 +164,7 @@ public class BuyCreditAPI
 
         }
         return  response_data;
+        */
 
     }
 }

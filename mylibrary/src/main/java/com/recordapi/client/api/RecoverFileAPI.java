@@ -1,9 +1,16 @@
 package com.recordapi.client.api;
 
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
 import com.recordapi.client.ApiClient;
+import com.recordapi.client.Listener.Parse;
+import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.model.File.RecoverFile;
 import com.recordapi.client.model.File.RecoverFile_Response;
+import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.Setting.UpdateProfilePicture;
 import com.recordapi.client.model.Setting.UpdateProfilePicure_Response;
 
@@ -22,23 +29,89 @@ import java.util.ArrayList;
 public class RecoverFileAPI
 {
     private RecoverFile data ;
-    private RecordingApi recordingApi;
+    private RecordingApiListener mListener;
+    private Parse webservice_call ;
+    private Handler uiHandler;
+
 
     public RecoverFileAPI(RecoverFile data)
     {
         this.data = data ;
-        recordingApi = new RecordingApi();
+        this.mListener = mListener;
+        Handlar_call();
+        webservice_call = new Parse(uiHandler,null);
+        RecoveryFileCall();
     }
 
-    public RecoverFile_Response RecoveryFileCall()
+    private void Handlar_call()
+    {
+        uiHandler = new Handler() {
+            public void handleMessage(Message msg)
+            {
+                try
+                {
+                    handleEvent(msg.what, msg.obj);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    Log.e("error", "::" + e);
+                    e.printStackTrace();
+                    //Prg_dialog(false);
+                }
+            }
+        };
+    }
+
+    private void handleEvent(int what, Object obj) throws JSONException
+    {
+        // TODO Auto-generated method stub
+        Log.e("Event ", "response : " + obj.toString());
+        JSONObject response = (JSONObject) obj;
+
+        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+
+        if(response == null)
+        {
+            response_data = new RegisterPhone_Response("Something wrong ");
+        }
+        else
+        {
+            try
+            {
+                if (response.getString("status").equals("ok"))
+                {response_data.setStatus(true);
+                    response_data.setMsg(response.getString("msg"));
+                    response_data.setPhone(response.getString("phone"));
+
+                    //returnObject = response_data;
+                    mListener.onSuccess(response_data);
+                }
+                else
+                {
+                    response_data.setStatus(false);
+                    response_data.setMsg(response.getString("msg"));
+
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+                //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
+            }
+
+        }
+        //returnObject = response_data;
+        mListener.onFailure(response_data);
+
+    }
+    public void RecoveryFileCall()
     {
         //Validation
         if(data.getApi_key().equals(""))
-            return new RecoverFile_Response("Please set ApiKey");
+            mListener.onFailure(new RecoverFile_Response("Please set ApiKey"));
         if(data.getFile_id().equals(""))
-            return new RecoverFile_Response("Please set fileId");
+            mListener.onFailure(new RecoverFile_Response("Please set fileId"));
         if(data.getFolder_id().equals(""))
-            return new RecoverFile_Response("Please set FolderId");
+            mListener.onFailure(new RecoverFile_Response("Please set FolderId"));
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
@@ -47,6 +120,8 @@ public class RecoverFileAPI
         param.add(new BasicNameValuePair("id",data.getFile_id()));
         param.add(new BasicNameValuePair("folder_id",data.getFolder_id()));
 
+        webservice_call.handleRequest(1,"",param,"POST");
+/*
         JSONObject jobj = null ;
         jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"recover_file","POST",param);
         RecoverFile_Response response_data  = null;
@@ -77,6 +152,6 @@ public class RecoverFileAPI
 
         }
         return  response_data;
-
+*/
     }
 }
