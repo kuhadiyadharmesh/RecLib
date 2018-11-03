@@ -130,8 +130,9 @@ public class VerifyPhoneAPI
         param.add(new BasicNameValuePair("app",data.getApp()));
         param.add(new BasicNameValuePair("token",data.getToken()));
         param.add(new BasicNameValuePair("device_token",data.getDevice_token()));
-        param.add(new BasicNameValuePair("device_type",data.getDevice_type()));
+        param.add(new BasicNameValuePair("device_type","android"));
         param.add(new BasicNameValuePair("time_zone",data.getTime_zone()));
+        param.add(new BasicNameValuePair("device_id",data.getDeviceId()));
 
         JSONObject jobj = null;
         VerifyPhone_Response response_data  = null;
