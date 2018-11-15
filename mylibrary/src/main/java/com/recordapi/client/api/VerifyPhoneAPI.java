@@ -34,7 +34,7 @@ public class VerifyPhoneAPI
     public Handler uiHandler;
     SaveData sd ;
 
-    public VerifyPhoneAPI(VerifyPhone data, RecordingApiListener mListener , Context c)
+    public VerifyPhoneAPI( Context c ,VerifyPhone data, RecordingApiListener mListener )
     {
         this.data = data ;
 

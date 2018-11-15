@@ -38,7 +38,7 @@ public class GetFilesAPI
     private Handler uiHandler;
     private SaveData sd;
 
-    public GetFilesAPI(GetFiles data , Context c)
+    public GetFilesAPI(Context c ,GetFiles data )
     {
         this.data = data ;
         this.mListener = mListener;
