@@ -122,9 +122,9 @@ public class VerifyPhoneAPI
         /*if(data.getToken().equals(""))
             mListener.onFailure( new VerifyPhone_Response("Please Enter Token"));;*/
         if(data.getDevice_token().equals(""))
-            mListener.onFailure(new VerifyPhone_Response("Please Enter Notification token"));;
+            mListener.onFailure(new VerifyPhone_Response("Please Enter Notification token"));;/*
         if(data.getDevice_type().equals(""))
-            mListener.onFailure(new VerifyPhone_Response("Please Enter Device Type"));;
+            mListener.onFailure(new VerifyPhone_Response("Please Enter Device Type"));;*/
 
         // Setting
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
