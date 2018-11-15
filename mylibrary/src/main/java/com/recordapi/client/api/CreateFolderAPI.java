@@ -124,38 +124,7 @@ public class CreateFolderAPI
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"create_folder",param,"POST");
 
-        /*
-        // Call service
-        JSONObject jobj = null;
-        CreateFolder_Response response_data  = null;
-        jobj =  recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"create_folder","POST",param);
-        if(jobj == null)
-        {
-            response_data = new CreateFolder_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {
-                if (jobj.getString("status").equals("ok"))
-                {
-                    response_data = new CreateFolder_Response(jobj.getString("id"),jobj.getString("msg"));
-                    return response_data;
-                }
-                else
-                {
-                    response_data = new CreateFolder_Response(jobj.getString("msg"));
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
 
-        }
-        return  response_data;
-*/
 
     }
 }

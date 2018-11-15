@@ -1,5 +1,6 @@
 package com.recordapi.client.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -37,12 +38,12 @@ public class GetFilesAPI
     private Handler uiHandler;
     private SaveData sd;
 
-    public GetFilesAPI(GetFiles data)
+    public GetFilesAPI(GetFiles data , Context c)
     {
         this.data = data ;
         this.mListener = mListener;
 
-        sd = new SaveData();
+        sd = new SaveData(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetFileCall();
@@ -132,51 +133,6 @@ public class GetFilesAPI
 
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"get_files",param,"POST");
-/*
-        JSONObject jobj = null;
-        GetFiles_Response response_data  = null;//new GetFolder_Response();
-
-        jobj =  recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"get_files","POST",param);
-        if(jobj == null)
-        {
-            response_data = new GetFiles_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {
-                if (jobj.getString("status").equals("ok"))
-                {
-                    JSONArray jar = jobj.getJSONArray("files");
-                    ArrayList<FileData> fdata = new ArrayList<>();
-                    FileData fo = null;
-                    for (int i = 0; i < jar.length(); i++)
-                    {
-                        JSONObject jo = jar.getJSONObject(i);//jo.getString("access_number")
-
-
-                       fo = new FileData(jo.getString("id"), jo.getString("order_id"),jo.getString("sid"),jo.getString("name"),jo.getString("f_name"),jo.getString("l_name"),jo.getString("email"),jo.getString("phone"),jo.getString("notes"),jo.getString("source"),jo.getString("url"),jo.getString("duration"),jo.getString("time"),jo.getString("share_url"),jo.getString("download_url"),jo.getString("is_star"), data.getReminder() == true ?jo.getString("remind_days"):"",data.getReminder() ==true?jo.getString("remind_date"):"");
-                        fdata.add(fo);
-                    }
-                    response_data = new GetFiles_Response("File List Available.",fdata,""+jobj.getInt("credits"));
-                    return response_data;
-                }
-                else
-                {
-//                    response_data.setStatus(false);
-//                    response_data.setMsg(jobj.getString("msg"));
-                    response_data = new GetFiles_Response(jobj.getString("msg"));
-
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-        return  response_data;*/
     }
 
 

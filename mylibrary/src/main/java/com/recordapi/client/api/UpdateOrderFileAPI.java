@@ -122,46 +122,6 @@ public class UpdateOrderFileAPI
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"update_order",param,"POST");
 
-//        for(data.get?)
-        //for (Folders fol: data.getFolderdata())
-        //{
-       //     param.add(new BasicNameValuePair("folders["+fol.getId()+"]",fol.getId()));
-       // }
-
-        //param.add(new BasicNameValuePair("device_type",data.getDevice_type()));
-
-/*
-        JSONObject jobj = null ;
-        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"update_order","POST",param);
-        Common_Response response_data  = null;
-
-        if(jobj == null)
-        {
-            response_data = new Common_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {
-                if (jobj.getString("status").equals("ok"))
-                {
-                    response_data = new Common_Response(true,jobj.getString("msg"));
-                    return response_data;
-                }
-                else
-                {
-                    response_data = new Common_Response(jobj.getString("msg"));
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-        return  response_data;
-        */
 
     }
 }

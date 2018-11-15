@@ -119,48 +119,6 @@ public class GetMessageAPI
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"get_msgs",param,"POST");
 
-/*
-        JSONObject jobj = null ;
-        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"get_msgs","POST",param);
-        GetMessage_Response response_data  = null;
 
-        if(jobj == null)
-        {
-            response_data = new GetMessage_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {
-                if (jobj.getString("status").equals("ok"))
-                {
-                    JSONArray jar = jobj.getJSONArray("msgs");
-                    Message msg = null;
-                    ArrayList<Message> messagelist = new ArrayList<>();
-                    for(int i = 0 ; i < jar.length() ;i++)
-                    {
-                        JSONObject jo = jar.getJSONObject(i);
-                        msg = new Message(jo.getString("id"),jo.getString("title"),jo.getString("body"),jo.getString("time"));
-
-                        messagelist.add(msg);
-
-                    }
-                    response_data = new GetMessage_Response("Message list get Successfully .",messagelist);
-                    return response_data;
-                }
-                else
-                {
-                    response_data = new GetMessage_Response(jobj.getString("msg"));
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-        return  response_data;
-*/
     }
 }

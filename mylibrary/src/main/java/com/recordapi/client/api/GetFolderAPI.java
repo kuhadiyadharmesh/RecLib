@@ -118,48 +118,7 @@ public class GetFolderAPI
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"get_folders",param,"POST");
 
-        /*
-        jobj =  recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"get_folders","POST",param);
-        if(jobj == null)
-        {
-            response_data = new GetFolder_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {
-                if (jobj.getString("status").equals("ok"))
-                {
-                    JSONArray jar = jobj.getJSONArray("folders");
-                    ArrayList<FolderData> fdata = new ArrayList<>();
-                    FolderData fo = null;
-                    for (int i = 0; i < jar.length(); i++)
-                    {
-                        JSONObject jo = jar.getJSONObject(i);
-                        fo = new FolderData(jo.getString("id"),jo.getString("name"),jo.getString("created"));
-                        fdata.add(fo);
-                    }
-                    response_data = new GetFolder_Response(true ,jobj.getString("msg"),fdata);
-                    return response_data;
-                }
-                else
-                {
-//                    response_data.setStatus(false);
-//                    response_data.setMsg(jobj.getString("msg"));
-                    response_data = new GetFolder_Response(jobj.getString("msg"));
 
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-        return  response_data;
-*/
-        //return null;
     }
 
 

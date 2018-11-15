@@ -119,46 +119,6 @@ public class NotifyUserAPI
         param.add(new BasicNameValuePair("device_type","android"));
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"notify_user_custom",param,"POST");
-////        for(data.get?)
-//        for (Folders fol:
-//                data.getFolderdata())
-//        {
-//            param.add(new BasicNameValuePair("folders["+fol.getId()+"]",fol.getId()));
-//        }
 
-        //param.add(new BasicNameValuePair("device_type",data.getDevice_type()));
-
-/*
-        JSONObject jobj = null ;
-        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"notify_user_custom","POST",param);
-        NotifyUser_Response response_data  = null;
-
-        if(jobj == null)
-        {
-            response_data = new NotifyUser_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {//"success":1
-                if (jobj.getString("success").equals("1"))
-                {
-                    response_data = new NotifyUser_Response(true,"Message sent!");
-                    return response_data;
-                }
-                else
-                {
-                    response_data = new NotifyUser_Response("Message not sent");
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-        return  response_data;
-        */
     }
 }

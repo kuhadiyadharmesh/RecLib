@@ -110,17 +110,7 @@ public class CreateFileAPI
             mListener.onFailure(new CreateFile_Response("Please set ApiKey"));
         if(data.getFile().equals(""))
             mListener.onFailure(new CreateFile_Response("Please select file"));
-        //if(data.getId().equals())
-       // if(data.getData().equals(""))
-      //      return new CreateFile_Response("Please Enter folder name and notes");
-       // if (data.getRemind_days().equals(""))
-        //    return new CreateFile_Response("Please Enter RemindDays.");
-        //if (data.getRemind_date()!="")
 
-        //if (data.getRemind_date()!="")
-        //    param.add(new BasicNameValuePair("data",data.getData()));
-
-        // Set parameter
        // ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("file",data.getFile()));
         param.add(new BasicNameValuePair("api_key",data.getApi_key()));
@@ -128,39 +118,7 @@ public class CreateFileAPI
         param.add(new BasicNameValuePair("data",data.getData()));
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"create_file",param,"POST");
-/*
 
-        JSONObject jobj = null ;
-        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"create_file","POST",param);
-        CreateFile_Response response_data  = null;
-
-        if(jobj == null)
-        {
-            response_data = new CreateFile_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {
-                if (jobj.getString("status").equals("ok"))
-                {
-                    response_data = new CreateFile_Response(jobj.getString("msg"),jobj.getString("id"));
-                    return response_data;
-                }
-                else
-                {
-                    response_data = new CreateFile_Response(jobj.getString("msg"));
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-        return  response_data;
-*/
     }
 
 }

@@ -120,49 +120,6 @@ public class GetMetaFilesAPI
         param.add(new BasicNameValuePair("parent_id", data.getParent_id()));
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"get_meta_files",param,"POST");
-/*
-        JSONObject jobj = null;
-        GetMetaFiles_Response response_data  = null;//new GetFolder_Response();
 
-        jobj =  recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"get_meta_files","POST",param);
-        if(jobj == null)
-        {
-            response_data = new GetMetaFiles_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {
-                if (jobj.getString("status").equals("ok"))
-                {
-                    JSONArray jar = jobj.getJSONArray("meta_files");
-                    ArrayList<MetaFileData> fdata = new ArrayList<>();
-                    MetaFileData fo = null;
-                    for (int i = 0; i < jar.length(); i++)
-                    {
-                        JSONObject jo = jar.getJSONObject(i);
-                        fo = new MetaFileData(jo.getString("id"),jo.getString("name"),jo.getString("file"),jo.getString("parent_id"),jo.getString("user_id"),jo.getString("time"));
-                        fdata.add(fo);
-                    }
-                    response_data = new GetMetaFiles_Response("Metafile get successfully .",fdata);
-                    return response_data;
-                }
-                else
-                {
-//                    response_data.setStatus(false);
-//                    response_data.setMsg(jobj.getString("msg"));
-                    response_data = new GetMetaFiles_Response(jobj.getString("msg"));
-
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-        return  response_data;
-        */
     }
 }

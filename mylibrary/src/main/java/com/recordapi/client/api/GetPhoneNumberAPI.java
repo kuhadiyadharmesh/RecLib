@@ -123,47 +123,6 @@ public class GetPhoneNumberAPI
         //recordingApi.makeHttpRequestFor_SSL_Array(ApiClient.BasePath+"get_phones","POST",param , new Ine);
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"get_phones",param,"POST");
-    /*
-        JSONArray jobj = null ;
 
-        jobj = recordingApi.makeHttpRequestFor_SSL_Array(ApiClient.BasePath+"get_phones","POST",param);
-        GetPhoneNumber_Response response_data  = null;
-
-        if(jobj == null)
-        {
-            response_data = new GetPhoneNumber_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {
-                if (jobj.length() > 0)
-                {
-                    JSONObject jo = null;
-                    ArrayList<NumberData> data = new ArrayList<>();
-                    for(int i = 0 ; i <jobj.length() ; i++)
-                    {
-                        jo = jobj.getJSONObject(i);
-
-                        data.add(new NumberData(jo.getString("phone_number"),jo.getString("number"),jo.getString("prefix"),jo.getString("friendly_name"),jo.getString("flag"),jo.getString("country")));
-                    }
-
-                    response_data = new GetPhoneNumber_Response("data get successfully!!",data);
-                    return response_data;
-                }
-                else
-                {
-                    response_data = new GetPhoneNumber_Response("Something Problem");
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-        return  response_data;
-*/
     }
 }

@@ -118,40 +118,6 @@ public class GetProfileSettingAPI
         param.add(new BasicNameValuePair("api_key",data.getApi_key()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
-        /*
-        JSONObject jobj = null ;
-        jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"get_profile","POST",param);
-        GetProfileSetting_Response response_data  = null;
 
-        if(jobj == null)
-        {
-            response_data = new GetProfileSetting_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {
-                if (jobj.getString("status").equals("ok"))
-                {
-                    //profile
-                    JSONObject injob = jobj.getJSONObject("profile");
-
-                    response_data = new GetProfileSetting_Response(injob.getString("pic"),injob.getString("f_name"),injob.getString("l_name"),injob.getString("email"),injob.getString("is_public"),injob.getString("language"),injob.getString("play_beep"),injob.getString("max_length"),injob.getString("time_zone"),jobj.getString("app"),jobj.getString("credits"),jobj.getString("credits_trans"));
-                    return response_data;
-                }
-                else
-                {
-                    response_data = new GetProfileSetting_Response(jobj.getString("msg"));
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-        return  response_data;
-*/
     }
 }

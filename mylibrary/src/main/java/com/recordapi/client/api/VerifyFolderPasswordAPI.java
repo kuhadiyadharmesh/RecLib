@@ -122,37 +122,6 @@ public class VerifyFolderPasswordAPI
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"verify_folder_pass",param,"POST");
 
-        /*
-        // Call service
-        JSONObject jobj = null;
-        VerifyFolderPassword_Response response_data  = null;
-        jobj =  recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"verify_folder_pass","POST",param);
-        if(jobj == null)
-        {
-            response_data = new VerifyFolderPassword_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {
-                if (jobj.getString("status").equals("ok"))
-                {
-                    response_data = new VerifyFolderPassword_Response(true,jobj.getString("msg"));
-                    return response_data;
-                }
-                else
-                {
-                    response_data = new VerifyFolderPassword_Response(jobj.getString("msg"));
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
 
-        }
-        return  response_data;
-*/
     }
 }

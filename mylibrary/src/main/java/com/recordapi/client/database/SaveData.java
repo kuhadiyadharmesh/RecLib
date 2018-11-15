@@ -5,14 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class SaveData extends Activity
+public class SaveData
 {
     private SharedPreferences pref;
     private SharedPreferences.Editor edit ;
 
-    public SaveData()
+    public SaveData(Context c)
     {
-        pref = getApplication().getSharedPreferences("recordingfile",Context.MODE_PRIVATE);
+        pref = c.getSharedPreferences("recordingfile",Context.MODE_PRIVATE);
         edit = pref.edit();
     }
 

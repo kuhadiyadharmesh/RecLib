@@ -1,5 +1,6 @@
 package com.recordapi.client.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -33,12 +34,12 @@ public class VerifyPhoneAPI
     public Handler uiHandler;
     SaveData sd ;
 
-    public VerifyPhoneAPI(VerifyPhone data,RecordingApiListener mListener)
+    public VerifyPhoneAPI(VerifyPhone data, RecordingApiListener mListener , Context c)
     {
         this.data = data ;
 
         this.mListener = mListener;
-        sd = new SaveData();
+        sd = new SaveData(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         VerifyPhoneCall();
@@ -143,35 +144,6 @@ public class VerifyPhoneAPI
 
 
         webservice_call.handleRequest(1 ,ApiClient.BasePath + "verify_phone", param,"POST");
-        /*
-        jobj =  recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"verify_phone","POST",param);
 
-        if(jobj == null)
-        {
-           response_data = new VerifyPhone_Response("Something wrong ");
-        }
-        else
-            {
-                try
-                {if (jobj.getString("status").equals("ok"))
-                {
-
-                    response_data = new VerifyPhone_Response(true , jobj.getString("phone"),jobj.getString("api_key"),jobj.getString("msg"));
-                    return response_data;
-                }
-                else
-                {
-                    response_data = new VerifyPhone_Response(jobj.getString("msg"));
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-            }
-         return  response_data;
-        */
     }
 }

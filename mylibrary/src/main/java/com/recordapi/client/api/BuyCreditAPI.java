@@ -132,39 +132,7 @@ public class BuyCreditAPI
 
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"buy_credits",param,"POST");
-       // JSONObject jobj = null ;
-       // jobj = recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"buy_credits","POST",param);
-        //BuyCredit_Response response_data  = null;
 
-        /*
-        if(jobj == null)
-        {
-            response_data = new BuyCredit_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {
-                if (jobj.getString("status").equals("ok"))
-                {
-                    //Credits","code":"amount_added","credits_added":300,"credits":8550,"credits_trans":300,"rem_expiry":null
-                    response_data = new BuyCredit_Response(jobj.getString("msg"),jobj.getString("credits_added"),jobj.getString("credits"),jobj.getString("credits_trans"),jobj.getString("rem_expiry"));
-                    return response_data;
-                }
-                else
-                {
-                    response_data = new BuyCredit_Response(jobj.getString("msg"));
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-        return  response_data;
-        */
 
     }
 }

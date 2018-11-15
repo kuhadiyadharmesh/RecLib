@@ -118,38 +118,6 @@ public class DeleteFolderAPI
 
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"delete_folder",param,"POST");
-/*
-        // Call service
-        JSONObject jobj = null;
-        DeleteFolder_Response response_data  = null;
-        jobj =  recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"delete_folder","POST",param);
-        if(jobj == null)
-        {
-            response_data = new DeleteFolder_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {
-                if (jobj.getString("status").equals("ok"))
-                {
-                    response_data = new DeleteFolder_Response(true,jobj.getString("msg"));
-                    return response_data;
-                }
-                else
-                {
-                    response_data = new DeleteFolder_Response(jobj.getString("msg"));
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-        return  response_data;
-        */
 
     }
 

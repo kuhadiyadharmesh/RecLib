@@ -131,37 +131,7 @@ public class DeleteMetaFilesAPI
 
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"delete_meta_files",param,"POST");
-/*
-        // Call service
-        JSONObject jobj = null;
-        DeleteMetaFiles_Response response_data  = null;
-        jobj =  recordingApi.makeHttpRequestFor_SSL(ApiClient.BasePath+"delete_meta_files","POST",param);
-        if(jobj == null)
-        {
-            response_data = new DeleteMetaFiles_Response("Something Wrong");
-        }
-        else
-        {
-            try
-            {
-                if (jobj.getString("status").equals("ok"))
-                {
-                    response_data = new DeleteMetaFiles_Response(true,jobj.getString("msg"));
-                    return response_data;
-                }
-                else
-                {
-                    response_data = new DeleteMetaFiles_Response(jobj.getString("msg"));
-                    return  response_data;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
 
-        }
-        return  response_data;*/
 
     }
 }
