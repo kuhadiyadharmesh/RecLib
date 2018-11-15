@@ -8,6 +8,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.VerifyPhone;
 import com.recordapi.client.model.VerifyPhone_Response;
@@ -30,12 +31,14 @@ public class VerifyPhoneAPI
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     public Handler uiHandler;
+    SaveData sd ;
 
     public VerifyPhoneAPI(VerifyPhone data,RecordingApiListener mListener)
     {
         this.data = data ;
 
         this.mListener = mListener;
+        sd = new SaveData();
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         VerifyPhoneCall();
@@ -79,7 +82,7 @@ public class VerifyPhoneAPI
                 {response_data.setStatus(true);
                     response_data.setMsg(response.getString("msg"));
                     response_data.setPhone(response.getString("phone"));
-
+                    sd.setToken(response.getString("api_key"));
                     //returnObject = response_data;
                     mListener.onSuccess(response_data);
                 }
@@ -115,8 +118,8 @@ public class VerifyPhoneAPI
             mListener.onFailure(new VerifyPhone_Response("Please Enter MCC"));;
         if(data.getApp().equals(""))
             mListener.onFailure(new VerifyPhone_Response("Please Enter App Free or Paid"));;
-        if(data.getToken().equals(""))
-            mListener.onFailure( new VerifyPhone_Response("Please Enter Token"));;
+        /*if(data.getToken().equals(""))
+            mListener.onFailure( new VerifyPhone_Response("Please Enter Token"));;*/
         if(data.getDevice_token().equals(""))
             mListener.onFailure(new VerifyPhone_Response("Please Enter Notification token"));;
         if(data.getDevice_type().equals(""))
@@ -128,7 +131,7 @@ public class VerifyPhoneAPI
         param.add(new BasicNameValuePair("code",data.getCode()));
         param.add(new BasicNameValuePair("mcc",data.getMacc()));
         param.add(new BasicNameValuePair("app",data.getApp()));
-        param.add(new BasicNameValuePair("token",data.getToken()));
+        param.add(new BasicNameValuePair("token","55942ee3894f51000530894"));
         param.add(new BasicNameValuePair("device_token",data.getDevice_token()));
         param.add(new BasicNameValuePair("device_type","android"));
         param.add(new BasicNameValuePair("time_zone",data.getTime_zone()));

@@ -6,32 +6,20 @@ package com.recordapi.client.model;
 
 public class RegisterPhone
 {
-    String phone ,token ;
+    String phone  ;
 
-    public void setPhonenumber(String phone)
+    public RegisterPhone(String phone)
     {
         this.phone = phone;
     }
+
 
     public String getPhonenumber()
     {
         return  this.phone;
     }
 
-    public void setToken(String token)
-    {
-        this.token = token;
-    }
 
-    public void setToken()
-    {
-        this.token = "55942ee3894f51000530894";
-    }
-
-    public String getToken()
-    {
-        return  this.token;
-    }
 
 
 }

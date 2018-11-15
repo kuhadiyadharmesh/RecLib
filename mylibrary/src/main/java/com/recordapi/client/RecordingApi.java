@@ -2,18 +2,9 @@ package com.recordapi.client;
 
 import android.util.Log;
 
-import com.recordapi.client.ApiClient;
-import com.recordapi.client.Listener.InternalApiListener;
-import com.recordapi.client.RecApi;
+
 import com.recordapi.client.model.RegisterPhone;
-import com.recordapi.client.model.RegisterPhone_Response;
-//import com.squareup.okhttp.Call;
-//import com.squareup.okhttp.FormEncodingBuilder;
-//import com.squareup.okhttp.HttpUrl;
-//import com.squareup.okhttp.MediaType;
-//import com.squareup.okhttp.MultipartBuilder;
-//import com.squareup.okhttp.Request;
-//import com.squareup.okhttp.RequestBody;
+
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -174,98 +165,6 @@ public class RecordingApi
 
     }
 
-    public void makeHttpRequestFor_SSL(String url, String method, List<NameValuePair> param, InternalApiListener mListener)
-    {
-        // TODO Auto-generated method stub
-        try {
-            // check for request method
-            if (method == "POST") {
-                System.out.println(" In post Method");
-                //DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpClient httpClient = createHttpClient();
-                HttpPost httpPost = new HttpPost(url+"/");
-                httpPost.setEntity(new UrlEncodedFormEntity(param));
-                //httpPost.setS
-
-                //Multiple
-                MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-
-                for (int index = 0; index < param.size(); index++) {
-                    if (param.get(index).getName().equalsIgnoreCase("file")) {
-                        // If the key equals to "image", we use FileBody to transfer the data
-                        entity.addPart(param.get(index).getName(), new FileBody(new File(param.get(index).getValue())));
-
-                    } else {
-                        // Normal string data
-                        entity.addPart(param.get(index).getName(), new StringBody(param.get(index).getValue()));
-                    }
-                }
-
-                httpPost.setEntity(entity);
-                //Multiple
-
-                HttpResponse httpResponse = httpClient.execute(httpPost);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                is = httpEntity.getContent();
-                System.out.println(" In post Method");
-            } else if (method == "GET") {
-                // request method is GET
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                String paramString = URLEncodedUtils.format(param, "utf-8");
-                url += "" + paramString;
-                HttpGet httpGet = new HttpGet(url);
-                //String basicAuth = "Basic " + new String(Base64.encode("tomcat:tomcat".getBytes(),Base64.NO_WRAP ));
-                //post.setRequestProperty ("Authorization", basicAuth);
-                //httpGet.setHeader("Authorization", basicAuth);
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                is = httpEntity.getContent();
-            }
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            mListener.onError(Error_Exception());
-            //return Error_Exception();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-            mListener.onError(Error_Exception());
-        } catch (IOException e) {
-            e.printStackTrace();
-            mListener.onError(Error_Exception());
-        }
-
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    is, "iso-8859-1"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            is.close();
-            System.out.println(" In post Method");
-            json = sb.toString().trim();
-            Log.e("data prints", json);
-        } catch (Exception e) {
-            Log.e("Buffer Error", "Error converting result " + e.toString());
-            mListener.onError(Error_Exception());
-        }
-
-        // try parse the string to a JSON object
-        try {
-            jObj = new JSONObject(json);
-            // Jarray = new JSONArray(json);
-        } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
-            mListener.onError(Error_Exception());
-        }
-
-        // return JSON String
-        // return jObj;
-        mListener.onSuccess(jObj);
-        //return jObj;
-
-    }
 
     public JSONArray makeHttpRequestFor_SSL_Array(String url, String method, List<NameValuePair> param)
     {

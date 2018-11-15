@@ -15,15 +15,15 @@ public class VerifyPhone
     // device_type=android&
     // time_zone=10
 
-    String phone , code , macc , app , token , device_token ,device_type,  time_zone,device_id;
+    String phone , code , macc , app ,  device_token ,device_type,  time_zone,device_id;
 
-    public VerifyPhone(String phone , String code , String macc , String app , String token , String device_token,String device_type,String time_zone,String device_id)
+    public VerifyPhone(String phone , String code , String macc , String app  , String device_token,String device_type,String time_zone,String device_id)
     {
         this.phone = phone;
         this.code = code ;
         this.macc = macc;
         this.app = app;
-        this.token = token;
+        //this.token = token;
         this.device_token = device_token;
         // this.device_type = device_type;
         this.time_zone = time_zone;
@@ -45,10 +45,10 @@ public class VerifyPhone
     {
         return app;
     }
-    public String getToken()
+    /*public String getToken()
     {
         return token;
-    }
+    }*/
     public String getDevice_token()
     {
         return device_token;

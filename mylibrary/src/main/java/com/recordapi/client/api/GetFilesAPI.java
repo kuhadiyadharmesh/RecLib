@@ -8,6 +8,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.Common.FileData;
 import com.recordapi.client.model.Common.FolderData;
 import com.recordapi.client.model.File.GetFiles;
@@ -34,11 +35,14 @@ public class GetFilesAPI
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
+    private SaveData sd;
 
     public GetFilesAPI(GetFiles data)
     {
         this.data = data ;
         this.mListener = mListener;
+
+        sd = new SaveData();
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetFileCall();
@@ -109,8 +113,8 @@ public class GetFilesAPI
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
 
         //Validation
-        if(data.getApi_key().equals(""))
-            mListener.onFailure(new GetFiles_Response("Plese set ApiKey"));
+       /* if(data.getApi_key().equals(""))
+            mListener.onFailure(new GetFiles_Response("Plese set ApiKey"));*/
         if (data.getFolder_id()!="")
             param.add(new BasicNameValuePair("folder_id", data.getFolder_id()));
         if (data.getPage()!="")
@@ -124,7 +128,7 @@ public class GetFilesAPI
         if (data.getSearch_text()!="")
             param.add(new BasicNameValuePair("q", data.getSearch_text()));
 
-        param.add(new BasicNameValuePair("api_key", data.getApi_key()));
+        param.add(new BasicNameValuePair("api_key", sd.getToken()));
 
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"get_files",param,"POST");
