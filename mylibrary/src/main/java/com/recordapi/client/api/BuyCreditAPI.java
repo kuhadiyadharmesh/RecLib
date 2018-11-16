@@ -1,5 +1,6 @@
 package com.recordapi.client.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -8,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.BuyCredit;
 import com.recordapi.client.model.BuyCredit_Response;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -32,11 +34,13 @@ public class BuyCreditAPI
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
+    private SaveData sd;
 
-    public BuyCreditAPI(BuyCredit data)
+    public BuyCreditAPI(Context c, BuyCredit data , RecordingApiListener mListener)
     {
         this.data = data ;
         //recordingApi = new RecordingApi();
+        sd = new SaveData(c);
         this.mListener = mListener;
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
@@ -65,10 +69,38 @@ public class BuyCreditAPI
     {
         // TODO Auto-generated method stub
         Log.e("Event ", "response : " + obj.toString());
-        JSONObject response = (JSONObject) obj;
+        JSONObject jobj = (JSONObject) obj;
 
-        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+        BuyCredit_Response response_data  = null;//new RegisterPhone_Response();
+        if(jobj == null)
+        {
+            response_data = new BuyCredit_Response("Something Wrong");
+        }
+        else
+        {
+            try
+            {
+                if (jobj.getString("status").equals("ok"))
+                {
+                    //Credits","code":"amount_added","credits_added":300,"credits":8550,"credits_trans":300,"rem_expiry":null
+                    response_data = new BuyCredit_Response(jobj.getString("msg"),jobj.getString("credits_added"),jobj.getString("credits"),jobj.getString("credits_trans"),jobj.getString("rem_expiry"));
+                    mListener.onSuccess(response_data);
+                }
+                else
+                {
+                    response_data = new BuyCredit_Response(jobj.getString("msg"));
+                   // return  response_data;
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+                response_data = new BuyCredit_Response("Something Wrong");
+            }
 
+        }
+       // return  response_data;
+        /*
         if(response == null)
         {
             response_data = new RegisterPhone_Response("Something wrong ");
@@ -98,7 +130,7 @@ public class BuyCreditAPI
                 //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
             }
 
-        }
+        }*/
         //returnObject = response_data;
         mListener.onFailure(response_data);
 
@@ -108,8 +140,8 @@ public class BuyCreditAPI
     {
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         //Validation
-        if(data.getApi_key().equals(""))
-            mListener.onFailure(new BuyCredit_Response("Please set ApiKey"));
+//        if(data.getApi_key().equals(""))
+//            mListener.onFailure(new BuyCredit_Response("Please set ApiKey"));
         if(data.getAmount().equals(""))
             mListener.onFailure( new BuyCredit_Response("Please set Amount"));
         if(data.getReciept().equals(""))
@@ -125,7 +157,7 @@ public class BuyCreditAPI
         // Set parameter
 
 //        param.add(new BasicNameValuePair("file",data.getFile()));
-        param.add(new BasicNameValuePair("api_key",data.getApi_key()));
+        param.add(new BasicNameValuePair("api_key",sd.getToken()));
         param.add(new BasicNameValuePair("amount",data.getAmount()));
         param.add(new BasicNameValuePair("reciept",data.getReciept()));
         //param.add(new BasicNameValuePair("data",data.getData()));

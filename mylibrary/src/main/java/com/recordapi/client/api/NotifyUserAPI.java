@@ -1,5 +1,6 @@
 package com.recordapi.client.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -8,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.Common.Folders;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.Setting.NotifyUser;
@@ -32,11 +34,13 @@ public class NotifyUserAPI
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
+    private SaveData sd;
 
-    public NotifyUserAPI(NotifyUser data,RecordingApiListener mListener)
+    public NotifyUserAPI(Context c, NotifyUser data, RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;
+        sd = new SaveData(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         NotifyUserCall();
@@ -63,49 +67,45 @@ public class NotifyUserAPI
     {
         // TODO Auto-generated method stub
         Log.e("Event ", "response : " + obj.toString());
-        JSONObject response = (JSONObject) obj;
+        JSONObject jobj = (JSONObject) obj;
 
-        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+        NotifyUser_Response response_data  ;// new RegisterPhone_Response();
 
-        if(response == null)
+        if(jobj == null)
         {
-            response_data = new RegisterPhone_Response("Something wrong ");
+            response_data = new NotifyUser_Response("Something Wrong");
+            mListener.onFailure(response_data);
         }
         else
         {
             try
-            {
-                if (response.getString("status").equals("ok"))
-                {response_data.setStatus(true);
-                    response_data.setMsg(response.getString("msg"));
-                    response_data.setPhone(response.getString("phone"));
-
-                    //returnObject = response_data;
+            {//"success":1
+                if (jobj.getString("success").equals("1"))
+                {
+                    response_data = new NotifyUser_Response(true,"Message sent!");
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data.setStatus(false);
-                    response_data.setMsg(response.getString("msg"));
-
+                    response_data = new NotifyUser_Response("Message not sent");
+                    mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
+                response_data = new NotifyUser_Response("Something Wrong");
+                mListener.onFailure(response_data);
             }
 
         }
-        //returnObject = response_data;
-        mListener.onFailure(response_data);
 
     }
     public void NotifyUserCall()
     {
         //Validation
-        if(data.getApi_key().equals(""))
-            mListener.onFailure(new NotifyUser_Response("Please set ApiKey"));
+//        if(data.getApi_key().equals(""))
+//            mListener.onFailure(new NotifyUser_Response("Please set ApiKey"));
         if(data.getBody().equals(""))
             mListener.onFailure(new NotifyUser_Response("Please set body"));
         if(data.getTitle().equals(""))
@@ -113,7 +113,7 @@ public class NotifyUserAPI
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",data.getApi_key()));
+        param.add(new BasicNameValuePair("api_key",sd.getToken()));
         param.add(new BasicNameValuePair("body",data.getBody()));
         param.add(new BasicNameValuePair("title",data.getTitle()));
         param.add(new BasicNameValuePair("device_type","android"));

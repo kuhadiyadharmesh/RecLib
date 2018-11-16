@@ -6,18 +6,18 @@ package com.recordapi.client.model.Setting;
 
 public class UpdateUser
 {
-    private String  api_key , app;
+    private String   app;
 
-    public UpdateUser(String api_key , String app)
+    public UpdateUser( String app)
     {
-        this.api_key = api_key;
+        //this.api_key = api_key;
         this.app = app ;
     }
 
-    public String getApi_key()
-    {
-        return this.api_key;
-    }
+//    public String getApi_key()
+//    {
+//        return this.api_key;
+//    }
     public String getApp()
     {
         return this.app;

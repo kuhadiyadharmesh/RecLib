@@ -70,10 +70,52 @@ public class GetFilesAPI
     {
         // TODO Auto-generated method stub
         Log.e("Event ", "response : " + obj.toString());
-        JSONObject response = (JSONObject) obj;
+        JSONObject jobj = (JSONObject) obj;
 
-        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+        GetFiles_Response response_data  ;//= new RegisterPhone_Response();
 
+        if(jobj == null)
+        {
+            response_data = new GetFiles_Response("Something Wrong");
+            mListener.onFailure(response_data);
+        }
+        else
+        {
+            try
+            {
+                if (jobj.getString("status").equals("ok"))
+                {
+                    JSONArray jar = jobj.getJSONArray("files");
+                    ArrayList<FileData> fdata = new ArrayList<>();
+                    FileData fo = null;
+                    for (int i = 0; i < jar.length(); i++)
+                    {
+                        JSONObject jo = jar.getJSONObject(i);//jo.getString("access_number")
+
+
+                        fo = new FileData(jo.getString("id"), jo.getString("order_id"),jo.getString("sid"),jo.getString("name"),jo.getString("f_name"),jo.getString("l_name"),jo.getString("email"),jo.getString("phone"),jo.getString("notes"),jo.getString("source"),jo.getString("url"),jo.getString("duration"),jo.getString("time"),jo.getString("share_url"),jo.getString("download_url"),jo.getString("is_star"), data.getReminder() == true ?jo.getString("remind_days"):"",data.getReminder() ==true?jo.getString("remind_date"):"");
+                        fdata.add(fo);
+                    }
+                    response_data = new GetFiles_Response("File List Available.",fdata,""+jobj.getInt("credits"));
+                    mListener.onSuccess(response_data);
+                }
+                else
+                {
+//                    response_data.setStatus(false);
+//                    response_data.setMsg(jobj.getString("msg"));
+                    response_data = new GetFiles_Response(jobj.getString("msg"));
+
+                    mListener.onFailure(response_data);
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+                response_data = new GetFiles_Response("Something Wrong");
+                mListener.onFailure(response_data);
+            }
+
+        }/*
         if(response == null)
         {
             response_data = new RegisterPhone_Response("Something wrong ");
@@ -106,6 +148,7 @@ public class GetFilesAPI
         }
         //returnObject = response_data;
         mListener.onFailure(response_data);
+        */
 
     }
 

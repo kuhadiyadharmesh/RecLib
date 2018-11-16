@@ -1,5 +1,6 @@
 package com.recordapi.client.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -8,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.Setting.UpdateProfilePicture;
 import com.recordapi.client.model.Setting.UpdateProfilePicure_Response;
@@ -31,12 +33,14 @@ public class UpdateProfileSettingAPI
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
+    private SaveData sd;
 
 
-    public UpdateProfileSettingAPI(UpdateProfileSetting data,RecordingApiListener mListener)
+    public UpdateProfileSettingAPI(Context c, UpdateProfileSetting data, RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;
+        sd = new SaveData(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         UpdateProfileSettingCall();
@@ -64,50 +68,46 @@ public class UpdateProfileSettingAPI
     {
         // TODO Auto-generated method stub
         Log.e("Event ", "response : " + obj.toString());
-        JSONObject response = (JSONObject) obj;
+        JSONObject jobj = (JSONObject) obj;
 
-        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+        UpdateProfileSetting_Response response_data ;// = new RegisterPhone_Response();
 
-        if(response == null)
+        if(jobj == null)
         {
-            response_data = new RegisterPhone_Response("Something wrong ");
+            response_data = new UpdateProfileSetting_Response("Something Wrong");
+            mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (response.getString("status").equals("ok"))
-                {response_data.setStatus(true);
-                    response_data.setMsg(response.getString("msg"));
-                    response_data.setPhone(response.getString("phone"));
-
-                    //returnObject = response_data;
+                if (jobj.getString("status").equals("ok"))
+                {
+                    response_data = new UpdateProfileSetting_Response(true,jobj.getString("msg"));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data.setStatus(false);
-                    response_data.setMsg(response.getString("msg"));
-
+                    response_data = new UpdateProfileSetting_Response(jobj.getString("msg"));
+                    mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
+                response_data = new UpdateProfileSetting_Response("Something Wrong");
+                mListener.onFailure(response_data);
             }
 
         }
-        //returnObject = response_data;
-        mListener.onFailure(response_data);
 
     }
     public void UpdateProfileSettingCall()
     {
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         //Validation
-        if(data.getApi_key().equals(""))
-            mListener.onFailure(new UpdateProfileSetting_Response("Please set ApiKey"));
+//        if(data.getApi_key().equals(""))
+//            mListener.onFailure(new UpdateProfileSetting_Response("Please set ApiKey"));
         if(data.getF_name().equals(""))
             mListener.onFailure(new UpdateProfileSetting_Response("Please set Fname"));
         if(data.getL_name().equals(""))
@@ -158,7 +158,7 @@ public class UpdateProfileSettingAPI
             //return new UpdateProfileSetting_Response("Please set Fname");
 
         // Set parameter
-        param.add(new BasicNameValuePair("api_key",data.getApi_key()));
+        param.add(new BasicNameValuePair("api_key",sd.getToken()));
         param.add(new BasicNameValuePair("data[f_name]",data.getF_name()));
         param.add(new BasicNameValuePair("data[l_name]",data.getL_name()));
         param.add(new BasicNameValuePair("data[language]",data.getLanguage()));

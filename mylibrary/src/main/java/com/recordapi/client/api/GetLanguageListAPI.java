@@ -1,5 +1,6 @@
 package com.recordapi.client.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
@@ -7,6 +8,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.Common.Language;
 import com.recordapi.client.model.Common.Message;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -29,15 +31,17 @@ import java.util.ArrayList;
 
 public class GetLanguageListAPI
 {
-    private GetLanguagesList data ;
+    //private GetLanguagesList data ;
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
+    private SaveData sd;
 
-    public GetLanguageListAPI(GetLanguagesList data,RecordingApiListener mListener)
+    public GetLanguageListAPI(Context c, RecordingApiListener mListener)
     {
-        this.data = data ;
+        //this.data = data ;
         this.mListener = mListener;
+        sd = new SaveData(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetLanguagesListCall();
@@ -65,10 +69,48 @@ public class GetLanguageListAPI
     {
         // TODO Auto-generated method stub
         Log.e("Event ", "response : " + obj.toString());
-        JSONObject response = (JSONObject) obj;
+        JSONObject jobj = (JSONObject) obj;
 
-        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+        GetLanguageList_Response response_data  ;//= new RegisterPhone_Response();
 
+        if(jobj == null)
+        {
+            response_data = new GetLanguageList_Response("Something Wrong");
+            mListener.onFailure(response_data);
+        }
+        else
+        {
+            try
+            {
+                if (jobj.getString("status").equals("ok"))
+                {
+                    JSONArray jar = jobj.getJSONArray("languages");
+                    Language lang = null;
+                    ArrayList<Language> languageslist = new ArrayList<>();
+                    for(int i = 0 ; i < jar.length() ;i++)
+                    {
+                        JSONObject jo = jar.getJSONObject(i);
+                        lang = new Language(jo.getString("code"),jo.getString("name"));//(jo.getString("id"),jo.getString("title"),jo.getString("body"),jo.getString("time"));
+                        languageslist.add(lang);
+                    }
+                    response_data = new GetLanguageList_Response("language List get successfully . ",languageslist);
+                    mListener.onSuccess(response_data);
+                }
+                else
+                {
+                    response_data = new GetLanguageList_Response(jobj.getString("msg"));
+                    mListener.onFailure(response_data);
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+                response_data = new GetLanguageList_Response("Something Wrong");
+                mListener.onFailure(response_data);
+            }
+
+        }
+        /*
         if(response == null)
         {
             response_data = new RegisterPhone_Response("Something wrong ");
@@ -101,20 +143,21 @@ public class GetLanguageListAPI
         }
         //returnObject = response_data;
         mListener.onFailure(response_data);
+        */
 
     }
     public void GetLanguagesListCall()
     {
         //Validation
-        if(data.getApi_key().equals(""))
-            mListener.onFailure(new GetLanguageList_Response("Please set ApiKey"));
+//        if(data.getApi_key().equals(""))
+//            mListener.onFailure(new GetLanguageList_Response("Please set ApiKey"));
 //        if(data.getFile().equals(""))
 //            return new GetMessage_Response("Please select file");
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         //param.add(new BasicNameValuePair("file",data.getFile()));
-        param.add(new BasicNameValuePair("api_key",data.getApi_key()));
+        param.add(new BasicNameValuePair("api_key",sd.getToken()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"get_languages",param,"POST");

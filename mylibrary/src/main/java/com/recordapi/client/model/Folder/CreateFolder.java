@@ -6,12 +6,10 @@ package com.recordapi.client.model.Folder;
 
 public class CreateFolder
 {
-   private String api_key,name , pass;
+   private String name , pass;
 
-    public void setApi_key(String api_key)
-    {
-        this.api_key = api_key;
-    }
+
+/*
     public void setName(String name )
     {
         this.name = name ;
@@ -19,12 +17,19 @@ public class CreateFolder
     public void setPass(String pass)
     {
         this.pass = pass;
+    }*/
+
+    public CreateFolder(String name)
+    {
+        this.name = name ;
+    }
+    public CreateFolder(String name , String pass)
+    {
+        this.name = name ;
+        this.pass = pass;
     }
 
-    public String getApi_key()
-    {
-        return  this.api_key;
-    }
+
     public String getName()
     {
         return  this.name;

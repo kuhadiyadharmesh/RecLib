@@ -74,6 +74,7 @@ public class VerifyPhoneAPI
         if(response == null)
         {
             response_data = new RegisterPhone_Response("Something wrong ");
+            mListener.onFailure(response_data);
         }
         else
         {
@@ -91,18 +92,21 @@ public class VerifyPhoneAPI
                 {
                     response_data.setStatus(false);
                     response_data.setMsg(response.getString("msg"));
+                    mListener.onFailure(response_data);
 
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
+                response_data = new RegisterPhone_Response("Something wrong ");
+                mListener.onFailure(response_data);
                 //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
             }
 
         }
         //returnObject = response_data;
-        mListener.onFailure(response_data);
+        //mListener.onFailure(response_data);
 
     }
 

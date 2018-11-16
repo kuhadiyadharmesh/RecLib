@@ -1,5 +1,6 @@
 package com.recordapi.client.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -8,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.File.CreateFile;
 import com.recordapi.client.model.File.CreateFile_Response;
 import com.recordapi.client.model.Meta.CreateMetaFile;
@@ -31,11 +33,13 @@ public class CreateMetaFileAPI
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
+    private SaveData sd;
 
-    public CreateMetaFileAPI(CreateMetaFile data,RecordingApiListener mListener)
+    public CreateMetaFileAPI(Context c, CreateMetaFile data, RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;
+        sd  = new SaveData(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         CreateMetaFileCall();
@@ -62,10 +66,39 @@ public class CreateMetaFileAPI
     {
         // TODO Auto-generated method stub
         Log.e("Event ", "response : " + obj.toString());
-        JSONObject response = (JSONObject) obj;
+        JSONObject jobj = (JSONObject) obj;
 
-        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+        CreateMetaFile_Response response_data  ;//= new RegisterPhone_Response();
 
+        if(jobj == null)
+        {
+            response_data = new CreateMetaFile_Response("Something Wrong");
+            mListener.onFailure(response_data);
+        }
+        else
+        {
+            try
+            {
+                if (jobj.getString("status").equals("ok"))
+                {
+                    response_data = new CreateMetaFile_Response(jobj.getString("msg"),jobj.getString("id"));
+                    mListener.onSuccess(response_data);
+                }
+                else
+                {
+                    response_data = new CreateMetaFile_Response(jobj.getString("msg"));
+                    mListener.onFailure(response_data);
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+                response_data = new CreateMetaFile_Response("Something Wrong");
+                mListener.onFailure(response_data);
+            }
+
+        }
+        /*
         if(response == null)
         {
             response_data = new RegisterPhone_Response("Something wrong ");
@@ -97,15 +130,15 @@ public class CreateMetaFileAPI
 
         }
         //returnObject = response_data;
-        mListener.onFailure(response_data);
+        mListener.onFailure(response_data);*/
 
     }
 
     public void CreateMetaFileCall()
     {
         //Validation
-        if(data.getApi_key().equals(""))
-            mListener.onFailure( new CreateMetaFile_Response("Please set ApiKey"));
+//        if(data.getApi_key().equals(""))
+//            mListener.onFailure( new CreateMetaFile_Response("Please set ApiKey"));
         if(data.getFile().equals(""))
             mListener.onFailure( new CreateMetaFile_Response("Please select file"));
         if(data.getName().equals(""))
@@ -118,7 +151,7 @@ public class CreateMetaFileAPI
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("file",data.getFile()));
-        param.add(new BasicNameValuePair("api_key",data.getApi_key()));
+        param.add(new BasicNameValuePair("api_key",sd.getToken()));
         param.add(new BasicNameValuePair("name",data.getName()));
         param.add(new BasicNameValuePair("parent_id",data.getParent_id()));
         param.add(new BasicNameValuePair("id",data.getId()));

@@ -1,5 +1,6 @@
 package com.recordapi.client.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -8,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.File.CloneFile;
 import com.recordapi.client.model.File.CloneFile_Response;
 import com.recordapi.client.model.File.DeleteFile;
@@ -33,11 +35,13 @@ public class CloneFileAPI
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
+    private SaveData sd;
 
-    public CloneFileAPI(CloneFile data,RecordingApiListener mListener)
+    public CloneFileAPI(Context c, CloneFile data, RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;
+        sd = new SaveData(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         CloneFileCall();
@@ -65,15 +69,39 @@ public class CloneFileAPI
     {
         // TODO Auto-generated method stub
         Log.e("Event ", "response : " + obj.toString());
-        JSONObject response = (JSONObject) obj;
+        JSONObject jobj = (JSONObject) obj;
 
-        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+        CloneFile_Response response_data  ; //new RegisterPhone_Response();
 
-        if(response == null)
+        if(jobj == null)
         {
-            response_data = new RegisterPhone_Response("Something wrong ");
+            response_data = new CloneFile_Response("Something Wrong");
+            mListener.onFailure(response_data);
+        }else
+        {
+            try
+            {
+                if (jobj.getString("status").equals("ok"))
+                {
+                    response_data = new CloneFile_Response(true,jobj.getString("msg"),jobj.getString("id"));
+                    mListener.onSuccess(response_data);
+                }
+                else
+                {
+                    response_data = new CloneFile_Response(jobj.getString("msg"));
+                    mListener.onFailure(response_data);
+                }
+            }
+            catch (JSONException e)
+            {
+
+                e.printStackTrace();
+                response_data = new CloneFile_Response("Something Wrong");
+                mListener.onFailure(response_data);
+            }
+
         }
-        else
+        /*
         {
             try
             {
@@ -98,9 +126,9 @@ public class CloneFileAPI
                 //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
             }
 
-        }
+        }*/
         //returnObject = response_data;
-        mListener.onFailure(response_data);
+
 
     }
 
@@ -108,13 +136,13 @@ public class CloneFileAPI
     {
 
 
-        if(data.getApi_key().equals(""))
-            mListener.onFailure(new CloneFile_Response("Please set Api Key "));
+//        if(data.getApi_key().equals(""))
+//            mListener.onFailure(new CloneFile_Response("Please set Api Key "));
         if(data.getFile_ids().equals(""))
             mListener.onFailure(new CloneFile_Response("Please Select At least one File for delete"));
 
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",data.getApi_key()));
+        param.add(new BasicNameValuePair("api_key",sd.getToken()));
         param.add(new BasicNameValuePair("id",data.getFile_ids()));
 
         webservice_call.handleRequest(1,ApiClient.BasePath+"clone_file",param,"POST");

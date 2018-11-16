@@ -18,20 +18,20 @@ public class UpdateProfileSetting
 //    play_beep = 1 or 0  ,
 //    max_length = 1 to 120  ,
 
-    private String api_key , f_name , l_name , email , is_public , language, play_beep , max_length;
+    private String f_name , l_name , email , is_public , language, play_beep , max_length;
 
-    public UpdateProfileSetting(String api_key, String f_name, String l_name, String email , String is_public, String language)
+    public UpdateProfileSetting( String f_name, String l_name, String email , String is_public, String language)
     {
-        this.api_key = api_key;
+       // this.api_key = api_key;
         this.f_name = f_name ;
         this.l_name = l_name;
         this.email = email;
         this.is_public = is_public;
         this.language = language;
     }
-    public UpdateProfileSetting(String api_key, String f_name, String l_name, String email , String is_public, String language,String play_beep, String max_length)
+    public UpdateProfileSetting( String f_name, String l_name, String email , String is_public, String language,String play_beep, String max_length)
     {
-        this.api_key = api_key;
+        //this.api_key = api_key;
         this.f_name = f_name ;
         this.l_name = l_name;
         this.email = email;
@@ -41,10 +41,10 @@ public class UpdateProfileSetting
         this.max_length = max_length;
     }
 
-    public String getApi_key()
-    {
-        return this.api_key;
-    }
+//    public String getApi_key()
+//    {
+//        return this.api_key;
+//    }
     public String getF_name()
     {
         return this.f_name;

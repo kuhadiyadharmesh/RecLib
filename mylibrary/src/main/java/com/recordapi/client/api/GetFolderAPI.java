@@ -73,6 +73,7 @@ public class GetFolderAPI
 
         if (jobj == null) {
             response_data = new GetFolder_Response("Something Wrong");
+            mListener.onFailure(response_data);
         }
         else
             {
@@ -92,16 +93,17 @@ public class GetFolderAPI
 //                    response_data.setStatus(false);
 //                    response_data.setMsg(jobj.getString("msg"));
                     response_data = new GetFolder_Response(jobj.getString("msg"));
-
+                    mListener.onFailure(response_data);
                     // return  response_data;
                 }
             }
             catch (JSONException e) {
                 e.printStackTrace();
                 response_data = new GetFolder_Response("Something Wrong");
+                mListener.onFailure(response_data);
             }
          }
-        mListener.onFailure(response_data);
+
     }
 
     public void GetFolderCall()

@@ -18,12 +18,12 @@ public class CreateFile
 
     */
 
-    private String api_key,file,data , id;
+    private String file,data , id;
     private String name , notes , remind_days,remind_date;
 
-    public CreateFile(String api_key,String file , String id)
+    public CreateFile(String file , String id)
     {
-        this.api_key = api_key;
+
         this.file = file;
         this.id = id ;
 /*
@@ -51,10 +51,10 @@ public class CreateFile
         this.remind_date = remind_date;
     }
 
-    public String getApi_key()
-    {
-        return  this.api_key;
-    }
+//    public String getApi_key()
+//    {
+//        return  this.api_key;
+//    }
     public String getFile()
     {
         return this.file;

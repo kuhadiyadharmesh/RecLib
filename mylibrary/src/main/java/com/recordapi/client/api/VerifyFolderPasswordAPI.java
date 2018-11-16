@@ -1,5 +1,6 @@
 package com.recordapi.client.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -8,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.Folder.UpdateFolder;
 import com.recordapi.client.model.Folder.UpdateFolder_Response;
 import com.recordapi.client.model.Folder.VerifyFolderPassword;
@@ -31,12 +33,14 @@ public class VerifyFolderPasswordAPI
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
+    private SaveData sd;
 
 
-    public VerifyFolderPasswordAPI(VerifyFolderPassword data,RecordingApiListener mListener)
+    public VerifyFolderPasswordAPI(Context c, VerifyFolderPassword data, RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;
+        sd = new SaveData(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         VerifyFolderPasswordCall();
@@ -106,8 +110,8 @@ public class VerifyFolderPasswordAPI
     public void VerifyFolderPasswordCall()
     {
         // Validation
-        if (data.getApi_key().equals(""))
-            mListener.onFailure( new VerifyFolderPassword_Response("Please enter api key"));
+//        if (data.getApi_key().equals(""))
+//            mListener.onFailure( new VerifyFolderPassword_Response("Please enter api key"));
         if(data.getFolder_id().equals(""))
             mListener.onFailure( new VerifyFolderPassword_Response("Please set folder Id "));
         if (data.getPassword().equals(""))
@@ -115,7 +119,7 @@ public class VerifyFolderPasswordAPI
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",data.getApi_key()));
+        param.add(new BasicNameValuePair("api_key",sd.getToken()));
         param.add(new BasicNameValuePair("id",data.getFolder_id()));
         param.add(new BasicNameValuePair("pass",data.getPassword()));
 

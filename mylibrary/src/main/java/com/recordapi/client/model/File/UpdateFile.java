@@ -29,19 +29,19 @@ public class UpdateFile
      */
 
 
-    private String api_key ;
+    //private String api_key ;
     private FileData fileInfo = null;
 
-    public UpdateFile(String api_key,FileData fileInfo)
+    public UpdateFile(FileData fileInfo)
     {
-        this.api_key = api_key;
+
         this.fileInfo = fileInfo;
     }
 
-    public String getApi_key()
-    {
-        return  this.api_key;
-    }
+//    public String getApi_key()
+//    {
+//        return  this.api_key;
+//    }
     public FileData getFileInfo()
     {
         return  this.fileInfo;

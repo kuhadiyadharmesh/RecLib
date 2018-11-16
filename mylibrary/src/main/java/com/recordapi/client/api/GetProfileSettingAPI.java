@@ -1,5 +1,6 @@
 package com.recordapi.client.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -8,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.File.CreateFile;
 import com.recordapi.client.model.File.CreateFile_Response;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -27,16 +29,18 @@ import java.util.ArrayList;
 
 public class GetProfileSettingAPI
 {
-    private GetProfileSetting data ;
+    //private GetProfileSetting data ;
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
+    private SaveData sd;
 
 
-    public GetProfileSettingAPI(GetProfileSetting data,RecordingApiListener mListener)
+    public GetProfileSettingAPI(Context c, RecordingApiListener mListener)
     {
-        this.data = data ;
+        //this.data = data ;
         this.mListener = mListener;
+        sd = new SaveData(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetProfileSettingCall();
@@ -64,49 +68,48 @@ public class GetProfileSettingAPI
     {
         // TODO Auto-generated method stub
         Log.e("Event ", "response : " + obj.toString());
-        JSONObject response = (JSONObject) obj;
+        JSONObject jobj = (JSONObject) obj;
 
-        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+        GetProfileSetting_Response response_data ;//= new RegisterPhone_Response();
 
-        if(response == null)
+        if(jobj == null)
         {
-            response_data = new RegisterPhone_Response("Something wrong ");
+            response_data = new GetProfileSetting_Response("Something Wrong");
+            mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (response.getString("status").equals("ok"))
-                {response_data.setStatus(true);
-                    response_data.setMsg(response.getString("msg"));
-                    response_data.setPhone(response.getString("phone"));
+                if (jobj.getString("status").equals("ok"))
+                {
+                    //profile
+                    JSONObject injob = jobj.getJSONObject("profile");
 
-                    //returnObject = response_data;
+                    response_data = new GetProfileSetting_Response(injob.getString("pic"),injob.getString("f_name"),injob.getString("l_name"),injob.getString("email"),injob.getString("is_public"),injob.getString("language"),injob.getString("play_beep"),injob.getString("max_length"),injob.getString("time_zone"),jobj.getString("app"),jobj.getString("credits"),jobj.getString("credits_trans"));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data.setStatus(false);
-                    response_data.setMsg(response.getString("msg"));
-
+                    response_data = new GetProfileSetting_Response(jobj.getString("msg"));
+                    mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
+                response_data = new GetProfileSetting_Response("Something Wrong");
+                mListener.onFailure(response_data);
             }
 
         }
-        //returnObject = response_data;
-        mListener.onFailure(response_data);
 
     }
     public void GetProfileSettingCall()
     {
         //Validation
-        if(data.getApi_key().equals(""))
-            mListener.onFailure(new GetProfileSetting_Response("Please set ApiKey"));
+//        if(data.getApi_key().equals(""))
+//            mListener.onFailure(new GetProfileSetting_Response("Please set ApiKey"));
 //        if(data.getFile().equals(""))
 //            return new CreateFile_Response("Please select file");
 //        if(data.getData().equals(""))
@@ -115,7 +118,7 @@ public class GetProfileSettingAPI
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
        // param.add(new BasicNameValuePair("file",data.getFile()));
-        param.add(new BasicNameValuePair("api_key",data.getApi_key()));
+        param.add(new BasicNameValuePair("api_key",sd.getToken()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
 

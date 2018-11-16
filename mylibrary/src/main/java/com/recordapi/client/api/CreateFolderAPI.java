@@ -1,5 +1,6 @@
 package com.recordapi.client.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -8,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.Folder.CreateFolder;
 import com.recordapi.client.model.Folder.CreateFolder_Response;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -30,11 +32,13 @@ public class CreateFolderAPI
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
+    private SaveData sd;
 
-    public CreateFolderAPI(CreateFolder createFolder,RecordingApiListener mListener)
+    public CreateFolderAPI(Context c, CreateFolder createFolder, RecordingApiListener mListener)
     {
         this.createFolder = createFolder;
         this.mListener = mListener;
+        sd = new SaveData(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         CreateFolderCall();
@@ -63,10 +67,39 @@ public class CreateFolderAPI
     {
         // TODO Auto-generated method stub
         Log.e("Event ", "response : " + obj.toString());
-        JSONObject response = (JSONObject) obj;
+        JSONObject jobj = (JSONObject) obj;
 
-        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+        CreateFolder_Response response_data  ;//= new CreateFolder_Response();
+        if(jobj == null)
+        {
+            response_data = new CreateFolder_Response("Something Wrong");
+            mListener.onFailure(response_data);
+        }
+        else
+        {
+            try
+            {
+                if (jobj.getString("status").equals("ok"))
+                {
+                    response_data = new CreateFolder_Response(jobj.getString("id"),jobj.getString("msg"));
+                    mListener.onSuccess(response_data);
+                }
+                else
+                {
+                    response_data = new CreateFolder_Response(jobj.getString("msg"));
+                    mListener.onFailure(response_data);
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+                response_data = new CreateFolder_Response("Something Wrong");
+                mListener.onFailure(response_data);
+            }
 
+        }
+        /*
+        return  response_data;
         if(response == null)
         {
             response_data = new RegisterPhone_Response("Something wrong ");
@@ -98,18 +131,18 @@ public class CreateFolderAPI
 
         }
         //returnObject = response_data;
-        mListener.onFailure(response_data);
+       */
 
     }
     public void CreateFolderCall()
     {
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",createFolder.getApi_key()));
+        param.add(new BasicNameValuePair("api_key",sd.getToken()));
         param.add(new BasicNameValuePair("name",createFolder.getName()));
 
         // Validation
-        if (createFolder.getApi_key().equals(""))
-            mListener.onFailure(new CreateFolder_Response("Please enter api key"));
+//        if (createFolder.getApi_key().equals(""))
+//            mListener.onFailure(new CreateFolder_Response("Please enter api key"));
         if(createFolder.getName().equals(""))
             mListener.onFailure(new CreateFolder_Response("Please enter folder name "));
         if (createFolder.getPass()!="")

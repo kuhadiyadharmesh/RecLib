@@ -12,18 +12,18 @@ public class UpdateOrderData
         index= 0 - 200 //0 is for first
      */
     private int id ,top_id ;
-    private String apikey;
+
 //    private int  ;
 
 
-    public UpdateOrderData(String apikey,int id , int top_id)
+    public UpdateOrderData(int id , int top_id)
     {
         this.id = id ;
         this.top_id = top_id;
-        this.apikey = apikey;
+
     }
 
     public int getId(){return this.id;}
     public int getTop_Id(){return this.top_id;}
-    public String getApikey(){return this.apikey;}
+//    public String getApikey(){return this.apikey;}
 }
