@@ -31,15 +31,15 @@ public class GetFolderAPI
 {
     //{"status":"ok","folders":[{"id":"29","name":"test","created":"1433989312"},{"id":"31","name":"test3","created":"1434009445"}],"msg":"Success"}
 
-   // private GetFolder data ;
+    //private GetFolder data ;
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
 
-    public GetFolderAPI(Context c ,  RecordingApiListener mListener)
+    public GetFolderAPI(Context c,RecordingApiListener mListener)
     {
-       // this.data = data ;
+        //this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
         Handlar_call();
@@ -64,54 +64,51 @@ public class GetFolderAPI
         };
     }
 
-    private void handleEvent(int what, Object obj) throws JSONException
-    {
+    private void handleEvent(int what, Object obj) throws JSONException {
         // TODO Auto-generated method stub
         Log.e("Event ", "response : " + obj.toString());
-        JSONObject response = (JSONObject) obj;
+        JSONObject jobj = (JSONObject) obj;
 
-        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+        GetFolder_Response response_data = null ;//= new GetFolder_Response();
 
-        if(response == null)
-        {
-            response_data = new RegisterPhone_Response("Something wrong ");
+        if (jobj == null) {
+            response_data = new GetFolder_Response("Something Wrong");
         }
         else
-        {
-            try
             {
-                if (response.getString("status").equals("ok"))
-                {response_data.setStatus(true);
-                    response_data.setMsg(response.getString("msg"));
-                    response_data.setPhone(response.getString("phone"));
-
-                    //returnObject = response_data;
+            try {
+                if (jobj.getString("status").equals("ok")) {
+                    JSONArray jar = jobj.getJSONArray("folders");
+                    ArrayList<FolderData> fdata = new ArrayList<>();
+                    FolderData fo = null;
+                    for (int i = 0; i < jar.length(); i++) {
+                        JSONObject jo = jar.getJSONObject(i);
+                        fo = new FolderData(jo.getString("id"), jo.getString("name"), jo.getString("created"));
+                        fdata.add(fo);
+                    }
+                    response_data = new GetFolder_Response(true, jobj.getString("msg"), fdata);
                     mListener.onSuccess(response_data);
-                }
-                else
-                {
-                    response_data.setStatus(false);
-                    response_data.setMsg(response.getString("msg"));
+                } else {
+//                    response_data.setStatus(false);
+//                    response_data.setMsg(jobj.getString("msg"));
+                    response_data = new GetFolder_Response(jobj.getString("msg"));
 
+                    // return  response_data;
                 }
             }
-            catch (JSONException e)
-            {
+            catch (JSONException e) {
                 e.printStackTrace();
-                //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
+                response_data = new GetFolder_Response("Something Wrong");
             }
-
-        }
-        //returnObject = response_data;
+         }
         mListener.onFailure(response_data);
-
     }
 
     public void GetFolderCall()
     {
         // validation
-        if (sd.getToken().equals(""))
-            mListener.onFailure(new GetFolder_Response("Please set Api_key"));
+//        if (data.getApi_key().equals(""))
+//            mListener.onFailure(new GetFolder_Response("Please set Api_key"));
 
         // set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
