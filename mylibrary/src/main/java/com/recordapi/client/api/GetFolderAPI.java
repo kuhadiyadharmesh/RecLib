@@ -31,15 +31,15 @@ public class GetFolderAPI
 {
     //{"status":"ok","folders":[{"id":"29","name":"test","created":"1433989312"},{"id":"31","name":"test3","created":"1434009445"}],"msg":"Success"}
 
-    private GetFolder data ;
+   // private GetFolder data ;
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
 
-    public GetFolderAPI(Context c, GetFolder data , RecordingApiListener mListener)
+    public GetFolderAPI(Context c ,  RecordingApiListener mListener)
     {
-        this.data = data ;
+       // this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
         Handlar_call();
@@ -110,12 +110,12 @@ public class GetFolderAPI
     public void GetFolderCall()
     {
         // validation
-        if (data.getApi_key().equals(""))
+        if (sd.getToken().equals(""))
             mListener.onFailure(new GetFolder_Response("Please set Api_key"));
 
         // set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key", data.getApi_key()));
+        param.add(new BasicNameValuePair("api_key", sd.getToken()));
 
         JSONObject jobj = null;
         GetFolder_Response response_data  = null;//new GetFolder_Response();
