@@ -34,7 +34,7 @@ public class RecoverFileAPI
     private Handler uiHandler;
 
 
-    public RecoverFileAPI(RecoverFile data)
+    public RecoverFileAPI(RecoverFile data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

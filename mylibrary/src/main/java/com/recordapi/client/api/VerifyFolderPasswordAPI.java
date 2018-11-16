@@ -33,7 +33,7 @@ public class VerifyFolderPasswordAPI
     private Handler uiHandler;
 
 
-    public VerifyFolderPasswordAPI(VerifyFolderPassword data)
+    public VerifyFolderPasswordAPI(VerifyFolderPassword data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

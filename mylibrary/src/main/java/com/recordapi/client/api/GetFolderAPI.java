@@ -1,5 +1,6 @@
 package com.recordapi.client.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -8,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.Common.FolderData;
 import com.recordapi.client.model.Folder.GetFolder;
 import com.recordapi.client.model.Folder.GetFolder_Response;
@@ -33,11 +35,13 @@ public class GetFolderAPI
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
+    private SaveData sd;
 
-    public GetFolderAPI(GetFolder data)
+    public GetFolderAPI(Context c, GetFolder data , RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;
+        sd = new SaveData(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetFolderCall();

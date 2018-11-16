@@ -32,7 +32,7 @@ public class CreateMetaFileAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public CreateMetaFileAPI(CreateMetaFile data)
+    public CreateMetaFileAPI(CreateMetaFile data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

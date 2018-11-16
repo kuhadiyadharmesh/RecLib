@@ -31,7 +31,7 @@ public class DeleteFolderAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public DeleteFolderAPI(DeleteFolder data)
+    public DeleteFolderAPI(DeleteFolder data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

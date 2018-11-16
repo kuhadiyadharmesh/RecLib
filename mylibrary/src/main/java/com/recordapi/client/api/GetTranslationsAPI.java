@@ -32,7 +32,7 @@ public class GetTranslationsAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public GetTranslationsAPI(GetTranslations data)
+    public GetTranslationsAPI(GetTranslations data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

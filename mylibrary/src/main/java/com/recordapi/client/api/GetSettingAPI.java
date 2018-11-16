@@ -34,7 +34,7 @@ public class GetSettingAPI
     private Handler uiHandler;
 
 
-    public GetSettingAPI(GetSetting data)
+    public GetSettingAPI(GetSetting data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

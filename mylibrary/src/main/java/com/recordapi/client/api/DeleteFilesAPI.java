@@ -32,7 +32,7 @@ public class DeleteFilesAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public DeleteFilesAPI(DeleteFile data)
+    public DeleteFilesAPI(DeleteFile data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

@@ -33,7 +33,7 @@ public class NotifyUserAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public NotifyUserAPI(NotifyUser data)
+    public NotifyUserAPI(NotifyUser data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

@@ -33,7 +33,7 @@ public class DeleteMetaFilesAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public DeleteMetaFilesAPI(DeleteMetaFiles data)
+    public DeleteMetaFilesAPI(DeleteMetaFiles data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

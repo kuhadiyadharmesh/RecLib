@@ -33,7 +33,7 @@ public class UpdateSettingAPI
     private Handler uiHandler;
 
 
-    public UpdateSettingAPI(UpdateSetting data)
+    public UpdateSettingAPI(UpdateSetting data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

@@ -33,7 +33,7 @@ public class BuyCreditAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public BuyCreditAPI(BuyCredit data)
+    public BuyCreditAPI(BuyCredit data,RecordingApiListener mListener)
     {
         this.data = data ;
         //recordingApi = new RecordingApi();

@@ -31,7 +31,7 @@ public class CreateFolderAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public CreateFolderAPI(CreateFolder createFolder)
+    public CreateFolderAPI(CreateFolder createFolder,RecordingApiListener mListener)
     {
         this.createFolder = createFolder;
         this.mListener = mListener;

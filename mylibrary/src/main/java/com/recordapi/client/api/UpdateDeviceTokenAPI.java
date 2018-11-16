@@ -32,7 +32,7 @@ public class UpdateDeviceTokenAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public UpdateDeviceTokenAPI(UpdateDeviceToken data)
+    public UpdateDeviceTokenAPI(UpdateDeviceToken data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

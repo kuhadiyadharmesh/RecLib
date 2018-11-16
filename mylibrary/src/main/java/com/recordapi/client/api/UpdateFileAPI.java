@@ -32,7 +32,7 @@ public class UpdateFileAPI
     private Handler uiHandler;
 
 
-    public UpdateFileAPI(UpdateFile data)
+    public UpdateFileAPI(UpdateFile data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

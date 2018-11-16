@@ -30,7 +30,7 @@ public class UpdateOrderFolderAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public UpdateOrderFolderAPI(UpdateOrderData data)
+    public UpdateOrderFolderAPI(UpdateOrderData data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

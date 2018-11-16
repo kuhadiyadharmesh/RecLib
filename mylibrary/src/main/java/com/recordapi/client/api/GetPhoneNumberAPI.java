@@ -35,7 +35,7 @@ public class GetPhoneNumberAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public GetPhoneNumberAPI(GetPhoneNumber data)
+    public GetPhoneNumberAPI(GetPhoneNumber data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

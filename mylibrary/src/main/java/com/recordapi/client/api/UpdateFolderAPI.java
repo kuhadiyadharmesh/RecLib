@@ -31,7 +31,7 @@ public class UpdateFolderAPI
     private Handler uiHandler;
 
 
-    public UpdateFolderAPI(UpdateFolder data)
+    public UpdateFolderAPI(UpdateFolder data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

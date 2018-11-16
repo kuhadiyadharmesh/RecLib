@@ -33,7 +33,7 @@ public class GetProfileSettingAPI
     private Handler uiHandler;
 
 
-    public GetProfileSettingAPI(GetProfileSetting data)
+    public GetProfileSettingAPI(GetProfileSetting data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

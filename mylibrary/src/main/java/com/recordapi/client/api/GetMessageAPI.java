@@ -33,7 +33,7 @@ public class GetMessageAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public GetMessageAPI(GetMessage data)
+    public GetMessageAPI(GetMessage data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

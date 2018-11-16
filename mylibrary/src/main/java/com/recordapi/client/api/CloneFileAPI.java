@@ -34,7 +34,7 @@ public class CloneFileAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public CloneFileAPI(CloneFile data)
+    public CloneFileAPI(CloneFile data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

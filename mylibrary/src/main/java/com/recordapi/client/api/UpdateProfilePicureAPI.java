@@ -33,7 +33,7 @@ public class UpdateProfilePicureAPI
     private Handler uiHandler;
 
 
-    public UpdateProfilePicureAPI(UpdateProfilePicture data)
+    public UpdateProfilePicureAPI(UpdateProfilePicture data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;

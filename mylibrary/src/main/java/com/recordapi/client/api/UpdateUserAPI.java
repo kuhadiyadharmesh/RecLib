@@ -30,7 +30,7 @@ public class UpdateUserAPI
     private Parse webservice_call ;
     private Handler uiHandler;
 
-    public UpdateUserAPI(UpdateUser data)
+    public UpdateUserAPI(UpdateUser data,RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;
