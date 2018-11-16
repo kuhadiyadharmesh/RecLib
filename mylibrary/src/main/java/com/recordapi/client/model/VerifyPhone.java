@@ -17,7 +17,7 @@ public class VerifyPhone
 
     String phone , code , macc , app ,  device_token ,device_type,  time_zone,device_id;
 
-    public VerifyPhone(String phone , String code , String macc , String app  , String device_token,String device_type,String time_zone,String device_id)
+    public VerifyPhone(String phone , String code , String macc , String app  , String device_token,String time_zone,String device_id)
     {
         this.phone = phone;
         this.code = code ;
@@ -27,6 +27,7 @@ public class VerifyPhone
         this.device_token = device_token;
         // this.device_type = device_type;
         this.time_zone = time_zone;
+        this.device_id = device_id;
     }
 
     public String getPhone()
@@ -53,10 +54,10 @@ public class VerifyPhone
     {
         return device_token;
     }
-    public String getDevice_type()
+    /*public String getDevice_type()
     {
         return device_type;
-    }
+    }*/
     public String getTime_zone()
     {
         return time_zone;
