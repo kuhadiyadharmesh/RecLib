@@ -121,6 +121,6 @@ public class GetProfileSettingAPI
         param.add(new BasicNameValuePair("api_key",sd.getToken()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
-
+        webservice_call.handleRequest(1,ApiClient.BasePath+"get_profile",param,"POST");
     }
 }

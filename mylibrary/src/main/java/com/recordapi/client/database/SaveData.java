@@ -16,6 +16,7 @@ public class SaveData
         edit = pref.edit();
     }
 
+
     public void setToken(String token)
     {
         edit.putString("token",token).commit();

@@ -106,15 +106,15 @@ public class UpdateProfilePicureAPI
     public void UpdateProfilePicureCall()
     {
         //Validation
-        if(data.getApi_key().equals(""))
-            mListener.onFailure(new UpdateProfilePicure_Response("Please set ApiKey"));
+//        if(data.getApi_key().equals(""))
+//            mListener.onFailure(new UpdateProfilePicure_Response("Please set ApiKey"));
         if(data.getFile().equals(""))
             mListener.onFailure(new UpdateProfilePicure_Response("Please select file"));
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("file",data.getFile()));
-        param.add(new BasicNameValuePair("api_key",data.getApi_key()));
+        param.add(new BasicNameValuePair("api_key",sd.getToken()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
         webservice_call.handleRequest(1,ApiClient.Profile_Img_Path,param,"POST");

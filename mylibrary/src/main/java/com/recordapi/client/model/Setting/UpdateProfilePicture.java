@@ -6,18 +6,18 @@ package com.recordapi.client.model.Setting;
 
 public class UpdateProfilePicture
 {
-    private String api_key , file ;
+    private String  file ;
 
-    public UpdateProfilePicture(String api_key, String file )
+    public UpdateProfilePicture(String file )
     {
-        this.api_key = api_key ;
+
         this.file = file;
     }
 
-    public String getApi_key()
-    {
-        return this.api_key;
-    }
+//    public String getApi_key()
+//    {
+//        return this.api_key;
+//    }
     public String getFile()
     {
         return this.file;
