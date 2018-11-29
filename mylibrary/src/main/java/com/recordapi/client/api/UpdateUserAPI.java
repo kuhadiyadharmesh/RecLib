@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.Setting.UpdateUser;
 import com.recordapi.client.model.Setting.UpdateUser_Response;
@@ -70,21 +71,21 @@ public class UpdateUserAPI
 
         if(jobj == null)
         {
-            response_data = new UpdateUser_Response("Something Wrong");
+            response_data = new UpdateUser_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    response_data = new UpdateUser_Response(true,jobj.getString("msg"));
+                    response_data = new UpdateUser_Response(true,jobj.getString(C_constant.msg));
                    mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new UpdateUser_Response(jobj.getString("msg"));
+                    response_data = new UpdateUser_Response(jobj.getString(C_constant.msg));
 //                    response_data = new UpdateUser_Response("Something Wrong");
                     mListener.onFailure(response_data);
                 }
@@ -92,7 +93,7 @@ public class UpdateUserAPI
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new UpdateUser_Response("Something Wrong");
+                response_data = new UpdateUser_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -105,15 +106,15 @@ public class UpdateUserAPI
 //        if(data.getApi_key().equals(""))
 //            mListener.onFailure(new UpdateUser_Response("Please set ApiKey"));
         if(data.getApp().equals(""))
-            mListener.onFailure(new UpdateUser_Response("Please set is free or paid"));
+            mListener.onFailure(new UpdateUser_Response(C_constant.v_setpaidorfree_validation));
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("app",data.getApp()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.app,data.getApp()));
 
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"update_user",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.update_user,param,"POST");
 
 
 

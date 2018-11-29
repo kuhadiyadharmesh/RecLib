@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.File.RecoverFile;
 import com.recordapi.client.model.File.RecoverFile_Response;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -73,21 +74,21 @@ public class UpdateSettingAPI
 
         if(jobj == null)
         {
-            response_data = new UpdateSetting_Response("Something Wrong");
+            response_data = new UpdateSetting_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    response_data = new UpdateSetting_Response(true,jobj.getString("msg"));
+                    response_data = new UpdateSetting_Response(true,jobj.getString(C_constant.msg));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new UpdateSetting_Response(jobj.getString("msg"));
+                    response_data = new UpdateSetting_Response(jobj.getString(C_constant.msg));
                     //r response_data = new UpdateSetting_Response("Something Wrong");
                     mListener.onFailure(response_data);
                 }
@@ -95,7 +96,7 @@ public class UpdateSettingAPI
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new UpdateSetting_Response("Something Wrong");
+                response_data = new UpdateSetting_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -109,18 +110,18 @@ public class UpdateSettingAPI
 //        if(data.getApi_key().equals(""))
 //            mListener.onFailure(new UpdateSetting_Response("Please set ApiKey"));
         if(data.getPlay_beep().equals(""))
-            mListener.onFailure(new UpdateSetting_Response("Please set PlayBeep"));
+            mListener.onFailure(new UpdateSetting_Response(C_constant.v_setplaybeep_validation));
         if(data.getFile_permission().equals(""))
-            mListener.onFailure(new UpdateSetting_Response("Please set FilePermission "));
+            mListener.onFailure(new UpdateSetting_Response(C_constant.v_setfilepermisson_validation));
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
 
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("play_beep",data.getPlay_beep()));
-        param.add(new BasicNameValuePair("files_permission",data.getFile_permission()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.play_beep,data.getPlay_beep()));
+        param.add(new BasicNameValuePair(C_constant.files_permission,data.getFile_permission()));
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"update_settings",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.update_settings,param,"POST");
 
 
 

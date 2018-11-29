@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.Setting.GetTranslations;
 import com.recordapi.client.model.Setting.GetTranslations_Response;
@@ -72,28 +73,28 @@ public class GetTranslationsAPI
 
         if(jobj == null)
         {
-            response_data = new GetTranslations_Response("Something Wrong");
+            response_data = new GetTranslations_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    response_data = new GetTranslations_Response("Translations get successfully.",jobj.getJSONObject("translation").getString("Trash"),jobj.getJSONObject("translation").getString("All Files"),jobj.getJSONObject("translation").toString());
+                    response_data = new GetTranslations_Response(C_constant.s_transactionget_successfully,jobj.getJSONObject(C_constant.translation).getString(C_constant.Trash),jobj.getJSONObject(C_constant.translation).getString(C_constant.All_Files),jobj.getJSONObject(C_constant.translation).toString());
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new GetTranslations_Response(jobj.getString("msg"));
+                    response_data = new GetTranslations_Response(jobj.getString(C_constant.msg));
                     mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new GetTranslations_Response("Something Wrong");
+                response_data = new GetTranslations_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -106,18 +107,18 @@ public class GetTranslationsAPI
 //        if(data.getApi_key().equals(""))
 //            mListener.onFailure(new GetTranslations_Response("Please set ApiKey"));
         if(data.getLanguage().equals(""))
-            mListener.onFailure(new GetTranslations_Response("Please set Language en-us or en-uk"));
+            mListener.onFailure(new GetTranslations_Response(C_constant.v_select_lenguage_validation));
 //        if(data.getDevice_type().equals(""))
 //            return new UpdateDeviceToken_Response("Please set Device Type android or iphone");
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("language",data.getLanguage()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.language,data.getLanguage()));
 //        param.add(new BasicNameValuePair("device_type",data.getDevice_type()));
 
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"get_translations",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.get_translations,param,"POST");
 
 
     }

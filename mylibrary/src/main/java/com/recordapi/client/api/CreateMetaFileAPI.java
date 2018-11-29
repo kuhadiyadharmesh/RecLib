@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.File.CreateFile;
 import com.recordapi.client.model.File.CreateFile_Response;
 import com.recordapi.client.model.Meta.CreateMetaFile;
@@ -72,28 +73,28 @@ public class CreateMetaFileAPI
 
         if(jobj == null)
         {
-            response_data = new CreateMetaFile_Response("Something Wrong");
+            response_data = new CreateMetaFile_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    response_data = new CreateMetaFile_Response(jobj.getString("msg"),jobj.getString("id"));
+                    response_data = new CreateMetaFile_Response(jobj.getString(C_constant.msg),jobj.getString(C_constant.id));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new CreateMetaFile_Response(jobj.getString("msg"));
+                    response_data = new CreateMetaFile_Response(jobj.getString(C_constant.msg));
                     mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new CreateMetaFile_Response("Something Wrong");
+                response_data = new CreateMetaFile_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -140,23 +141,23 @@ public class CreateMetaFileAPI
 //        if(data.getApi_key().equals(""))
 //            mListener.onFailure( new CreateMetaFile_Response("Please set ApiKey"));
         if(data.getFile().equals(""))
-            mListener.onFailure( new CreateMetaFile_Response("Please select file"));
+            mListener.onFailure( new CreateMetaFile_Response(C_constant.v_selectfile_validation));
         if(data.getName().equals(""))
-            mListener.onFailure( new CreateMetaFile_Response("Please Enter Name"));
+            mListener.onFailure( new CreateMetaFile_Response(C_constant.v_entername_validation));
         if(data.getParent_id().equals(""))
-            mListener.onFailure( new CreateMetaFile_Response("Please set parent id"));
+            mListener.onFailure( new CreateMetaFile_Response(C_constant.v_setid_validation));
         if(data.getId().equals(""))
-            mListener.onFailure( new CreateMetaFile_Response("Please set id default 0"));
+            mListener.onFailure( new CreateMetaFile_Response(C_constant.v_setdefaultid_validation));
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("file",data.getFile()));
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("name",data.getName()));
-        param.add(new BasicNameValuePair("parent_id",data.getParent_id()));
-        param.add(new BasicNameValuePair("id",data.getId()));
+        param.add(new BasicNameValuePair(C_constant.file,data.getFile()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.name,data.getName()));
+        param.add(new BasicNameValuePair(C_constant.parent_id,data.getParent_id()));
+        param.add(new BasicNameValuePair(C_constant.id,data.getId()));
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"upload_meta_file",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.upload_meta_file,param,"POST");
 
     }
 }

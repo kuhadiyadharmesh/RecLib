@@ -12,6 +12,7 @@ import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.BuyCredit;
 import com.recordapi.client.model.BuyCredit_Response;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.Setting.UpdateProfilePicture;
 import com.recordapi.client.model.Setting.UpdateProfilePicure_Response;
@@ -143,13 +144,13 @@ public class BuyCreditAPI
 //        if(data.getApi_key().equals(""))
 //            mListener.onFailure(new BuyCredit_Response("Please set ApiKey"));
         if(data.getAmount().equals(""))
-            mListener.onFailure( new BuyCredit_Response("Please set Amount"));
+            mListener.onFailure( new BuyCredit_Response(C_constant.v_amount_validation));
         if(data.getReciept().equals(""))
-            mListener.onFailure( new BuyCredit_Response("Please set Reciept"));
+            mListener.onFailure( new BuyCredit_Response(C_constant.v_receipt_validation));
         if(data.getProduct_id()!="")
         {
-            param.add(new BasicNameValuePair("product_id",data.getProduct_id()));
-            param.add(new BasicNameValuePair("device_type",data.getDevice_type()));
+            param.add(new BasicNameValuePair(C_constant.product_id,data.getProduct_id()));
+            param.add(new BasicNameValuePair(C_constant.device_type,data.getDevice_type()));
 //            param.add(new )
         }
             //return new UpdateProfilePicure_Response("Please select file");
@@ -157,13 +158,13 @@ public class BuyCreditAPI
         // Set parameter
 
 //        param.add(new BasicNameValuePair("file",data.getFile()));
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("amount",data.getAmount()));
-        param.add(new BasicNameValuePair("reciept",data.getReciept()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.amount,data.getAmount()));
+        param.add(new BasicNameValuePair(C_constant.receipt,data.getReciept()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"buy_credits",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.buy_credits,param,"POST");
 
 
     }

@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Folder.UpdateFolder;
 import com.recordapi.client.model.Folder.UpdateFolder_Response;
 import com.recordapi.client.model.Folder.VerifyFolderPassword;
@@ -74,16 +75,16 @@ public class VerifyFolderPasswordAPI
 
         if(response == null)
         {
-            response_data = new RegisterPhone_Response("Something wrong ");
+            response_data = new RegisterPhone_Response(C_constant.wrong_message);
         }
         else
         {
             try
             {
-                if (response.getString("status").equals("ok"))
+                if (response.getString(C_constant.status).equals(C_constant.ok))
                 {response_data.setStatus(true);
-                    response_data.setMsg(response.getString("msg"));
-                    response_data.setPhone(response.getString("phone"));
+                    response_data.setMsg(response.getString(C_constant.msg));
+                    response_data.setPhone(response.getString(C_constant.phone));
 
                     //returnObject = response_data;
                     mListener.onSuccess(response_data);
@@ -91,7 +92,7 @@ public class VerifyFolderPasswordAPI
                 else
                 {
                     response_data.setStatus(false);
-                    response_data.setMsg(response.getString("msg"));
+                    response_data.setMsg(response.getString(C_constant.msg));
 
                 }
             }
@@ -113,18 +114,18 @@ public class VerifyFolderPasswordAPI
 //        if (data.getApi_key().equals(""))
 //            mListener.onFailure( new VerifyFolderPassword_Response("Please enter api key"));
         if(data.getFolder_id().equals(""))
-            mListener.onFailure( new VerifyFolderPassword_Response("Please set folder Id "));
+            mListener.onFailure( new VerifyFolderPassword_Response(C_constant.v_setfolder_id_validation));
         if (data.getPassword().equals(""))
-            mListener.onFailure( new VerifyFolderPassword_Response("Please Folder Password"));
+            mListener.onFailure( new VerifyFolderPassword_Response(C_constant.v_enterfilepassword_validation));
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("id",data.getFolder_id()));
-        param.add(new BasicNameValuePair("pass",data.getPassword()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.id,data.getFolder_id()));
+        param.add(new BasicNameValuePair(C_constant.pass,data.getPassword()));
 
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"verify_folder_pass",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.verify_folder_pass,param,"POST");
 
 
     }

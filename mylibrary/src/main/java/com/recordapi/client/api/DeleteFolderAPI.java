@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Folder.DeleteFolder;
 import com.recordapi.client.model.Folder.DeleteFolder_Response;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -72,28 +73,28 @@ public class DeleteFolderAPI
 
         if(jobj == null)
         {
-            response_data = new DeleteFolder_Response("Something Wrong");
+            response_data = new DeleteFolder_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    response_data = new DeleteFolder_Response(true,jobj.getString("msg"));
+                    response_data = new DeleteFolder_Response(true,jobj.getString(C_constant.msg));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new DeleteFolder_Response(jobj.getString("msg"));
+                    response_data = new DeleteFolder_Response(jobj.getString(C_constant.msg));
                     mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new DeleteFolder_Response("Something Wrong");
+                response_data = new DeleteFolder_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -139,18 +140,18 @@ public class DeleteFolderAPI
 //        if (data.getApi_key().equals(""))
 //            mListener.onFailure(new DeleteFolder_Response("Please enter api key"));
         if(data.getFolder_id().equals(""))
-            mListener.onFailure(  new DeleteFolder_Response("Please set folder Id "));
+            mListener.onFailure(  new DeleteFolder_Response(C_constant.v_setfolder_id_validation));
         if (data.getMove_to().equals(""))
-            mListener.onFailure(  new DeleteFolder_Response("Please set 31 in move_to"));
+            mListener.onFailure(  new DeleteFolder_Response(C_constant.v_move_to_validation));
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("id",data.getFolder_id()));
-        param.add(new BasicNameValuePair("move_to",data.getMove_to()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.id,data.getFolder_id()));
+        param.add(new BasicNameValuePair(C_constant.move_to,data.getMove_to()));
 
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"delete_folder",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.delete_folder,param,"POST");
 
     }
 

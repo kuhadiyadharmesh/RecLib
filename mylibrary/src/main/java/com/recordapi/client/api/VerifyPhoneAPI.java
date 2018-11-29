@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.VerifyPhone;
 import com.recordapi.client.model.VerifyPhone_Response;
@@ -73,25 +74,25 @@ public class VerifyPhoneAPI
 
         if(response == null)
         {
-            response_data = new RegisterPhone_Response("Something wrong ");
+            response_data = new RegisterPhone_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (response.getString("status").equals("ok"))
+                if (response.getString(C_constant.status).equals(C_constant.ok))
                 {response_data.setStatus(true);
-                    response_data.setMsg(response.getString("msg"));
-                    response_data.setPhone(response.getString("phone"));
-                    sd.setToken(response.getString("api_key"));
+                    response_data.setMsg(response.getString(C_constant.msg));
+                    response_data.setPhone(response.getString(C_constant.phone));
+                    sd.setToken(response.getString(C_constant.api_key));
                     //returnObject = response_data;
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
                     response_data.setStatus(false);
-                    response_data.setMsg(response.getString("msg"));
+                    response_data.setMsg(response.getString(C_constant.msg));
                     mListener.onFailure(response_data);
 
                 }
@@ -99,7 +100,7 @@ public class VerifyPhoneAPI
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new RegisterPhone_Response("Something wrong ");
+                response_data = new RegisterPhone_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
                 //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
             }
@@ -116,9 +117,9 @@ public class VerifyPhoneAPI
 
         // Validation
         if(data.getPhone().equals(""))
-            mListener.onFailure(new VerifyPhone_Response("Please Enter Phone number"));///return new VerifyPhone_Response("Please Enter Phone number");;
+            mListener.onFailure(new VerifyPhone_Response(C_constant.v_phone_validation));///return new VerifyPhone_Response("Please Enter Phone number");;
         if(data.getCode().equals(""))
-            mListener.onFailure(new VerifyPhone_Response("Please Enter Code"));
+            mListener.onFailure(new VerifyPhone_Response(C_constant.v_code_validation));
         if(data.getMacc().equals(""))
             mListener.onFailure(new VerifyPhone_Response("Please Enter MCC"));;
         if(data.getApp().equals(""))
@@ -133,22 +134,22 @@ public class VerifyPhoneAPI
 
         // Setting
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("phone",data.getPhone()));
-        param.add(new BasicNameValuePair("code",data.getCode()));
-        param.add(new BasicNameValuePair("mcc",data.getMacc()));
-        param.add(new BasicNameValuePair("app",data.getApp()));
-        param.add(new BasicNameValuePair("token","55942ee3894f51000530894"));
-        param.add(new BasicNameValuePair("device_token",data.getDevice_token()));
-        param.add(new BasicNameValuePair("device_type","android"));
-        param.add(new BasicNameValuePair("time_zone",data.getTime_zone()));
-        param.add(new BasicNameValuePair("device_id",data.getDeviceId()));
+        param.add(new BasicNameValuePair(C_constant.phone,data.getPhone()));
+        param.add(new BasicNameValuePair(C_constant.code,data.getCode()));
+        param.add(new BasicNameValuePair(C_constant.mcc,data.getMacc()));
+        param.add(new BasicNameValuePair(C_constant.app,data.getApp()));
+        param.add(new BasicNameValuePair(C_constant.token,C_constant.s_token));
+        param.add(new BasicNameValuePair(C_constant.device_token,data.getDevice_token()));
+        param.add(new BasicNameValuePair(C_constant.device_type,"android"));
+        param.add(new BasicNameValuePair(C_constant.time_zone,data.getTime_zone()));
+        param.add(new BasicNameValuePair(C_constant.device_id,data.getDeviceId()));
 
         JSONObject jobj = null;
         VerifyPhone_Response response_data  = null;
 
 
 
-        webservice_call.handleRequest(1 ,ApiClient.BasePath + "verify_phone", param,"POST");
+        webservice_call.handleRequest(1 ,ApiClient.verify_phone, param,"POST");
 
     }
 }

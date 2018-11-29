@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.FileData;
 import com.recordapi.client.model.Common.MetaFileData;
 import com.recordapi.client.model.File.GetFiles;
@@ -77,32 +78,32 @@ public class GetMetaFilesAPI
 
         if(jobj == null)
         {
-            response_data = new GetMetaFiles_Response("Something Wrong");
+            response_data = new GetMetaFiles_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    JSONArray jar = jobj.getJSONArray("meta_files");
+                    JSONArray jar = jobj.getJSONArray(C_constant.meta_files);
                     ArrayList<MetaFileData> fdata = new ArrayList<>();
                     MetaFileData fo = null;
                     for (int i = 0; i < jar.length(); i++)
                     {
                         JSONObject jo = jar.getJSONObject(i);
-                        fo = new MetaFileData(jo.getString("id"),jo.getString("name"),jo.getString("file"),jo.getString("parent_id"),jo.getString("user_id"),jo.getString("time"));
+                        fo = new MetaFileData(jo.getString(C_constant.id),jo.getString(C_constant.name),jo.getString(C_constant.file),jo.getString(C_constant.parent_id),jo.getString(C_constant.user_id),jo.getString(C_constant.time));
                         fdata.add(fo);
                     }
-                    response_data = new GetMetaFiles_Response("Metafile get successfully .",fdata);
+                    response_data = new GetMetaFiles_Response(C_constant.s_meta_list_successfully,fdata);
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
 //                    response_data.setStatus(false);
 //                    response_data.setMsg(jobj.getString("msg"));
-                    response_data = new GetMetaFiles_Response(jobj.getString("msg"));
+                    response_data = new GetMetaFiles_Response(jobj.getString(C_constant.msg));
 
                     mListener.onFailure(response_data);
                 }
@@ -110,7 +111,7 @@ public class GetMetaFilesAPI
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new GetMetaFiles_Response("Something Wrong");
+                response_data = new GetMetaFiles_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -127,13 +128,13 @@ public class GetMetaFilesAPI
 //        if(data.getApi_key().equals(""))
 //            mListener.onFailure(new GetMetaFiles_Response("Plese set ApiKey"));
         if(data.getParent_id().equals(""))
-            mListener.onFailure(new GetMetaFiles_Response("Plese set Parent Key"));
+            mListener.onFailure(new GetMetaFiles_Response(C_constant.v_select_parentkey_validation));
 
 
-        param.add(new BasicNameValuePair("api_key", sd.getToken()));
-        param.add(new BasicNameValuePair("parent_id", data.getParent_id()));
+        param.add(new BasicNameValuePair(C_constant.api_key, sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.parent_id, data.getParent_id()));
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"get_meta_files",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.get_meta_files,param,"POST");
 
     }
 }

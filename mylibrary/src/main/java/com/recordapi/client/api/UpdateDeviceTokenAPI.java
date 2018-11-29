@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.Setting.UpdateDeviceToken;
 import com.recordapi.client.model.Setting.UpdateDeviceToken_Response;
@@ -72,28 +73,28 @@ public class UpdateDeviceTokenAPI
 
         if(jobj == null)
         {
-            response_data = new UpdateDeviceToken_Response("Something Wrong");
+            response_data = new UpdateDeviceToken_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    response_data = new UpdateDeviceToken_Response(true,jobj.getString("msg"));
+                    response_data = new UpdateDeviceToken_Response(true,jobj.getString(C_constant.msg));
                    mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new UpdateDeviceToken_Response(jobj.getString("msg"));
+                    response_data = new UpdateDeviceToken_Response(jobj.getString(C_constant.msg));
                     mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new UpdateDeviceToken_Response("Something Wrong");
+                response_data = new UpdateDeviceToken_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -106,18 +107,18 @@ public class UpdateDeviceTokenAPI
 //        if(data.getApi_key().equals(""))
 //            mListener.onFailure(new UpdateDeviceToken_Response("Please set ApiKey"));
         if(data.getDevice_token().equals(""))
-            mListener.onFailure(new UpdateDeviceToken_Response("Please set Device Token"));
+            mListener.onFailure(new UpdateDeviceToken_Response(C_constant.v_set_devicetoken_validation));
         //if(data.getDevice_type().equals(""))
         //    return new UpdateDeviceToken_Response("Please set Device Type android or iphone");
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("device_token",data.getDevice_token()));
-        param.add(new BasicNameValuePair("device_type","android"));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.device_token,data.getDevice_token()));
+        param.add(new BasicNameValuePair(C_constant.device_type,"android"));
 
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"update_device_toke",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.update_device_toke,param,"POST");
 
 
     }

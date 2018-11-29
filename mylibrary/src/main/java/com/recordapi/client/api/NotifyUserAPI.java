@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.Folders;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.Setting.NotifyUser;
@@ -73,28 +74,28 @@ public class NotifyUserAPI
 
         if(jobj == null)
         {
-            response_data = new NotifyUser_Response("Something Wrong");
+            response_data = new NotifyUser_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {//"success":1
-                if (jobj.getString("success").equals("1"))
+                if (jobj.getString(C_constant.success).equals(C_constant.ok1))
                 {
-                    response_data = new NotifyUser_Response(true,"Message sent!");
+                    response_data = new NotifyUser_Response(true,C_constant.message_sent);
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new NotifyUser_Response("Message not sent");
+                    response_data = new NotifyUser_Response(C_constant.message_notsent);
                     mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new NotifyUser_Response("Something Wrong");
+                response_data = new NotifyUser_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -107,18 +108,18 @@ public class NotifyUserAPI
 //        if(data.getApi_key().equals(""))
 //            mListener.onFailure(new NotifyUser_Response("Please set ApiKey"));
         if(data.getBody().equals(""))
-            mListener.onFailure(new NotifyUser_Response("Please set body"));
+            mListener.onFailure(new NotifyUser_Response(C_constant.v_body_validation));
         if(data.getTitle().equals(""))
-            mListener.onFailure(new NotifyUser_Response("Please set title"));
+            mListener.onFailure(new NotifyUser_Response(C_constant.v_title_validation));
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("body",data.getBody()));
-        param.add(new BasicNameValuePair("title",data.getTitle()));
-        param.add(new BasicNameValuePair("device_type","android"));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.body,data.getBody()));
+        param.add(new BasicNameValuePair(C_constant.title,data.getTitle()));
+        param.add(new BasicNameValuePair(C_constant.device_type,"android"));
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"notify_user_custom",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.notify_user_custom,param,"POST");
 
     }
 }

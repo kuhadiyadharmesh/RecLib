@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.File.CreateFile_Response;
 import com.recordapi.client.model.File.UpdateFile;
 import com.recordapi.client.model.File.UpdateFile_Response;
@@ -74,28 +75,28 @@ public class UpdateFileAPI
 
         if(jobj == null)
         {
-            response_data = new UpdateFile_Response("Something Wrong");
+            response_data = new UpdateFile_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    response_data = new UpdateFile_Response(true,jobj.getString("msg"),jobj.getString("id"));
+                    response_data = new UpdateFile_Response(true,jobj.getString(C_constant.msg),jobj.getString(C_constant.id));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new UpdateFile_Response(jobj.getString("msg"));
+                    response_data = new UpdateFile_Response(jobj.getString(C_constant.msg));
                    mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new UpdateFile_Response("Something Wrong");
+                response_data = new UpdateFile_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -107,47 +108,47 @@ public class UpdateFileAPI
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
 
           if (data.getFileInfo().equals(null))
-            mListener.onFailure(new UpdateFile_Response("Please EnterFile Info."));
+            mListener.onFailure(new UpdateFile_Response(C_constant.v_enterfileinfo_validation));
 //        if(data.getApi_key().equals(""))
 //            mListener.onFailure(new UpdateFile_Response("Please set Api Key"));
         if(data.getFileInfo().getId().equals(""))
-            mListener.onFailure(new UpdateFile_Response("Please set File Id."));
+            mListener.onFailure(new UpdateFile_Response(C_constant.v_setfolder_id_validation));
 
         if (data.getFileInfo().getF_name()!="")
-        param.add(new BasicNameValuePair("f_name",data.getFileInfo().getF_name()));
+        param.add(new BasicNameValuePair(C_constant.f_name,data.getFileInfo().getF_name()));
         //return new UpdateFile_Response("Please set File FName.");
         if (data.getFileInfo().getL_name()!="")
-            param.add(new BasicNameValuePair("l_name",data.getFileInfo().getL_name()));
+            param.add(new BasicNameValuePair(C_constant.l_name,data.getFileInfo().getL_name()));
         // return new UpdateFile_Response("Please set File LName.");
         if (data.getFileInfo().getNotes()!="")
-            param.add(new BasicNameValuePair("notes",data.getFileInfo().getNotes()));
+            param.add(new BasicNameValuePair(C_constant.notes,data.getFileInfo().getNotes()));
         //return new UpdateFile_Response("Please set File Notes.");
         if (data.getFileInfo().getEmail()!="")
-            param.add(new BasicNameValuePair("email",data.getFileInfo().getEmail()));
+            param.add(new BasicNameValuePair(C_constant.email,data.getFileInfo().getEmail()));
         // return new UpdateFile_Response("Please set File Email.");
         if (data.getFileInfo().getPhone()!="")
-            param.add(new BasicNameValuePair("phone",data.getFileInfo().getPhone()));
+            param.add(new BasicNameValuePair(C_constant.phone,data.getFileInfo().getPhone()));
         //return new UpdateFile_Response("Please set File Phone.");
         if (data.getFileInfo().getTags()!="")
-            param.add(new BasicNameValuePair("tags",data.getFileInfo().getTags()));
+            param.add(new BasicNameValuePair(C_constant.tags,data.getFileInfo().getTags()));
         if (data.getFileInfo().getMeta_notes()!="")
-            param.add(new BasicNameValuePair("meta[note]",data.getFileInfo().getMeta_notes()));
+            param.add(new BasicNameValuePair(C_constant.meta_note,data.getFileInfo().getMeta_notes()));
         // return new UpdateFile_Response("Please set Meta Notes.");
         if(data.getFileInfo().getMeta_url()!="")
-            param.add(new BasicNameValuePair("meta[url]",data.getFileInfo().getMeta_url()));
+            param.add(new BasicNameValuePair(C_constant.meta_url,data.getFileInfo().getMeta_url()));
         if(data.getFileInfo().getMeta_duration()!="")
-            param.add(new BasicNameValuePair("meta[duration]",data.getFileInfo().getMeta_duration()));
+            param.add(new BasicNameValuePair(C_constant.meta_duration,data.getFileInfo().getMeta_duration()));
         // return  new UpdateFile_Response("Please set Meta URL ");
         if(data.getFileInfo().getFolder_id()!="")
-            param.add(new BasicNameValuePair("folder_id",data.getFileInfo().getFolder_id()));
+            param.add(new BasicNameValuePair(C_constant.folder_id,data.getFileInfo().getFolder_id()));
 //            return  new UpdateFile_Response("Please set FolderId");
         if(data.getFileInfo().getName()!="")
-            param.add(new BasicNameValuePair("name",data.getFileInfo().getName()));
+            param.add(new BasicNameValuePair(C_constant.name,data.getFileInfo().getName()));
         if(data.getFileInfo().getReminder_days()!="")
-            param.add(new BasicNameValuePair("remind_days",data.getFileInfo().getReminder_days()));
+            param.add(new BasicNameValuePair(C_constant.remind_days,data.getFileInfo().getReminder_days()));
 //            return new UpdateFile_Response("Please set Reminder Date");
         if(data.getFileInfo().getReminder_dates()!="")
-            param.add(new BasicNameValuePair("remind_date",data.getFileInfo().getReminder_dates()));
+            param.add(new BasicNameValuePair(C_constant.remind_date,data.getFileInfo().getReminder_dates()));
           // return new UpdateFile_Response("Please set Reminder Days");
       /*  if(data.getFileInfo().getTags().equals(""))
             return new UpdateFile_Response("Please set Tags");
@@ -155,10 +156,10 @@ public class UpdateFileAPI
             return new UpdateFile_Response("Please set IsStart");*/
 
 
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("id",data.getFileInfo().getId()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.id,data.getFileInfo().getId()));
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"update_file",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.update_file,param,"POST");
 
 
 

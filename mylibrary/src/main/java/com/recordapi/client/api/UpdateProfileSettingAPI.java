@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.Setting.UpdateProfilePicture;
 import com.recordapi.client.model.Setting.UpdateProfilePicure_Response;
@@ -74,28 +75,28 @@ public class UpdateProfileSettingAPI
 
         if(jobj == null)
         {
-            response_data = new UpdateProfileSetting_Response("Something Wrong");
+            response_data = new UpdateProfileSetting_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    response_data = new UpdateProfileSetting_Response(true,jobj.getString("msg"));
+                    response_data = new UpdateProfileSetting_Response(true,jobj.getString(C_constant.msg));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new UpdateProfileSetting_Response(jobj.getString("msg"));
+                    response_data = new UpdateProfileSetting_Response(jobj.getString(C_constant.msg));
                     mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new UpdateProfileSetting_Response("Something Wrong");
+                response_data = new UpdateProfileSetting_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -109,37 +110,37 @@ public class UpdateProfileSettingAPI
 //        if(data.getApi_key().equals(""))
 //            mListener.onFailure(new UpdateProfileSetting_Response("Please set ApiKey"));
         if(data.getF_name().equals(""))
-            mListener.onFailure(new UpdateProfileSetting_Response("Please set Fname"));
+            mListener.onFailure(new UpdateProfileSetting_Response(C_constant.v_setfname_validation));
         if(data.getL_name().equals(""))
-            mListener.onFailure(new UpdateProfileSetting_Response("Please set Lname"));
+            mListener.onFailure(new UpdateProfileSetting_Response(C_constant.v_setlname_validation));
         if(data.getEmail().equals(""))
-            mListener.onFailure(new UpdateProfileSetting_Response("Please set Email"));
+            mListener.onFailure(new UpdateProfileSetting_Response(C_constant.v_setemail_validation));
             if(data.getIs_public().equals(""))
             {}
             else
             {
                 if(0 == Integer.parseInt(data.getIs_public().toString()) | Integer.parseInt(data.getIs_public().toString()) == 1)
                 {
-                    param.add(new BasicNameValuePair("data[is_public]",data.getIs_public()));
+                    param.add(new BasicNameValuePair(C_constant.data_public,data.getIs_public()));
                 }
                 else
                 {
-                    mListener.onFailure(new UpdateProfileSetting_Response("Please set IsPublic is 0 or 1"));
+                    mListener.onFailure(new UpdateProfileSetting_Response(C_constant.v_setispublic_validation));
                 }
             }
         if(data.getLanguage().equals(""))
-            mListener.onFailure(new UpdateProfileSetting_Response("Please set Language"));
+            mListener.onFailure(new UpdateProfileSetting_Response(C_constant.v_setlanguage_validation));
         if(data.getMax_length().equals(""))
         {}
         else
         {
             if(0 < Integer.parseInt(data.getMax_length().toString()) && Integer.parseInt(data.getMax_length().toString()) <= 120)
             {
-                param.add(new BasicNameValuePair("data[max_length]",data.getMax_length()));
+                param.add(new BasicNameValuePair(C_constant.data_maxlength,data.getMax_length()));
             }
             else
             {
-                mListener.onFailure(new UpdateProfileSetting_Response("Please set Max Length between 1 to 120"));
+                mListener.onFailure(new UpdateProfileSetting_Response(C_constant.v_setmaxlength_validation));
             }
         }
         if(data.getPlay_beep().equals(""))
@@ -148,26 +149,26 @@ public class UpdateProfileSettingAPI
         {
             if(0 == Integer.parseInt(data.getPlay_beep().toString()) | Integer.parseInt(data.getPlay_beep().toString()) == 1)
             {
-                param.add(new BasicNameValuePair("data[play_beep]",data.getPlay_beep()));
+                param.add(new BasicNameValuePair(C_constant.data_play_beep,data.getPlay_beep()));
             }
             else
             {
-                mListener.onFailure(new UpdateProfileSetting_Response("Please set Play Beep is 0 or 1"));
+                mListener.onFailure(new UpdateProfileSetting_Response(C_constant.v_setplaybeep_validation));
             }
         }
             //return new UpdateProfileSetting_Response("Please set Fname");
 
         // Set parameter
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("data[f_name]",data.getF_name()));
-        param.add(new BasicNameValuePair("data[l_name]",data.getL_name()));
-        param.add(new BasicNameValuePair("data[language]",data.getLanguage()));
-        param.add(new BasicNameValuePair("data[email]",data.getEmail()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.data_fname,data.getF_name()));
+        param.add(new BasicNameValuePair(C_constant.data_lname,data.getL_name()));
+        param.add(new BasicNameValuePair(C_constant.data_language,data.getLanguage()));
+        param.add(new BasicNameValuePair(C_constant.data_email,data.getEmail()));
 
         //param.add(new BasicNameValuePair("data",data.getData()));
 
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"update_profile",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.update_profile,param,"POST");
 
 
     }

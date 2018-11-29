@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.Settings;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.Setting.GetSetting;
@@ -74,29 +75,29 @@ public class GetSettingAPI
 
         if(jobj == null)
         {
-            response_data = new GetSetting_Response("Something Wrong");
+            response_data = new GetSetting_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    Settings settings = new Settings(jobj.getJSONObject("settings").getString("play_beep"),jobj.getJSONObject("settings").getString("files_permission"));
-                    response_data = new GetSetting_Response(jobj.getString("app"),jobj.getString("credits"),"Get Setting Successfully",settings);
+                    Settings settings = new Settings(jobj.getJSONObject(C_constant.settings).getString(C_constant.play_beep),jobj.getJSONObject(C_constant.settings).getString(C_constant.files_permission));
+                    response_data = new GetSetting_Response(jobj.getString(C_constant.app),jobj.getString(C_constant.credits),C_constant.s_setting_successfully,settings);
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new GetSetting_Response(jobj.getString("msg"));
+                    response_data = new GetSetting_Response(jobj.getString(C_constant.msg));
                     mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new GetSetting_Response("Something Wrong");
+                response_data = new GetSetting_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -116,10 +117,10 @@ public class GetSettingAPI
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         //param.add(new BasicNameValuePair("file",data.getFile()));
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"get_settings",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.get_settings,param,"POST");
 
 
     }

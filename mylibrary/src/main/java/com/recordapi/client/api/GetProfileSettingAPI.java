@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.File.CreateFile;
 import com.recordapi.client.model.File.CreateFile_Response;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -74,31 +75,31 @@ public class GetProfileSettingAPI
 
         if(jobj == null)
         {
-            response_data = new GetProfileSetting_Response("Something Wrong");
+            response_data = new GetProfileSetting_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
                     //profile
-                    JSONObject injob = jobj.getJSONObject("profile");
+                    JSONObject injob = jobj.getJSONObject(C_constant.profile);
 
-                    response_data = new GetProfileSetting_Response(injob.getString("pic"),injob.getString("f_name"),injob.getString("l_name"),injob.getString("email"),injob.getString("is_public"),injob.getString("language"),injob.getString("play_beep"),injob.getString("max_length"),injob.getString("time_zone"),jobj.getString("app"),jobj.getString("credits"),jobj.getString("credits_trans"));
+                    response_data = new GetProfileSetting_Response(injob.getString(C_constant.pic),injob.getString(C_constant.f_name),injob.getString(C_constant.l_name),injob.getString(C_constant.email),injob.getString(C_constant.is_public),injob.getString(C_constant.language),injob.getString(C_constant.play_beep),injob.getString(C_constant.max_length),injob.getString(C_constant.time_zone),jobj.getString(C_constant.app),jobj.getString(C_constant.credits),jobj.getString(C_constant.credits_trans));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new GetProfileSetting_Response(jobj.getString("msg"));
+                    response_data = new GetProfileSetting_Response(jobj.getString(C_constant.msg));
                     mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new GetProfileSetting_Response("Something Wrong");
+                response_data = new GetProfileSetting_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -118,9 +119,9 @@ public class GetProfileSettingAPI
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
        // param.add(new BasicNameValuePair("file",data.getFile()));
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"get_profile",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.get_profile,param,"POST");
     }
 }

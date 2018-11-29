@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.File.DeleteFile;
 import com.recordapi.client.model.File.DeleteFile_Response;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -72,28 +73,28 @@ public class DeleteFilesAPI
 
         if(jobj == null)
         {
-            response_data = new DeleteFile_Response("Something Wrong");
+            response_data = new DeleteFile_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    response_data = new DeleteFile_Response(true,jobj.getString("msg"));
+                    response_data = new DeleteFile_Response(true,jobj.getString(C_constant.msg));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new DeleteFile_Response(jobj.getString("msg"));
+                    response_data = new DeleteFile_Response(jobj.getString(C_constant.msg));
                     mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new DeleteFile_Response("Something Wrong");
+                response_data = new DeleteFile_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -143,21 +144,21 @@ public class DeleteFilesAPI
         //if (data.getDeletePermanent())
         //    param.add(new BasicNameValuePair("action","remove_forever"));
         if(data.getFile_ids().equals(""))
-            mListener.onFailure(new DeleteFile_Response("Please Select At least one File for delete"));
+            mListener.onFailure(new DeleteFile_Response(C_constant.v_selectfile_delete_validation));
         else
         {
             String s = data.getFile_ids();
             String[] ars = s.split(",");
             if(ars.length > 30)
             {
-                mListener.onFailure(new DeleteFile_Response("Maximum 30 File you can delete once right now you selected "+ars.length+" ."));
+                mListener.onFailure(new DeleteFile_Response(C_constant.v_max_30_filedelete_validation+ars.length+" ."));
             }
         }
 
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("ids",data.getFile_ids()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.ids,data.getFile_ids()));
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"delete_files",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.delete_files,param,"POST");
 
 
     }

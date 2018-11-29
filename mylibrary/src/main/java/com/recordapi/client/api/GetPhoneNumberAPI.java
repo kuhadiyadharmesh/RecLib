@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.NumberData;
 import com.recordapi.client.model.RegisterPhone_Response;
 import com.recordapi.client.model.Setting.GetPhoneNumber;
@@ -75,7 +76,7 @@ public class GetPhoneNumberAPI
 
         if(jobj == null)
         {
-            response_data = new GetPhoneNumber_Response("Something Wrong");
+            response_data = new GetPhoneNumber_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
@@ -90,23 +91,23 @@ public class GetPhoneNumberAPI
                     {
                         jo = jobj.getJSONObject(i);
 
-                        data.add(new NumberData(jo.getString("phone_number"),jo.getString("number"),jo.getString("prefix"),jo.getString("friendly_name"),jo.getString("flag"),jo.getString("country")));
+                        data.add(new NumberData(jo.getString(C_constant.phone_number),jo.getString(C_constant.number),jo.getString(C_constant.prefix),jo.getString(C_constant.friendly_name),jo.getString(C_constant.flag),jo.getString(C_constant.country)));
                     }
 
-                    response_data = new GetPhoneNumber_Response("data get successfully!!",data);
+                    response_data = new GetPhoneNumber_Response(C_constant.s_data_list_successfully,data);
                     mListener.onSuccess(response_data);
                     //return response_data;
                 }
                 else
                 {
-                    response_data = new GetPhoneNumber_Response("Something Problem");
+                    response_data = new GetPhoneNumber_Response(C_constant.wrong_message);
                     mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new GetPhoneNumber_Response("Something Wrong");
+                response_data = new GetPhoneNumber_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -126,13 +127,13 @@ public class GetPhoneNumberAPI
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
 //        param.add(new BasicNameValuePair("device_token",data.getDevice_token()));
 //        param.add(new BasicNameValuePair("device_type",data.getDevice_type()));
 
         //recordingApi.makeHttpRequestFor_SSL_Array(ApiClient.BasePath+"get_phones","POST",param , new Ine);
 
-        webservice_call.handleRequest(2,ApiClient.BasePath+"get_phones",param,"POST");
+        webservice_call.handleRequest(2,ApiClient.get_phones,param,"POST");
 
     }
 }

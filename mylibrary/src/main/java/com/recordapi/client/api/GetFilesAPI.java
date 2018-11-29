@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.FileData;
 import com.recordapi.client.model.Common.FolderData;
 import com.recordapi.client.model.File.GetFiles;
@@ -76,16 +77,16 @@ public class GetFilesAPI
 
         if(jobj == null)
         {
-            response_data = new GetFiles_Response("Something Wrong");
+            response_data = new GetFiles_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    JSONArray jar = jobj.getJSONArray("files");
+                    JSONArray jar = jobj.getJSONArray(C_constant.files);
                     ArrayList<FileData> fdata = new ArrayList<>();
                     FileData fo = null;
                     for (int i = 0; i < jar.length(); i++)
@@ -93,17 +94,17 @@ public class GetFilesAPI
                         JSONObject jo = jar.getJSONObject(i);//jo.getString("access_number")
 
 
-                        fo = new FileData(jo.getString("id"), jo.getString("order_id"),jo.getString("sid"),jo.getString("name"),jo.getString("f_name"),jo.getString("l_name"),jo.getString("email"),jo.getString("phone"),jo.getString("notes"),jo.getString("source"),jo.getString("url"),jo.getString("duration"),jo.getString("time"),jo.getString("share_url"),jo.getString("download_url"),jo.getString("is_star"), data.getReminder() == true ?jo.getString("remind_days"):"",data.getReminder() ==true?jo.getString("remind_date"):"");
+                        fo = new FileData(jo.getString(C_constant.id), jo.getString(C_constant.order_id),jo.getString(C_constant.sid),jo.getString(C_constant.name),jo.getString(C_constant.f_name),jo.getString(C_constant.l_name),jo.getString(C_constant.email),jo.getString(C_constant.phone),jo.getString(C_constant.notes),jo.getString(C_constant.source),jo.getString(C_constant.url),jo.getString(C_constant.duration),jo.getString(C_constant.time),jo.getString(C_constant.share_url),jo.getString(C_constant.download_url),jo.getString(C_constant.is_star), data.getReminder() == true ?jo.getString(C_constant.remind_days):"",data.getReminder() ==true?jo.getString(C_constant.remind_date):"");
                         fdata.add(fo);
                     }
-                    response_data = new GetFiles_Response("File List Available.",fdata,""+jobj.getInt("credits"));
+                    response_data = new GetFiles_Response("File List Available.",fdata,""+jobj.getInt(C_constant.credits));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
 //                    response_data.setStatus(false);
 //                    response_data.setMsg(jobj.getString("msg"));
-                    response_data = new GetFiles_Response(jobj.getString("msg"));
+                    response_data = new GetFiles_Response(jobj.getString(C_constant.msg));
 
                     mListener.onFailure(response_data);
                 }
@@ -111,7 +112,7 @@ public class GetFilesAPI
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new GetFiles_Response("Something Wrong");
+                response_data = new GetFiles_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -160,22 +161,22 @@ public class GetFilesAPI
        /* if(data.getApi_key().equals(""))
             mListener.onFailure(new GetFiles_Response("Plese set ApiKey"));*/
         if (data.getFolder_id()!="")
-            param.add(new BasicNameValuePair("folder_id", data.getFolder_id()));
+            param.add(new BasicNameValuePair(C_constant.folder_id, data.getFolder_id()));
         if (data.getPage()!="")
-            param.add(new BasicNameValuePair("page", data.getPage()));
+            param.add(new BasicNameValuePair(C_constant.page, data.getPage()));
         if(data.getPass()!="")
-            param.add(new BasicNameValuePair("pass", data.getPass()));
+            param.add(new BasicNameValuePair(C_constant.pass, data.getPass()));
         if(data.getSource()!="")
-            param.add(new BasicNameValuePair("source", data.getSource()));
+            param.add(new BasicNameValuePair(C_constant.source, data.getSource()));
         if (data.getReminder())
-            param.add(new BasicNameValuePair("reminder", ""+data.getReminder()));
+            param.add(new BasicNameValuePair(C_constant.reminder, ""+data.getReminder()));
         if (data.getSearch_text()!="")
-            param.add(new BasicNameValuePair("q", data.getSearch_text()));
+            param.add(new BasicNameValuePair(C_constant.q, data.getSearch_text()));
 
-        param.add(new BasicNameValuePair("api_key", sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.api_key, sd.getToken()));
 
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"get_files",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.get_files,param,"POST");
     }
 
 

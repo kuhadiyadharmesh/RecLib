@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.FolderData;
 import com.recordapi.client.model.Folder.GetFolder;
 import com.recordapi.client.model.Folder.GetFolder_Response;
@@ -72,34 +73,34 @@ public class GetFolderAPI
         GetFolder_Response response_data = null ;//= new GetFolder_Response();
 
         if (jobj == null) {
-            response_data = new GetFolder_Response("Something Wrong");
+            response_data = new GetFolder_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
             {
             try {
-                if (jobj.getString("status").equals("ok")) {
-                    JSONArray jar = jobj.getJSONArray("folders");
+                if (jobj.getString(C_constant.status).equals(C_constant.ok)) {
+                    JSONArray jar = jobj.getJSONArray(C_constant.folders);
                     ArrayList<FolderData> fdata = new ArrayList<>();
                     FolderData fo = null;
                     for (int i = 0; i < jar.length(); i++) {
                         JSONObject jo = jar.getJSONObject(i);
-                        fo = new FolderData(jo.getString("id"), jo.getString("name"), jo.getString("created"));
+                        fo = new FolderData(jo.getString(C_constant.id), jo.getString(C_constant.name), jo.getString(C_constant.created));
                         fdata.add(fo);
                     }
-                    response_data = new GetFolder_Response(true, jobj.getString("msg"), fdata);
+                    response_data = new GetFolder_Response(true, jobj.getString(C_constant.msg), fdata);
                     mListener.onSuccess(response_data);
                 } else {
 //                    response_data.setStatus(false);
 //                    response_data.setMsg(jobj.getString("msg"));
-                    response_data = new GetFolder_Response(jobj.getString("msg"));
+                    response_data = new GetFolder_Response(jobj.getString(C_constant.msg));
                     mListener.onFailure(response_data);
                     // return  response_data;
                 }
             }
             catch (JSONException e) {
                 e.printStackTrace();
-                response_data = new GetFolder_Response("Something Wrong");
+                response_data = new GetFolder_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
          }
@@ -114,12 +115,12 @@ public class GetFolderAPI
 
         // set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key", sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.api_key, sd.getToken()));
 
         JSONObject jobj = null;
         GetFolder_Response response_data  = null;//new GetFolder_Response();
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"get_folders",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.get_folders,param,"POST");
 
 
     }

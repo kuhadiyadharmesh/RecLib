@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Folder.CreateFolder;
 import com.recordapi.client.model.Folder.CreateFolder_Response;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -72,28 +73,28 @@ public class CreateFolderAPI
         CreateFolder_Response response_data  ;//= new CreateFolder_Response();
         if(jobj == null)
         {
-            response_data = new CreateFolder_Response("Something Wrong");
+            response_data = new CreateFolder_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    response_data = new CreateFolder_Response(jobj.getString("id"),jobj.getString("msg"));
+                    response_data = new CreateFolder_Response(jobj.getString(C_constant.id),jobj.getString(C_constant.msg));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new CreateFolder_Response(jobj.getString("msg"));
+                    response_data = new CreateFolder_Response(jobj.getString(C_constant.msg));
                     mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new CreateFolder_Response("Something Wrong");
+                response_data = new CreateFolder_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -137,17 +138,17 @@ public class CreateFolderAPI
     public void CreateFolderCall()
     {
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("name",createFolder.getName()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.name,createFolder.getName()));
 
         // Validation
 //        if (createFolder.getApi_key().equals(""))
 //            mListener.onFailure(new CreateFolder_Response("Please enter api key"));
         if(createFolder.getName().equals(""))
-            mListener.onFailure(new CreateFolder_Response("Please enter folder name "));
+            mListener.onFailure(new CreateFolder_Response(C_constant.v_foldername_validation));
         if (createFolder.getPass()!="")
         {
-            param.add(new BasicNameValuePair("pass",createFolder.getPass()));
+            param.add(new BasicNameValuePair(C_constant.pass,createFolder.getPass()));
         }
            // return  new CreateFolder_Response("Please enter password of this folder");
 
@@ -155,7 +156,7 @@ public class CreateFolderAPI
 
 
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"create_folder",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.create_folder,param,"POST");
 
 
 

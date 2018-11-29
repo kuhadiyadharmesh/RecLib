@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.File.RecoverFile;
 import com.recordapi.client.model.File.RecoverFile_Response;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -75,28 +76,28 @@ public class RecoverFileAPI
 
         if(jobj == null)
         {
-            response_data = new RecoverFile_Response("Something Wrong");
+            response_data = new RecoverFile_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    response_data = new RecoverFile_Response(true,jobj.getString("msg"));
+                    response_data = new RecoverFile_Response(true,jobj.getString(C_constant.msg));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new RecoverFile_Response(jobj.getString("msg"));
+                    response_data = new RecoverFile_Response(jobj.getString(C_constant.msg));
                     mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new RecoverFile_Response("Something Wrong");
+                response_data = new RecoverFile_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -109,18 +110,18 @@ public class RecoverFileAPI
 //        if(data.getApi_key().equals(""))
 //            mListener.onFailure(new RecoverFile_Response("Please set ApiKey"));
         if(data.getFile_id().equals(""))
-            mListener.onFailure(new RecoverFile_Response("Please set fileId"));
+            mListener.onFailure(new RecoverFile_Response(C_constant.v_fileid_validation));
         if(data.getFolder_id().equals(""))
-            mListener.onFailure(new RecoverFile_Response("Please set FolderId"));
+            mListener.onFailure(new RecoverFile_Response(C_constant.v_folderid_validation));
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
 
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("id",data.getFile_id()));
-        param.add(new BasicNameValuePair("folder_id",data.getFolder_id()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.id,data.getFile_id()));
+        param.add(new BasicNameValuePair(C_constant.folder_id,data.getFolder_id()));
 
-        webservice_call.handleRequest(1,"",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.recover_file,param,"POST");
 
     }
 }

@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.Common_Response;
 import com.recordapi.client.model.Common.Folders;
 import com.recordapi.client.model.Common.UpdateOrderData;
@@ -73,21 +74,21 @@ public class UpdateOrderFileAPI
 
         if(jobj == null)
         {
-            response_data = new Common_Response("Something Wrong");
+            response_data = new Common_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    response_data = new Common_Response(true,jobj.getString("msg"));
+                    response_data = new Common_Response(true,jobj.getString(C_constant.msg));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new Common_Response(jobj.getString("msg"));
+                    response_data = new Common_Response(jobj.getString(C_constant.msg));
 //                    response_data = new Common_Response("Something Wrong");
                     mListener.onFailure(response_data);
                 }
@@ -95,7 +96,7 @@ public class UpdateOrderFileAPI
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new Common_Response("Something Wrong");
+                response_data = new Common_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -108,7 +109,7 @@ public class UpdateOrderFileAPI
 //        if(data.getApikey().equals(""))
 //            mListener.onFailure(new Common_Response("Please set ApiKey"));
         if(data.getId()== 0)
-            mListener.onFailure(new Common_Response("Please set file/folder id ."));
+            mListener.onFailure(new Common_Response(C_constant.v_set_file_folder_validation));
 //        if(data.getTop_Id()==0)
 //            return new Common_Response("Please set Index position .");
 //        if(data.getDevice_type().equals(""))
@@ -116,12 +117,12 @@ public class UpdateOrderFileAPI
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("id",""+data.getId()));
-        param.add(new BasicNameValuePair("top_id",""+data.getTop_Id()));
-        param.add(new BasicNameValuePair("type","file"));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.id,""+data.getId()));
+        param.add(new BasicNameValuePair(C_constant.top_id,""+data.getTop_Id()));
+        param.add(new BasicNameValuePair(C_constant.type,"file"));
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"update_order",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.update_order,param,"POST");
 
 
     }

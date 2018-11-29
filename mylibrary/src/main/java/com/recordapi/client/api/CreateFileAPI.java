@@ -10,6 +10,7 @@ import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
 import com.recordapi.client.database.SaveData;
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.File.CreateFile;
 import com.recordapi.client.model.File.CreateFile_Response;
 import com.recordapi.client.model.Folder.CreateFolder_Response;
@@ -73,28 +74,28 @@ public class CreateFileAPI
 
         if(jobj == null)
         {
-            response_data = new CreateFile_Response("Something Wrong");
+            response_data = new CreateFile_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (jobj.getString("status").equals("ok"))
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
-                    response_data = new CreateFile_Response(jobj.getString("msg"),jobj.getString("id"));
+                    response_data = new CreateFile_Response(jobj.getString(C_constant.msg),jobj.getString(C_constant.id));
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data = new CreateFile_Response(jobj.getString("msg"));
+                    response_data = new CreateFile_Response(jobj.getString(C_constant.msg));
                     mListener.onFailure(response_data);
                 }
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new CreateFile_Response("Something Wrong");
+                response_data = new CreateFile_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
             }
 
@@ -142,15 +143,15 @@ public class CreateFileAPI
 //        if(data.getApi_key().equals(""))
 //            mListener.onFailure(new CreateFile_Response("Please set ApiKey"));
         if(data.getFile().equals(""))
-            mListener.onFailure(new CreateFile_Response("Please select file"));
+            mListener.onFailure(new CreateFile_Response(C_constant.v_fileselect_validation));
 
        // ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("file",data.getFile()));
-        param.add(new BasicNameValuePair("api_key",sd.getToken()));
-        param.add(new BasicNameValuePair("id",data.getId()));
-        param.add(new BasicNameValuePair("data",data.getData()));
+        param.add(new BasicNameValuePair(C_constant.file,data.getFile()));
+        param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
+        param.add(new BasicNameValuePair(C_constant.id,data.getId()));
+        param.add(new BasicNameValuePair(C_constant.data,data.getData()));
 
-        webservice_call.handleRequest(1,ApiClient.BasePath+"create_file",param,"POST");
+        webservice_call.handleRequest(1,ApiClient.create_file,param,"POST");
 
     }
 

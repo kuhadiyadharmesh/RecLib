@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 
+import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.RegisterPhone;
 import com.recordapi.client.model.RegisterPhone_Response;
 
@@ -70,17 +71,17 @@ public class PhoneRegisterAPI
 
         if(response == null)
         {
-            response_data = new RegisterPhone_Response("Something wrong ");
+            response_data = new RegisterPhone_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
         {
             try
             {
-                if (response.getString("status").equals("ok"))
+                if (response.getString(C_constant.status).equals(C_constant.ok))
                 {response_data.setStatus(true);
-                    response_data.setMsg(response.getString("msg"));
-                    response_data.setPhone(response.getString("phone"));
+                    response_data.setMsg(response.getString(C_constant.msg));
+                    response_data.setPhone(response.getString(C_constant.phone));
 
                     //returnObject = response_data;
                     mListener.onSuccess(response_data);
@@ -88,7 +89,7 @@ public class PhoneRegisterAPI
                 else
                 {
                     response_data.setStatus(false);
-                    response_data.setMsg(response.getString("msg"));
+                    response_data.setMsg(response.getString(C_constant.msg));
                     mListener.onFailure(response_data);
 
                 }
@@ -96,16 +97,13 @@ public class PhoneRegisterAPI
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new RegisterPhone_Response("Something wrong ");
+                response_data = new RegisterPhone_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
                 //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
             }
 
         }
-        //returnObject = response_data;
-       // mListener.onFailure(response_data);
-
-    }
+  }
 
 //RegisterPhone_Response
     public void RegisterPhoneCall()
@@ -113,7 +111,7 @@ public class PhoneRegisterAPI
         Log.e("new method called","new called");
         if (data.getPhonenumber()=="")
         {
-            mListener.onFailure(new RegisterPhone_Response("please enter phonenumber"));
+            mListener.onFailure(new RegisterPhone_Response(C_constant.v_phone_validation));
         }/*
         if(data.getToken().equals(""))
         {
@@ -122,10 +120,10 @@ public class PhoneRegisterAPI
 
 
         final ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("phone", data.getPhonenumber()));
-        param.add(new BasicNameValuePair("token", "55942ee3894f51000530894"));
+        param.add(new BasicNameValuePair(C_constant.phone, data.getPhonenumber()));
+        param.add(new BasicNameValuePair(C_constant.token, C_constant.s_token));
 
-        webservice_call.handleRequest(1 ,ApiClient.BasePath + "register_phone", param,"POST");//(Constant.get_mob_register_type,Constant.Generate_request(str),"POST");
+        webservice_call.handleRequest(1 ,ApiClient.register_phone, param,"POST");//(Constant.get_mob_register_type,Constant.Generate_request(str),"POST");
 
 
 
