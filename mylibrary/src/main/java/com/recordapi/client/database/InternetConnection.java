@@ -1,15 +1,10 @@
 package com.recordapi.client.database;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.androidstudy.networkmanager.Monitor;
-import com.androidstudy.networkmanager.Tovuti;
 
 public class InternetConnection
 {
@@ -19,20 +14,26 @@ public class InternetConnection
     public InternetConnection(Context c)
     {
         this.c = c;
-        Tovuti.from(c).monitor(new Monitor.ConnectivityListener()
-        {
-            @Override
-            public void onConnectivityChanged(int connectionType, boolean isConnected, boolean isFast)
-            {
-                // TODO: Handle the connection...
-                is_connected = isConnected;
-            }
-        });
     }
 
     public boolean check_internet()
     {
-        return is_connected;
+        return isOnline();
+    }
+    private boolean isOnline()
+    {
+        try
+        {
+            ConnectivityManager connMgr = (ConnectivityManager)
+                    c.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            return (networkInfo != null && networkInfo.isConnected());
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
     }
 
 //    private boolean shouldAskPermission()
