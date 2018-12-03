@@ -100,6 +100,7 @@ public class C_constant
 
 
     public static String wrong_message ="Something wrong ";
+    public static String no_Internet ="No internet connection found.";
     public static String message_sent ="Message sent!";
     public static String message_notsent ="Message not sent!";
 

@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -33,6 +34,7 @@ public class VerifyPhoneAPI
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     public Handler uiHandler;
+    private InternetConnection internet ;
     SaveData sd ;
 
     public VerifyPhoneAPI( Context c ,VerifyPhone data, RecordingApiListener mListener )
@@ -40,6 +42,7 @@ public class VerifyPhoneAPI
         this.data = data ;
 
         this.mListener = mListener;
+        this.internet = new InternetConnection(c);
         sd = new SaveData(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
@@ -148,8 +151,10 @@ public class VerifyPhoneAPI
         VerifyPhone_Response response_data  = null;
 
 
-
+        if(internet.check_internet())
         webservice_call.handleRequest(1 ,ApiClient.verify_phone, param,"POST");
+        else
+        mListener.onFailure( new RegisterPhone_Response(C_constant.no_Internet));
 
     }
 }

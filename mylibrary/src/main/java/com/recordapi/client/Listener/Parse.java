@@ -29,9 +29,9 @@ public class Parse {
     private List<NameValuePair> get_parameter;
     private String param;
 
-    public Parse(Handler uiHandler, Context cont) {
+    public Parse(Handler uiHandler, Context cont)
+    {
         this.uiHandler = uiHandler;
-        //this.context = cont;
         this.recordingApi = new RecordingApi();
 
         // logger = MyLogger.getInstance();

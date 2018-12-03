@@ -1,5 +1,6 @@
 package com.recordapi.client.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -9,6 +10,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.RegisterPhone;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -31,12 +33,14 @@ public class PhoneRegisterAPI
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     public Handler uiHandler;
+    private InternetConnection internet ;
 
-    public PhoneRegisterAPI(RegisterPhone data,RecordingApiListener mListener)
+    public PhoneRegisterAPI(Context c, RegisterPhone data, RecordingApiListener mListener)
     {
         this.data= data;
        // recordingApi = new RecordingApi();
 
+        this.internet = new InternetConnection(c);
         this.mListener = mListener;
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
@@ -123,9 +127,11 @@ public class PhoneRegisterAPI
         param.add(new BasicNameValuePair(C_constant.phone, data.getPhonenumber()));
         param.add(new BasicNameValuePair(C_constant.token, C_constant.s_token));
 
-        webservice_call.handleRequest(1 ,ApiClient.register_phone, param,"POST");//(Constant.get_mob_register_type,Constant.Generate_request(str),"POST");
 
-
+        if(internet.check_internet())
+         webservice_call.handleRequest(1 ,ApiClient.register_phone, param,"POST");//(Constant.get_mob_register_type,Constant.Generate_request(str),"POST");
+        else
+        mListener.onFailure( new RegisterPhone_Response(C_constant.no_Internet));
 
 
 
