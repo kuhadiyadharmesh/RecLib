@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.Settings;
@@ -36,6 +37,7 @@ public class GetSettingAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet;
 
 
     public GetSettingAPI(Context c, RecordingApiListener mListener)
@@ -43,6 +45,7 @@ public class GetSettingAPI
         //this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetSettingCall();
@@ -84,6 +87,7 @@ public class GetSettingAPI
             {
                 if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
+                    sd.setSetting_JSON(obj.toString());
                     Settings settings = new Settings(jobj.getJSONObject(C_constant.settings).getString(C_constant.play_beep),jobj.getJSONObject(C_constant.settings).getString(C_constant.files_permission));
                     response_data = new GetSetting_Response(jobj.getString(C_constant.app),jobj.getString(C_constant.credits),C_constant.s_setting_successfully,settings);
                     mListener.onSuccess(response_data);
@@ -120,8 +124,23 @@ public class GetSettingAPI
         param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
+        if(internet.check_internet() && sd.getSetting_JSON().length() == 0)
         webservice_call.handleRequest(1,ApiClient.get_settings,param,"POST");
+        else
+        {
+            try
+            {
+                JSONObject jobj = new JSONObject(sd.getSetting_JSON());//((JSONObject)sd.getSetting_JSON())
+                Settings settings = new Settings(jobj.getJSONObject(C_constant.settings).getString(C_constant.play_beep),jobj.getJSONObject(C_constant.settings).getString(C_constant.files_permission));
+                GetSetting_Response response_data = new GetSetting_Response(jobj.getString(C_constant.app),jobj.getString(C_constant.credits),C_constant.s_setting_successfully,settings);
+                mListener.onSuccess(response_data);
+            }
+            catch (Exception e)
+            {
+                mListener.onFailure(new GetSetting_Response(C_constant.no_Internet));
+            }
 
+        }
 
     }
 }

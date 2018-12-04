@@ -139,6 +139,9 @@ public class C_constant
     public static String v_setfilepermisson_validation = "Please set FilePermission ";
     public static String v_setispublic_validation = "Please set IsPublic is 0 or 1";
     public static String v_setmaxlength_validation = "Please set Max Length between 1 to 120";
+    public static String v_setmcc_validation = "Please Enter MCC";
+    public static String v_setappfreeorpaid_validation = "Please Enter App Free or Paid";
+    public static String v_setnotitoken_validation = "Please Enter Notification token";
    // public static String v_setplaybeep_validation = "Please set Play Beep is 0 or 1";
    // public static String v_setfilepermisson_validation = "Please set FilePermission ";
 

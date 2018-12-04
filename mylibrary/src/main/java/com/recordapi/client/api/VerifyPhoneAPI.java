@@ -89,6 +89,7 @@ public class VerifyPhoneAPI
                     response_data.setMsg(response.getString(C_constant.msg));
                     response_data.setPhone(response.getString(C_constant.phone));
                     sd.setToken(response.getString(C_constant.api_key));
+                    sd.setPhone(response.getString(C_constant.phone));
                     //returnObject = response_data;
                     mListener.onSuccess(response_data);
                 }
@@ -124,13 +125,13 @@ public class VerifyPhoneAPI
         if(data.getCode().equals(""))
             mListener.onFailure(new VerifyPhone_Response(C_constant.v_code_validation));
         if(data.getMacc().equals(""))
-            mListener.onFailure(new VerifyPhone_Response("Please Enter MCC"));;
+            mListener.onFailure(new VerifyPhone_Response(C_constant.v_setmcc_validation));;
         if(data.getApp().equals(""))
-            mListener.onFailure(new VerifyPhone_Response("Please Enter App Free or Paid"));;
+            mListener.onFailure(new VerifyPhone_Response(C_constant.v_setappfreeorpaid_validation));;
         /*if(data.getToken().equals(""))
             mListener.onFailure( new VerifyPhone_Response("Please Enter Token"));;*/
         if(data.getDevice_token().equals(""))
-            mListener.onFailure(new VerifyPhone_Response("Please Enter Notification token"));;
+            mListener.onFailure(new VerifyPhone_Response(C_constant.v_setnotitoken_validation));;
             /*
         if(data.getDevice_type().equals(""))
             mListener.onFailure(new VerifyPhone_Response("Please Enter Device Type"));;*/

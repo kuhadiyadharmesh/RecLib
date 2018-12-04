@@ -8,6 +8,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.Message;
@@ -36,12 +37,14 @@ public class GetMessageAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet ;
 
     public GetMessageAPI(Context c, RecordingApiListener mListener)
     {
         //this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetMessageCall();
@@ -75,9 +78,13 @@ public class GetMessageAPI
         if (jobj == null) {
             response_data = new GetMessage_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
-        } else {
+        }
+        else
+            {
             try {
-                if (jobj.getString(C_constant.status).equals(C_constant.ok)) {
+                if (jobj.getString(C_constant.status).equals(C_constant.ok))
+                {
+                    sd.setGetMessage_JSON(jobj.toString());
                     JSONArray jar = jobj.getJSONArray(C_constant.msgs);
                     Message msg = null;
                     ArrayList<Message> messagelist = new ArrayList<>();
@@ -104,21 +111,36 @@ public class GetMessageAPI
     }
     public void GetMessageCall()
     {
-        //Validation
-//        if(data.getApi_key().equals(""))
-//            mListener.onFailure(new GetMessage_Response("Please set ApiKey"));
-//        if(data.getFile().equals(""))
-//            return new GetMessage_Response("Please select file");
-
-        // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         //param.add(new BasicNameValuePair("file",data.getFile()));
         param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
 
+        if(internet.check_internet() && sd.getGetMessage_JSON().length() == 0)
         webservice_call.handleRequest(1,ApiClient.get_msgs,param,"POST");
+        else
+        {
+            try {
 
+                JSONObject jobj = new JSONObject(sd.getGetMessage_JSON());
+
+                JSONArray jar = jobj.getJSONArray(C_constant.msgs);
+                Message msg = null;
+                ArrayList<Message> messagelist = new ArrayList<>();
+                for (int i = 0; i < jar.length(); i++) {
+                    JSONObject jo = jar.getJSONObject(i);
+                    msg = new Message(jo.getString(C_constant.id), jo.getString(C_constant.title), jo.getString(C_constant.body), jo.getString(C_constant.time));
+
+                    messagelist.add(msg);
+
+                }
+                GetMessage_Response  response_data = new GetMessage_Response(C_constant.s_msg_list_successfully, messagelist);
+                mListener.onSuccess(response_data);
+            } catch (JSONException e) {
+               mListener.onFailure(new GetMessage_Response(C_constant.no_Internet) );
+            }
+        }
 
     }
 }

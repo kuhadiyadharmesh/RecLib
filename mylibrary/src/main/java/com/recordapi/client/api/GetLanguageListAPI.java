@@ -8,6 +8,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.Language;
@@ -37,12 +38,14 @@ public class GetLanguageListAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet ;
 
     public GetLanguageListAPI(Context c, RecordingApiListener mListener)
     {
         //this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetLanguagesListCall();
@@ -85,6 +88,7 @@ public class GetLanguageListAPI
             {
                 if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
+                    sd.setLanguageList_JOSN(jobj.toString());
                     JSONArray jar = jobj.getJSONArray(C_constant.languages);
                     Language lang = null;
                     ArrayList<Language> languageslist = new ArrayList<>();
@@ -111,40 +115,7 @@ public class GetLanguageListAPI
             }
 
         }
-        /*
-        if(response == null)
-        {
-            response_data = new RegisterPhone_Response("Something wrong ");
-        }
-        else
-        {
-            try
-            {
-                if (response.getString("status").equals("ok"))
-                {response_data.setStatus(true);
-                    response_data.setMsg(response.getString("msg"));
-                    response_data.setPhone(response.getString("phone"));
 
-                    //returnObject = response_data;
-                    mListener.onSuccess(response_data);
-                }
-                else
-                {
-                    response_data.setStatus(false);
-                    response_data.setMsg(response.getString("msg"));
-
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-                //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
-            }
-
-        }
-        //returnObject = response_data;
-        mListener.onFailure(response_data);
-        */
 
     }
     public void GetLanguagesListCall()
@@ -161,7 +132,27 @@ public class GetLanguageListAPI
         param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
+        if(internet.check_internet() && sd.getLanguageList_JSON().length() == 0)
         webservice_call.handleRequest(1,ApiClient.get_languages,param,"POST");
-
+        else
+        {
+            try {
+                JSONObject jobj = new JSONObject(sd.getLanguageList_JSON());
+                JSONArray jar = jobj.getJSONArray(C_constant.languages);
+                Language lang = null;
+                ArrayList<Language> languageslist = new ArrayList<>();
+                for(int i = 0 ; i < jar.length() ;i++)
+                {
+                    JSONObject jo = jar.getJSONObject(i);
+                    lang = new Language(jo.getString(C_constant.code),jo.getString(C_constant.name));//(jo.getString("id"),jo.getString("title"),jo.getString("body"),jo.getString("time"));
+                    languageslist.add(lang);
+                }
+                GetLanguageList_Response response_data = new GetLanguageList_Response(C_constant.s_lang_list_successfully,languageslist);
+                mListener.onSuccess(response_data);
+            }
+            catch (JSONException e) {
+                mListener.onFailure(new GetLanguageList_Response(C_constant.no_Internet));
+            }
+        }
     }
 }
