@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -35,13 +36,14 @@ public class UpdateProfileSettingAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
-
+    private InternetConnection internet;
 
     public UpdateProfileSettingAPI(Context c, UpdateProfileSetting data, RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         UpdateProfileSettingCall();
@@ -168,8 +170,10 @@ public class UpdateProfileSettingAPI
         //param.add(new BasicNameValuePair("data",data.getData()));
 
 
+        if(internet.check_internet())
         webservice_call.handleRequest(1,ApiClient.update_profile,param,"POST");
-
+        else
+            mListener.onFailure(new UpdateProfileSetting_Response(C_constant.no_Internet));
 
     }
 }

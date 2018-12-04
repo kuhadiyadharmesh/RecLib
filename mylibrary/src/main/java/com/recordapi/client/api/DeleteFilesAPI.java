@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.File.DeleteFile;
@@ -35,6 +36,7 @@ public class DeleteFilesAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet;
 
     public DeleteFilesAPI(Context c, DeleteFile data, RecordingApiListener mListener)
     {
@@ -158,8 +160,10 @@ public class DeleteFilesAPI
         param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
         param.add(new BasicNameValuePair(C_constant.ids,data.getFile_ids()));
 
+        if(internet.check_internet())
         webservice_call.handleRequest(1,ApiClient.delete_files,param,"POST");
-
+        else
+            mListener.onFailure(new DeleteFile_Response(C_constant.no_Internet));
 
     }
 

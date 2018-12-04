@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.File.CreateFile;
@@ -35,6 +36,7 @@ public class GetProfileSettingAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet;
 
 
     public GetProfileSettingAPI(Context c, RecordingApiListener mListener)
@@ -42,6 +44,7 @@ public class GetProfileSettingAPI
         //this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetProfileSettingCall();
@@ -85,6 +88,7 @@ public class GetProfileSettingAPI
                 if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
                     //profile
+                    sd.setProfile_JSON(jobj.toString());
                     JSONObject injob = jobj.getJSONObject(C_constant.profile);
 
                     response_data = new GetProfileSetting_Response(injob.getString(C_constant.pic),injob.getString(C_constant.f_name),injob.getString(C_constant.l_name),injob.getString(C_constant.email),injob.getString(C_constant.is_public),injob.getString(C_constant.language),injob.getString(C_constant.play_beep),injob.getString(C_constant.max_length),injob.getString(C_constant.time_zone),jobj.getString(C_constant.app),jobj.getString(C_constant.credits),jobj.getString(C_constant.credits_trans));
@@ -122,6 +126,20 @@ public class GetProfileSettingAPI
         param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
+        if(internet.check_internet() && sd.getProfile_JSON().length() == 0)
         webservice_call.handleRequest(1,ApiClient.get_profile,param,"POST");
+        else
+        {
+            try {
+                JSONObject jobj = new JSONObject(sd.getProfile_JSON());
+                JSONObject injob = jobj.getJSONObject(C_constant.profile);
+
+                GetProfileSetting_Response response_data = new GetProfileSetting_Response(injob.getString(C_constant.pic),injob.getString(C_constant.f_name),injob.getString(C_constant.l_name),injob.getString(C_constant.email),injob.getString(C_constant.is_public),injob.getString(C_constant.language),injob.getString(C_constant.play_beep),injob.getString(C_constant.max_length),injob.getString(C_constant.time_zone),jobj.getString(C_constant.app),jobj.getString(C_constant.credits),jobj.getString(C_constant.credits_trans));
+                mListener.onSuccess(response_data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                mListener.onFailure(new GetProfileSetting_Response(C_constant.no_Internet));
+            }
+        }
     }
 }

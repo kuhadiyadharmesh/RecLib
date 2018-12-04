@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Folder.UpdateFolder;
@@ -33,6 +34,7 @@ public class UpdateFolderAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet;
 
 
     public UpdateFolderAPI(Context c, UpdateFolder data, RecordingApiListener mListener)
@@ -40,6 +42,7 @@ public class UpdateFolderAPI
         this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         UpdateFolderCall();
@@ -122,8 +125,10 @@ public class UpdateFolderAPI
         param.add(new BasicNameValuePair(C_constant.id,data.getFolder_id()));
         param.add(new BasicNameValuePair(C_constant.name,data.getName()));
 
+        if(internet.check_internet())
         webservice_call.handleRequest(1,ApiClient.update_folder,param,"POST");
-
+        else
+            mListener.onFailure(new UpdateFolder_Response(C_constant.no_Internet));
 
     }
 

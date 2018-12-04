@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.RegisterPhone_Response;
@@ -35,12 +36,14 @@ public class GetTranslationsAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet ;
 
     public GetTranslationsAPI(Context c, GetTranslations data, RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetTranslationsCall();
@@ -82,6 +85,7 @@ public class GetTranslationsAPI
             {
                 if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
+                    sd.setTranslation_JSON(jobj.toString());
                     response_data = new GetTranslations_Response(C_constant.s_transactionget_successfully,jobj.getJSONObject(C_constant.translation).getString(C_constant.Trash),jobj.getJSONObject(C_constant.translation).getString(C_constant.All_Files),jobj.getJSONObject(C_constant.translation).toString());
                     mListener.onSuccess(response_data);
                 }
@@ -117,9 +121,21 @@ public class GetTranslationsAPI
         param.add(new BasicNameValuePair(C_constant.language,data.getLanguage()));
 //        param.add(new BasicNameValuePair("device_type",data.getDevice_type()));
 
-
+        if(internet.check_internet() && sd.getTranslation_JSON().length() == 0)
         webservice_call.handleRequest(1,ApiClient.get_translations,param,"POST");
+        else
+        {
+            try
+            {
+                JSONObject jobj = new JSONObject(sd.getTranslation_JSON());
+                GetTranslations_Response response_data = new GetTranslations_Response(C_constant.s_transactionget_successfully,jobj.getJSONObject(C_constant.translation).getString(C_constant.Trash),jobj.getJSONObject(C_constant.translation).getString(C_constant.All_Files),jobj.getJSONObject(C_constant.translation).toString());
+                mListener.onSuccess(response_data);
 
+            } catch (JSONException e) {
+                e.printStackTrace();
+                mListener.onFailure(new GetTranslations_Response(C_constant.no_Internet));
+            }
+        }
 
     }
 }

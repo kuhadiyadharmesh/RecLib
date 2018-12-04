@@ -60,5 +60,48 @@ public class SaveData
     {
         return pref.getString("setlanguage","");
     }
+    public void setTranslation_JSON(String json)
+    {
+        edit.putString("transalation",json).commit();
+    }
+    public String getTranslation_JSON()
+    {
+        return pref.getString("transalation","");
+    }
+
+    public void setProfile_JSON(String json)
+    {
+        edit.putString("profile",json).commit();
+    }
+    public String getProfile_JSON()
+    {
+        return pref.getString("profile","");
+    }
+    public void setPhoneNumbers_JSON(String json)
+    {
+        edit.putString("phonenumbers",json).commit();
+    }
+    public String getPhoneNumbers_JSON()
+    {
+       return pref.getString("phonenumbers","");
+    }
+
+    public void setFolders_JSON(String json)
+    {
+        edit.putString("folders",json).commit();
+    }
+    public String getFolders_JSON()
+    {
+        return pref.getString("folders","");
+    }
+
+    public void setFoldersFiles_JSON(String json,String folder_id)
+    {
+        edit.putString(""+folder_id ,json).commit();
+    }
+    public String getFolderFiles_JSON(String folder_id)
+    {
+        return pref.getString(folder_id,"");
+    }
 
 }

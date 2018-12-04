@@ -73,11 +73,11 @@ public class VerifyPhoneAPI
         Log.e("Event ", "response : " + obj.toString());
         JSONObject response = (JSONObject) obj;
 
-        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+        VerifyPhone_Response response_data  ;//= new RegisterPhone_Response();
 
         if(response == null)
         {
-            response_data = new RegisterPhone_Response(C_constant.wrong_message);
+            response_data = new VerifyPhone_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
         }
         else
@@ -85,9 +85,11 @@ public class VerifyPhoneAPI
             try
             {
                 if (response.getString(C_constant.status).equals(C_constant.ok))
-                {response_data.setStatus(true);
-                    response_data.setMsg(response.getString(C_constant.msg));
-                    response_data.setPhone(response.getString(C_constant.phone));
+                {
+
+
+                    response_data =  new VerifyPhone_Response(true , response.getString(C_constant.phone),response.getString(C_constant.msg));
+
                     sd.setToken(response.getString(C_constant.api_key));
                     sd.setPhone(response.getString(C_constant.phone));
                     //returnObject = response_data;
@@ -95,8 +97,7 @@ public class VerifyPhoneAPI
                 }
                 else
                 {
-                    response_data.setStatus(false);
-                    response_data.setMsg(response.getString(C_constant.msg));
+                     response_data  = new VerifyPhone_Response(response.getString(C_constant.msg));
                     mListener.onFailure(response_data);
 
                 }
@@ -104,7 +105,7 @@ public class VerifyPhoneAPI
             catch (JSONException e)
             {
                 e.printStackTrace();
-                response_data = new RegisterPhone_Response(C_constant.wrong_message);
+                response_data = new VerifyPhone_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
                 //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
             }

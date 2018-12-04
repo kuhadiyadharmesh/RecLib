@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Folder.VerifyFolderPassword;
@@ -35,6 +36,7 @@ public class StartUnStartFileFolderAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet ;
 
 
 
@@ -43,6 +45,7 @@ public class StartUnStartFileFolderAPI
         this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         StartUnStartFileFolderCall();
@@ -126,8 +129,10 @@ public class StartUnStartFileFolderAPI
         param.add(new BasicNameValuePair(C_constant.star,data.getStar()));
         param.add(new BasicNameValuePair(C_constant.type,data.getType()));
 
+        if(internet.check_internet())
         webservice_call.handleRequest(1,ApiClient.update_star,param,"POST");
-
+        else
+            mListener.onFailure(new StartUnStartFolderFile_Response(C_constant.no_Internet));
 
     }
 }

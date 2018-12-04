@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.BuyCredit;
 import com.recordapi.client.model.BuyCredit_Response;
@@ -36,12 +37,14 @@ public class BuyCreditAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet;
 
     public BuyCreditAPI(Context c, BuyCredit data , RecordingApiListener mListener)
     {
         this.data = data ;
         //recordingApi = new RecordingApi();
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         this.mListener = mListener;
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
@@ -163,8 +166,10 @@ public class BuyCreditAPI
         param.add(new BasicNameValuePair(C_constant.receipt,data.getReciept()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
-
+        if(internet.check_internet())
         webservice_call.handleRequest(1,ApiClient.buy_credits,param,"POST");
+        else
+        mListener.onFailure(new BuyCredit_Response(C_constant.no_Internet));
 
 
     }

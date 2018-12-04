@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.NumberData;
@@ -38,12 +39,14 @@ public class GetPhoneNumberAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet ;
 
     public GetPhoneNumberAPI(Context c, RecordingApiListener mListener)
     {
        // this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetPhoneNumberCall();
@@ -85,6 +88,7 @@ public class GetPhoneNumberAPI
             {
                 if (jobj.length() > 0)
                 {
+                    sd.setPhoneNumbers_JSON(jobj.toString());
                     JSONObject jo = null;
                     ArrayList<NumberData> data = new ArrayList<>();
                     for( int i = 0 ; i <jobj.length() ; i++)
@@ -132,8 +136,28 @@ public class GetPhoneNumberAPI
 //        param.add(new BasicNameValuePair("device_type",data.getDevice_type()));
 
         //recordingApi.makeHttpRequestFor_SSL_Array(ApiClient.BasePath+"get_phones","POST",param , new Ine);
-
+        if(internet.check_internet() && sd.getPhoneNumbers_JSON().length() == 0)
         webservice_call.handleRequest(2,ApiClient.get_phones,param,"POST");
+        else
+        {
+            try {
+                JSONArray jobj = new JSONArray(sd.getPhoneNumbers_JSON());
+                JSONObject jo = null;
+                ArrayList<NumberData> data = new ArrayList<>();
+                for( int i = 0 ; i <jobj.length() ; i++)
+                {
+                    jo = jobj.getJSONObject(i);
 
+                    data.add(new NumberData(jo.getString(C_constant.phone_number),jo.getString(C_constant.number),jo.getString(C_constant.prefix),jo.getString(C_constant.friendly_name),jo.getString(C_constant.flag),jo.getString(C_constant.country)));
+                }
+
+                GetPhoneNumber_Response response_data = new GetPhoneNumber_Response(C_constant.s_data_list_successfully,data);
+                mListener.onSuccess(response_data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                //response_data =
+                mListener.onFailure(new GetPhoneNumber_Response(C_constant.no_Internet));
+            }
+        }
     }
 }

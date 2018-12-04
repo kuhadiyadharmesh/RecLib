@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.File.DeleteFile;
@@ -36,12 +37,14 @@ public class DeleteMetaFilesAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet;
 
     public DeleteMetaFilesAPI(Context c, DeleteMetaFiles data, RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         DeleteMetaFilesCall();
@@ -101,39 +104,7 @@ public class DeleteMetaFilesAPI
             }
 
         }
-        /*
-        if(response == null)
-        {
-            response_data = new RegisterPhone_Response("Something wrong ");
-        }
-        else
-        {
-            try
-            {
-                if (response.getString("status").equals("ok"))
-                {response_data.setStatus(true);
-                    response_data.setMsg(response.getString("msg"));
-                    response_data.setPhone(response.getString("phone"));
 
-                    //returnObject = response_data;
-                    mListener.onSuccess(response_data);
-                }
-                else
-                {
-                    response_data.setStatus(false);
-                    response_data.setMsg(response.getString("msg"));
-
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-                //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
-            }
-
-        }
-        //returnObject = response_data;
-        mListener.onFailure(response_data);*/
 
     }
     public void DeleteMetaFilesCall()
@@ -164,8 +135,10 @@ public class DeleteMetaFilesAPI
         param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
 
 
+        if(internet.check_internet())
         webservice_call.handleRequest(1,ApiClient.delete_meta_files,param,"POST");
-
+        else
+            mListener.onFailure(new DeleteMetaFiles_Response(C_constant.no_Internet));
 
     }
 }

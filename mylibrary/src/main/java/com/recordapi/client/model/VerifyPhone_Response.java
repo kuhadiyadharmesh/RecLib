@@ -10,18 +10,18 @@ public class VerifyPhone_Response
     // "phone":"+16463742122",
     // "api_key":"557872b508520557872b50855c",
     // "msg":"Phone Verified"}
-    String phone , api_key ,msg = "no response from server " ;
+    String phone , msg = "no response from server " ;
     boolean status = false ;
     public VerifyPhone_Response(String msg)
     {
         this.msg = msg;
     }
 
-    public VerifyPhone_Response(boolean status , String phone , String api_key , String msg)
+    public VerifyPhone_Response(boolean status , String phone  , String msg)
     {
         this.status = status;
         this.phone = phone;
-        this.api_key = api_key;
+       // this.api_key = api_key;
         this.msg = msg ;
 
     }
@@ -31,10 +31,10 @@ public class VerifyPhone_Response
         return  this.phone;
     }
 
-    public String getApi_key()
-    {
-        return  this.api_key;
-    }
+//    public String getApi_key()
+//    {
+//        return  this.api_key;
+//    }
     public String getMsg()
     {
         return  this.msg;

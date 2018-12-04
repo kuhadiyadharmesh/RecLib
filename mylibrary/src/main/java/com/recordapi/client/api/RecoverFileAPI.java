@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.File.RecoverFile;
@@ -36,6 +37,7 @@ public class RecoverFileAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet;
 
 
     public RecoverFileAPI(Context c, RecoverFile data, RecordingApiListener mListener)
@@ -43,6 +45,7 @@ public class RecoverFileAPI
         this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         RecoveryFileCall();
@@ -121,7 +124,9 @@ public class RecoverFileAPI
         param.add(new BasicNameValuePair(C_constant.id,data.getFile_id()));
         param.add(new BasicNameValuePair(C_constant.folder_id,data.getFolder_id()));
 
+        if(internet.check_internet())
         webservice_call.handleRequest(1,ApiClient.recover_file,param,"POST");
-
+        else
+            mListener.onFailure(new RecoverFile_Response(C_constant.no_Internet));
     }
 }

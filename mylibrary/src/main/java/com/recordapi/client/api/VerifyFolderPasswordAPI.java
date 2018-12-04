@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Folder.UpdateFolder;
@@ -35,6 +36,7 @@ public class VerifyFolderPasswordAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet;
 
 
     public VerifyFolderPasswordAPI(Context c, VerifyFolderPassword data, RecordingApiListener mListener)
@@ -42,6 +44,7 @@ public class VerifyFolderPasswordAPI
         this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         VerifyFolderPasswordCall();
@@ -71,28 +74,30 @@ public class VerifyFolderPasswordAPI
         Log.e("Event ", "response : " + obj.toString());
         JSONObject response = (JSONObject) obj;
 
-        RegisterPhone_Response response_data  = new RegisterPhone_Response();
+        VerifyFolderPassword_Response  response_data ;// = new VerifyFolderPassword_Response ();
 
         if(response == null)
         {
-            response_data = new RegisterPhone_Response(C_constant.wrong_message);
+            response_data = new VerifyFolderPassword_Response (C_constant.wrong_message);
         }
         else
         {
             try
             {
                 if (response.getString(C_constant.status).equals(C_constant.ok))
-                {response_data.setStatus(true);
-                    response_data.setMsg(response.getString(C_constant.msg));
-                    response_data.setPhone(response.getString(C_constant.phone));
+                {
+                    response_data = new VerifyFolderPassword_Response(true,response.getString("msg"));
+//                    response_data.setStatus(true);
+//                    response_data.setMsg(response.getString(C_constant.msg));
+//                    response_data.setPhone(response.getString(C_constant.phone));
 
                     //returnObject = response_data;
                     mListener.onSuccess(response_data);
                 }
                 else
                 {
-                    response_data.setStatus(false);
-                    response_data.setMsg(response.getString(C_constant.msg));
+                    //response_data.setStatus(false);
+                    response_data = new VerifyFolderPassword_Response (response.getString(C_constant.msg));
 
                 }
             }
@@ -100,6 +105,7 @@ public class VerifyFolderPasswordAPI
             {
                 e.printStackTrace();
                 //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
+                response_data = new VerifyFolderPassword_Response (C_constant.wrong_message);
             }
 
         }
@@ -125,8 +131,10 @@ public class VerifyFolderPasswordAPI
         param.add(new BasicNameValuePair(C_constant.pass,data.getPassword()));
 
 
+        if(internet.check_internet())
         webservice_call.handleRequest(1,ApiClient.verify_folder_pass,param,"POST");
-
+        else
+            mListener.onFailure(new VerifyFolderPassword_Response(C_constant.no_Internet));
 
     }
 }

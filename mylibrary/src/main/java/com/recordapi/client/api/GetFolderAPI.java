@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.FolderData;
@@ -37,12 +38,14 @@ public class GetFolderAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet;
 
     public GetFolderAPI(Context c,RecordingApiListener mListener)
     {
         //this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetFolderCall();
@@ -80,6 +83,7 @@ public class GetFolderAPI
             {
             try {
                 if (jobj.getString(C_constant.status).equals(C_constant.ok)) {
+                    sd.setFolders_JSON(jobj.toString());
                     JSONArray jar = jobj.getJSONArray(C_constant.folders);
                     ArrayList<FolderData> fdata = new ArrayList<>();
                     FolderData fo = null;
@@ -117,12 +121,30 @@ public class GetFolderAPI
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair(C_constant.api_key, sd.getToken()));
 
-        JSONObject jobj = null;
-        GetFolder_Response response_data  = null;//new GetFolder_Response();
+        //JSONObject jobj = null;
+        //GetFolder_Response response_data  = null;//new GetFolder_Response();
 
+        if(internet.check_internet() && sd.getFolders_JSON().length()==0)
         webservice_call.handleRequest(1,ApiClient.get_folders,param,"POST");
-
-
+        else
+        {
+            try {
+                JSONObject jobj = new JSONObject(sd.getFolders_JSON());
+                JSONArray jar = jobj.getJSONArray(C_constant.folders);
+                ArrayList<FolderData> fdata = new ArrayList<>();
+                FolderData fo = null;
+                for (int i = 0; i < jar.length(); i++) {
+                    JSONObject jo = jar.getJSONObject(i);
+                    fo = new FolderData(jo.getString(C_constant.id), jo.getString(C_constant.name), jo.getString(C_constant.created));
+                    fdata.add(fo);
+                }
+               // response_data = ;
+                mListener.onSuccess(new GetFolder_Response(true, jobj.getString(C_constant.msg), fdata));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                mListener.onFailure(new GetFolder_Response(C_constant.no_Internet));
+            }
+        }
     }
 
 

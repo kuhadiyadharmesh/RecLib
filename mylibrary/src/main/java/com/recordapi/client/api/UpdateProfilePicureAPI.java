@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.File.CreateFile;
@@ -35,6 +36,7 @@ public class UpdateProfilePicureAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet;
 
 
     public UpdateProfilePicureAPI(Context c, UpdateProfilePicture data, RecordingApiListener mListener)
@@ -42,6 +44,7 @@ public class UpdateProfilePicureAPI
         this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         UpdateProfilePicureCall();
@@ -118,8 +121,10 @@ public class UpdateProfilePicureAPI
         param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
         //param.add(new BasicNameValuePair("data",data.getData()));
 
+        if(internet.check_internet())
         webservice_call.handleRequest(1,ApiClient.Profile_Img_Path,param,"POST");
-
+        else
+            mListener.onFailure(new UpdateProfilePicure_Response(C_constant.no_Internet));
 
     }
 }

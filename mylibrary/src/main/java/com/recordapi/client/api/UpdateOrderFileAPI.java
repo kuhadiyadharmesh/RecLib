@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.Common_Response;
@@ -36,12 +37,14 @@ public class UpdateOrderFileAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet;
 
     public UpdateOrderFileAPI(Context c, UpdateOrderData data, RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         UpdateOrderFileCall();
@@ -122,8 +125,10 @@ public class UpdateOrderFileAPI
         param.add(new BasicNameValuePair(C_constant.top_id,""+data.getTop_Id()));
         param.add(new BasicNameValuePair(C_constant.type,"file"));
 
+        if(internet.check_internet())
         webservice_call.handleRequest(1,ApiClient.update_order,param,"POST");
-
+        else
+            mListener.onFailure(new Common_Response(C_constant.no_Internet));
 
     }
 }

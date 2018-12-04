@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.FileData;
@@ -38,6 +39,7 @@ public class GetFilesAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet;
 
     public GetFilesAPI(Context c ,GetFiles data , RecordingApiListener mListener )
     {
@@ -45,6 +47,7 @@ public class GetFilesAPI
         this.mListener = mListener;
 
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetFileCall();
@@ -86,6 +89,7 @@ public class GetFilesAPI
             {
                 if (jobj.getString(C_constant.status).equals(C_constant.ok))
                 {
+                    sd.setFoldersFiles_JSON(jobj.toString(),data.getFolder_id());
                     JSONArray jar = jobj.getJSONArray(C_constant.files);
                     ArrayList<FileData> fdata = new ArrayList<>();
                     FileData fo = null;
@@ -116,40 +120,7 @@ public class GetFilesAPI
                 mListener.onFailure(response_data);
             }
 
-        }/*
-        if(response == null)
-        {
-            response_data = new RegisterPhone_Response("Something wrong ");
         }
-        else
-        {
-            try
-            {
-                if (response.getString("status").equals("ok"))
-                {response_data.setStatus(true);
-                    response_data.setMsg(response.getString("msg"));
-                    response_data.setPhone(response.getString("phone"));
-
-                    //returnObject = response_data;
-                    mListener.onSuccess(response_data);
-                }
-                else
-                {
-                    response_data.setStatus(false);
-                    response_data.setMsg(response.getString("msg"));
-
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-                //mListener.onFailure(new RegisterPhone_Response("please enter valid token"));
-            }
-
-        }
-        //returnObject = response_data;
-        mListener.onFailure(response_data);
-        */
 
     }
 
@@ -176,7 +147,34 @@ public class GetFilesAPI
         param.add(new BasicNameValuePair(C_constant.api_key, sd.getToken()));
 
 
-        webservice_call.handleRequest(1,ApiClient.get_files,param,"POST");
+        /*
+        :["folder_id": "335", "reminder": "true", "api_key": "59f445d164a8a59f445d164ac5", "source": "all"]
+
+*/
+        if(internet.check_internet())
+            webservice_call.handleRequest(1,ApiClient.get_files,param,"POST");
+        else
+        {
+            try {
+                JSONObject jobj = new JSONObject(sd.getFolderFiles_JSON(data.getFolder_id()));
+                JSONArray jar = jobj.getJSONArray(C_constant.files);
+                ArrayList<FileData> fdata = new ArrayList<>();
+                FileData fo = null;
+                for (int i = 0; i < jar.length(); i++)
+                {
+                    JSONObject jo = jar.getJSONObject(i);//jo.getString("access_number")
+
+
+                    fo = new FileData(jo.getString(C_constant.id), jo.getString(C_constant.order_id),jo.getString(C_constant.sid),jo.getString(C_constant.name),jo.getString(C_constant.f_name),jo.getString(C_constant.l_name),jo.getString(C_constant.email),jo.getString(C_constant.phone),jo.getString(C_constant.notes),jo.getString(C_constant.source),jo.getString(C_constant.url),jo.getString(C_constant.duration),jo.getString(C_constant.time),jo.getString(C_constant.share_url),jo.getString(C_constant.download_url),jo.getString(C_constant.is_star), data.getReminder() == true ?jo.getString(C_constant.remind_days):"",data.getReminder() ==true?jo.getString(C_constant.remind_date):"");
+                    fdata.add(fo);
+                }
+                //response_data = new GetFiles_Response("File List Available.",fdata,""+jobj.getInt(C_constant.credits));
+                mListener.onSuccess(new GetFiles_Response("File List Available.",fdata,""+jobj.getInt(C_constant.credits)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            mListener.onFailure(new GetFiles_Response(C_constant.no_Internet));
+        }
     }
 
 

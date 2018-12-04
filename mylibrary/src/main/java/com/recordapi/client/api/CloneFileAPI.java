@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.File.CloneFile;
@@ -37,12 +38,14 @@ public class CloneFileAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
+    private InternetConnection internet;
 
     public CloneFileAPI(Context c, CloneFile data, RecordingApiListener mListener)
     {
         this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         CloneFileCall();
@@ -146,8 +149,10 @@ public class CloneFileAPI
         param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
         param.add(new BasicNameValuePair(C_constant.id,data.getFile_ids()));
 
+        if(internet.check_internet())
         webservice_call.handleRequest(1,ApiClient.clone_file,param,"POST");
-
+        else
+            mListener.onFailure(new CloneFile_Response(C_constant.no_Internet));
 
     }
 

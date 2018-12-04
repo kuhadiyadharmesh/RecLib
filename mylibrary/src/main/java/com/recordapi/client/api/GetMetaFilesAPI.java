@@ -9,6 +9,7 @@ import com.recordapi.client.ApiClient;
 import com.recordapi.client.Listener.Parse;
 import com.recordapi.client.Listener.RecordingApiListener;
 import com.recordapi.client.RecordingApi;
+import com.recordapi.client.database.InternetConnection;
 import com.recordapi.client.database.SaveData;
 import com.recordapi.client.model.C_constant;
 import com.recordapi.client.model.Common.FileData;
@@ -38,6 +39,7 @@ public class GetMetaFilesAPI
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd ;
+    private InternetConnection internet;
 
 
     public GetMetaFilesAPI(Context c, GetMetaFiles data, RecordingApiListener mListener)
@@ -45,6 +47,7 @@ public class GetMetaFilesAPI
         this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
+        internet = new InternetConnection(c);
         Handlar_call();
         webservice_call = new Parse(uiHandler,null);
         GetMetaFilesCall();
@@ -134,7 +137,9 @@ public class GetMetaFilesAPI
         param.add(new BasicNameValuePair(C_constant.api_key, sd.getToken()));
         param.add(new BasicNameValuePair(C_constant.parent_id, data.getParent_id()));
 
+        if (internet.check_internet())
         webservice_call.handleRequest(1,ApiClient.get_meta_files,param,"POST");
-
+        else
+            mListener.onFailure(new GetMetaFiles_Response(C_constant.no_Internet));
     }
 }
