@@ -95,7 +95,13 @@ public class VerifyPhoneAPI
 
                     sd.setToken(response.getString(C_constant.api_key));
                     sd.setPhone(response.getString(C_constant.phone));
-                    new Records_Data(c).Call_All_Service();
+                    new Runnable(){
+                        @Override
+                        public void run() {
+                            new Records_Data(c).Call_All_Service();
+                        }
+                    }.run();
+
                     mListener.onSuccess(response_data);
                 }
                 else

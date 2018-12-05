@@ -18,7 +18,7 @@ import com.recordapi.client.model.Folder.GetFolder_Response;
 import java.util.ArrayList;
 
 public class Records_Data
-{
+        {
     private Context c;
     private SaveData sd ;
     public Records_Data(Context c)
@@ -136,6 +136,7 @@ public class Records_Data
                 {
                     Call_GetFiles_Service(folderdata.get(i).getId());
                 }
+
             }
 
             @Override
@@ -157,11 +158,12 @@ public class Records_Data
             }
 
             @Override
-            public void onFailure(Object obj) {
-
-            }
+            public void onFailure(Object obj)
+            {
+                            }
         });
 
     }
 
-}
+
+        }
