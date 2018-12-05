@@ -98,6 +98,8 @@ public class C_constant
     public static String token="token";
     public static String s_token="55942ee3894f51000530894";
 
+    public static String s_language_parameter = "en_US";
+
 
     public static String wrong_message ="Something wrong ";
     public static String no_Internet ="No internet connection found.";

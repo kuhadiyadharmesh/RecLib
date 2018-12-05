@@ -31,16 +31,16 @@ import java.util.ArrayList;
 
 public class GetTranslationsAPI
 {
-    private GetTranslations data ;
+   // private GetTranslations data ;
     private RecordingApiListener mListener;
     private Parse webservice_call ;
     private Handler uiHandler;
     private SaveData sd;
     private InternetConnection internet ;
 
-    public GetTranslationsAPI(Context c, GetTranslations data, RecordingApiListener mListener)
+    public GetTranslationsAPI(Context c, RecordingApiListener mListener)
     {
-        this.data = data ;
+        //this.data = data ;
         this.mListener = mListener;
         sd = new SaveData(c);
         internet = new InternetConnection(c);
@@ -110,15 +110,15 @@ public class GetTranslationsAPI
         //Validation
 //        if(data.getApi_key().equals(""))
 //            mListener.onFailure(new GetTranslations_Response("Please set ApiKey"));
-        if(data.getLanguage().equals(""))
-            mListener.onFailure(new GetTranslations_Response(C_constant.v_select_lenguage_validation));
+       // if(data.getLanguage().equals(""))
+       //     mListener.onFailure(new GetTranslations_Response(C_constant.v_select_lenguage_validation));
 //        if(data.getDevice_type().equals(""))
 //            return new UpdateDeviceToken_Response("Please set Device Type android or iphone");
 
         // Set parameter
         ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair(C_constant.api_key,sd.getToken()));
-        param.add(new BasicNameValuePair(C_constant.language,data.getLanguage()));
+        param.add(new BasicNameValuePair(C_constant.language,C_constant.s_language_parameter));
 //        param.add(new BasicNameValuePair("device_type",data.getDevice_type()));
 
         if(internet.check_internet() && sd.getTranslation_JSON().length() == 0)
