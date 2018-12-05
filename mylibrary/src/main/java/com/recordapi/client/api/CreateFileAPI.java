@@ -157,7 +157,11 @@ public class CreateFileAPI
         if(internet.check_internet())
         webservice_call.handleRequest(1,ApiClient.create_file,param,"POST");
         else
+        {
+
             mListener.onFailure(new CreateFile_Response(C_constant.no_Internet));
+        }
+
     }
 
 }

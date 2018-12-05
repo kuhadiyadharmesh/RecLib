@@ -19,7 +19,7 @@ public class GetFiles
 //    reminder=true // for getting file reminders
 
 
-    private  String page,folder_id,source,pass,search_text;
+    private  String page = "",folder_id,source="",pass="",search_text="";
     private boolean reminder = false;
 
 
