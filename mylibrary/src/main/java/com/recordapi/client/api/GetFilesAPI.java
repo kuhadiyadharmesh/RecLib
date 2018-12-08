@@ -31,34 +31,30 @@ import java.util.ArrayList;
  * Created by Dharmesh-PC on 1/11/2018.
  */
 
-public class GetFilesAPI
-{
+public class GetFilesAPI {
 
-    private GetFiles data ;
+    private GetFiles data;
     private RecordingApiListener mListener;
-    private Parse webservice_call ;
+    private Parse webservice_call;
     private Handler uiHandler;
     private SaveData sd;
     private InternetConnection internet;
 
-    public GetFilesAPI(Context c ,GetFiles data , RecordingApiListener mListener )
-    {
-        this.data = data ;
+    public GetFilesAPI(Context c, GetFiles data, RecordingApiListener mListener) {
+        this.data = data;
         this.mListener = mListener;
 
         sd = new SaveData(c);
         internet = new InternetConnection(c);
         Handlar_call();
-        webservice_call = new Parse(uiHandler,null);
+        webservice_call = new Parse(uiHandler, null);
         GetFileCall();
     }
-    private void Handlar_call()
-    {
+
+    private void Handlar_call() {
         uiHandler = new Handler() {
-            public void handleMessage(Message msg)
-            {
-                try
-                {
+            public void handleMessage(Message msg) {
+                try {
                     handleEvent(msg.what, msg.obj);
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
@@ -70,51 +66,40 @@ public class GetFilesAPI
         };
     }
 
-    private void handleEvent(int what, Object obj) throws JSONException
-    {
+    private void handleEvent(int what, Object obj) throws JSONException {
         // TODO Auto-generated method stub
         Log.e("Event ", "response : " + obj.toString());
         JSONObject jobj = (JSONObject) obj;
 
-        GetFiles_Response response_data  ;//= new RegisterPhone_Response();
+        GetFiles_Response response_data;//= new RegisterPhone_Response();
 
-        if(jobj == null)
-        {
+        if (jobj == null) {
             response_data = new GetFiles_Response(C_constant.wrong_message);
             mListener.onFailure(response_data);
-        }
-        else
-        {
-            try
-            {
-                if (jobj.getString(C_constant.status).equals(C_constant.ok))
-                {
-                    sd.setFoldersFiles_JSON(jobj.toString(),data.getFolder_id());
+        } else {
+            try {
+                if (jobj.getString(C_constant.status).equals(C_constant.ok)) {
+                    sd.setFoldersFiles_JSON(jobj.toString(), data.getFolder_id());
                     JSONArray jar = jobj.getJSONArray(C_constant.files);
                     ArrayList<FileData> fdata = new ArrayList<>();
                     FileData fo = null;
-                    for (int i = 0; i < jar.length(); i++)
-                    {
+                    for (int i = 0; i < jar.length(); i++) {
                         JSONObject jo = jar.getJSONObject(i);//jo.getString("access_number")
 
 
-                        fo = new FileData(jo.getString(C_constant.id), jo.getString(C_constant.order_id),jo.getString(C_constant.sid),jo.getString(C_constant.name),jo.getString(C_constant.f_name),jo.getString(C_constant.l_name),jo.getString(C_constant.email),jo.getString(C_constant.phone),jo.getString(C_constant.notes),jo.getString(C_constant.source),jo.getString(C_constant.url),jo.getString(C_constant.duration),jo.getString(C_constant.time),jo.getString(C_constant.share_url),jo.getString(C_constant.download_url),jo.getString(C_constant.is_star), data.getReminder() == true ?jo.getString(C_constant.remind_days):"",data.getReminder() ==true?jo.getString(C_constant.remind_date):"");
+                        fo = new FileData(jo.getString(C_constant.id), jo.getString(C_constant.order_id), jo.getString(C_constant.sid), jo.getString(C_constant.name), jo.getString(C_constant.f_name), jo.getString(C_constant.l_name), jo.getString(C_constant.email), jo.getString(C_constant.phone), jo.getString(C_constant.notes), jo.getString(C_constant.source), jo.getString(C_constant.url), jo.getString(C_constant.duration), jo.getString(C_constant.time), jo.getString(C_constant.share_url), jo.getString(C_constant.download_url), jo.getString(C_constant.is_star), data.getReminder() == true ? jo.getString(C_constant.remind_days) : "", data.getReminder() == true ? jo.getString(C_constant.remind_date) : "");
                         fdata.add(fo);
                     }
-                    response_data = new GetFiles_Response("File List Available.",fdata,""+jobj.getInt(C_constant.credits));
+                    response_data = new GetFiles_Response("File List Available.", fdata, "" + jobj.getInt(C_constant.credits));
                     mListener.onSuccess(response_data);
-                }
-                else
-                {
+                } else {
 //                    response_data.setStatus(false);
 //                    response_data.setMsg(jobj.getString("msg"));
                     response_data = new GetFiles_Response(jobj.getString(C_constant.msg));
 
                     mListener.onFailure(response_data);
                 }
-            }
-            catch (JSONException e)
-            {
+            } catch (JSONException e) {
                 e.printStackTrace();
                 response_data = new GetFiles_Response(C_constant.wrong_message);
                 mListener.onFailure(response_data);
@@ -124,24 +109,23 @@ public class GetFilesAPI
 
     }
 
-    public void GetFileCall()
-    {
-        ArrayList<NameValuePair> param = new  ArrayList<NameValuePair>();
+    public void GetFileCall() {
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
         //Validation
        /* if(data.getApi_key().equals(""))
             mListener.onFailure(new GetFiles_Response("Plese set ApiKey"));*/
-        if (data.getFolder_id()!="")
+        if (data.getFolder_id() != "")
             param.add(new BasicNameValuePair(C_constant.folder_id, data.getFolder_id()));
-        if (data.getPage()!="")
+        if (data.getPage() != "")
             param.add(new BasicNameValuePair(C_constant.page, data.getPage()));
-        if(data.getPass()!="")
+        if (data.getPass() != "")
             param.add(new BasicNameValuePair(C_constant.pass, data.getPass()));
-        if(data.getSource()!="")
+        if (data.getSource() != "")
             param.add(new BasicNameValuePair(C_constant.source, data.getSource()));
         if (data.getReminder())
-            param.add(new BasicNameValuePair(C_constant.reminder, ""+data.getReminder()));
-        if (data.getSearch_text()!="")
+            param.add(new BasicNameValuePair(C_constant.reminder, "" + data.getReminder()));
+        if (data.getSearch_text() != "")
             param.add(new BasicNameValuePair(C_constant.q, data.getSearch_text()));
 
         param.add(new BasicNameValuePair(C_constant.api_key, sd.getToken()));
@@ -151,25 +135,36 @@ public class GetFilesAPI
         :["folder_id": "335", "reminder": "true", "api_key": "59f445d164a8a59f445d164ac5", "source": "all"]
 
 */
-        if(internet.check_internet())
-            webservice_call.handleRequest(1,ApiClient.get_files,param,"POST");
-        else
-        {
+        if (internet.check_internet())
+            webservice_call.handleRequest(1, ApiClient.get_files, param, "POST");
+        else {
             try {
+
                 JSONObject jobj = new JSONObject(sd.getFolderFiles_JSON(data.getFolder_id()));
                 JSONArray jar = jobj.getJSONArray(C_constant.files);
                 ArrayList<FileData> fdata = new ArrayList<>();
                 FileData fo = null;
-                for (int i = 0; i < jar.length(); i++)
-                {
+
+
+                if (data.getFolder_id().contentEquals("0")) {
+                    JSONArray jaoff = new JSONArray(sd.getOfflineFileCreated());
+                    for (int i = 0; i > jaoff.length(); i++) {
+                        JSONObject joOff = jaoff.getJSONObject(i);
+
+                        fo = new FileData(((-i) - 1) + "", "", "", joOff.getJSONObject(C_constant.data).getString("name"), "", "", "", "", "", "", joOff.getJSONObject(C_constant.data).getString("file"), "", "", "", joOff.getJSONObject(C_constant.data).getString("file"), "false", "", "");
+                        fdata.add(fo);
+                    }
+                }
+
+                for (int i = 0; i < jar.length(); i++) {
                     JSONObject jo = jar.getJSONObject(i);//jo.getString("access_number")
 
 
-                    fo = new FileData(jo.getString(C_constant.id), jo.getString(C_constant.order_id),jo.getString(C_constant.sid),jo.getString(C_constant.name),jo.getString(C_constant.f_name),jo.getString(C_constant.l_name),jo.getString(C_constant.email),jo.getString(C_constant.phone),jo.getString(C_constant.notes),jo.getString(C_constant.source),jo.getString(C_constant.url),jo.getString(C_constant.duration),jo.getString(C_constant.time),jo.getString(C_constant.share_url),jo.getString(C_constant.download_url),jo.getString(C_constant.is_star), data.getReminder() == true ?jo.getString(C_constant.remind_days):"",data.getReminder() ==true?jo.getString(C_constant.remind_date):"");
+                    fo = new FileData(jo.getString(C_constant.id), jo.getString(C_constant.order_id), jo.getString(C_constant.sid), jo.getString(C_constant.name), jo.getString(C_constant.f_name), jo.getString(C_constant.l_name), jo.getString(C_constant.email), jo.getString(C_constant.phone), jo.getString(C_constant.notes), jo.getString(C_constant.source), jo.getString(C_constant.url), jo.getString(C_constant.duration), jo.getString(C_constant.time), jo.getString(C_constant.share_url), jo.getString(C_constant.download_url), jo.getString(C_constant.is_star), data.getReminder() == true ? jo.getString(C_constant.remind_days) : "", data.getReminder() == true ? jo.getString(C_constant.remind_date) : "");
                     fdata.add(fo);
                 }
                 //response_data = new GetFiles_Response("File List Available.",fdata,""+jobj.getInt(C_constant.credits));
-                mListener.onSuccess(new GetFiles_Response("File List Available.",fdata,""+jobj.getInt(C_constant.credits)));
+                mListener.onSuccess(new GetFiles_Response("File List Available.", fdata, "" + jobj.getInt(C_constant.credits)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
