@@ -145,13 +145,33 @@ public class CreateFileAPI {
             webservice_call.handleRequest(1, ApiClient.create_file, param, "POST");
         else {
             try {
+
+
+
+
                 JSONArray ja_off = new JSONArray();
-                if (!sd.getOfflineFileCreated().contains("")) {
+
+                String s = "";
+                for(int i = 0 ; i <= param.size() ; i++)
+                {
+                    if(s == ""){
+                        s = param.get(i).getName()+":"+param.get(i).getValue();
+                    }
+                        else
+                   s = s+"," + param.get(i).getName()+":"+param.get(i).getValue();  // "file":"value"
+                }
+
+                s = "["+s+"]";
+
+               // JSONArray shh = new JSONArray();
+
+                if (!sd.getOfflineFileCreated().contains(""))
+                {
                     ja_off = new JSONArray(sd.getOfflineFileCreated());
                 }
-                ja_off.put(new JSONObject((Map) param));
+                ja_off.put(new JSONArray(s));
 
-                
+
                 sd.setOfflineFileCreate(ja_off.toString());
 
             } catch (Exception e) {
