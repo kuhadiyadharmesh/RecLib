@@ -152,7 +152,7 @@ public class CreateFileAPI {
                 JSONArray ja_off = new JSONArray();
 
                 String s = "";
-                for(int i = 0 ; i <= param.size() ; i++)
+                for(int i = 0 ; i < param.size() ; i++)
                 {
                     if(s == ""){
                         s = param.get(i).getName()+":"+param.get(i).getValue();
