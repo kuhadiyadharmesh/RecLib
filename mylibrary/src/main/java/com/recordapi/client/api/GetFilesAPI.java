@@ -148,7 +148,7 @@ public class GetFilesAPI {
 
                 if (data.getFolder_id().contentEquals("all")) {
                     JSONArray jaoff = new JSONArray(sd.getOfflineFileCreated());
-                    for (int i = 0; i > jaoff.length(); i++) {
+                    for (int i = 0; i < jaoff.length(); i++) {
                         JSONArray ja_sub = jaoff.getJSONArray(i);
 
                        // JSONObject joo = (JSONObject) ja_sub.get(0);
