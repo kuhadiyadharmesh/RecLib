@@ -155,10 +155,10 @@ public class CreateFileAPI {
                 for(int i = 0 ; i < param.size() ; i++)
                 {
                     if(s == ""){
-                        s = param.get(i).getName()+":"+param.get(i).getValue();
+                        s = param.get(i).getName()+":\""+ param.get(i).getValue()+"\"";
                     }
                         else
-                   s = s+"," + param.get(i).getName()+":"+param.get(i).getValue();  // "file":"value"
+                   s = s+"," + param.get(i).getName()+":\""+ param.get(i).getValue()+"\"";  // "file":"value"
                 }
 
                 s = "["+s+"]";
@@ -169,7 +169,7 @@ public class CreateFileAPI {
                 {
                     ja_off = new JSONArray(sd.getOfflineFileCreated());
                 }
-                ja_off.put(new JSONArray(s));
+                ja_off.put(s);
 
 
                 sd.setOfflineFileCreate(ja_off.toString());
