@@ -151,6 +151,7 @@ public class CreateFileAPI {
                 }
                 ja_off.put(new JSONObject((Map) param));
 
+                
                 sd.setOfflineFileCreate(ja_off.toString());
 
             } catch (Exception e) {
