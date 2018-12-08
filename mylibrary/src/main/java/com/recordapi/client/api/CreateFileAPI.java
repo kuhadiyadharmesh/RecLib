@@ -147,32 +147,29 @@ public class CreateFileAPI {
             try {
 
 
-
-
                 JSONArray ja_off = new JSONArray();
 
                 String s = "";
-                for(int i = 0 ; i < param.size() ; i++)
-                {
-                    if(s == ""){
-                        s = param.get(i).getName()+":\""+ param.get(i).getValue()+"\"";
-                    }
-                        else
-                   s = s+"," + param.get(i).getName()+":\""+ param.get(i).getValue()+"\"";  // "file":"value"
+                for (int i = 0; i < param.size(); i++) {
+                    if (s == "") {
+                        s = param.get(i).getName() + ":\"" + param.get(i).getValue() + "\"";
+                    } else
+                        s = s + "," + param.get(i).getName() + ":\"" + param.get(i).getValue() + "\"";  // "file":"value"
                 }
 
-                s = "["+s+"]";
+                s = "[" + s + "]";
 
-               // JSONArray shh = new JSONArray();
+                // JSONArray shh = new JSONArray();
 
-                if (!sd.getOfflineFileCreated().contains(""))
-                {
+                if (!sd.getOfflineFileCreated().contains("")) {
                     ja_off = new JSONArray(sd.getOfflineFileCreated());
                 }
                 ja_off.put(s);
 
 
                 sd.setOfflineFileCreate(ja_off.toString());
+                CreateFile_Response response_data = new CreateFile_Response("Offline save", "-" + ja_off.length());
+                mListener.onSuccess(response_data);
 
             } catch (Exception e) {
                 mListener.onFailure(new CreateFile_Response(C_constant.no_Internet));

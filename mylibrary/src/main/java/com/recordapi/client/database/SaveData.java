@@ -96,7 +96,7 @@ public class SaveData {
     }
 
     public void setOfflineFileCreate(String offline_json) {
-        edit.putString("offline_created_files", offline_json);
+        edit.putString("offline_created_files", offline_json).commit();
     }
 
     public String getOfflineFileCreated() {
