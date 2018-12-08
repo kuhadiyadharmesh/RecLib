@@ -149,9 +149,15 @@ public class GetFilesAPI {
                 if (data.getFolder_id().contentEquals("all")) {
                     JSONArray jaoff = new JSONArray(sd.getOfflineFileCreated());
                     for (int i = 0; i > jaoff.length(); i++) {
-                        JSONObject joOff = jaoff.getJSONObject(i);
+                        JSONArray ja_sub = jaoff.getJSONArray(i);
 
-                        fo = new FileData(((-i) - 1) + "", "", "", joOff.getJSONObject(C_constant.data).getString("name"), "", "", "", "", "", "", joOff.getJSONObject(C_constant.data).getString("file"), "", "", "", joOff.getJSONObject(C_constant.data).getString("file"), "false", "", "");
+                       // JSONObject joo = (JSONObject) ja_sub.get(0);
+                        String file = ((JSONObject) ja_sub.get(0)).getString(C_constant.file);
+                       // String api_key = ((JSONObject) ja_sub.get(1)).getString(C_constant.api_key);
+                        //String id = ((JSONObject) ja_sub.get(2)).getString(C_constant.id);
+                        JSONObject data_obj = new JSONObject(((JSONObject) ja_sub.get(3)).getString(C_constant.data));
+
+                        fo = new FileData(((-i) - 1) + "", "", "", data_obj.getString("name"), "", "", "", "", "", "", file, "", "", "", file, "false", "", "");
                         fdata.add(fo);
                     }
                 }
