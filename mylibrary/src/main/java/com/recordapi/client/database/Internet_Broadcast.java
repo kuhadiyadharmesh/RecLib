@@ -28,6 +28,10 @@ public class Internet_Broadcast extends BroadcastReceiver {
     public void onReceive(final Context context, Intent intent) {
         if (isOnline(context)) {
             sd = new SaveData(context);
+
+            if (sd.getIsUploading()) {
+                return;
+            }
             try {
             /*
             Intent intent = new Intent();
@@ -35,18 +39,19 @@ public class Internet_Broadcast extends BroadcastReceiver {
             intent.setAction(NETWORK_CHANGE_ACTION);
             context.sendBroadcast(intent);
             */
+                sd.setIsUploading(true);
                 final JSONArray ja = new JSONArray(sd.getOfflineFileCreated());
                 position = 0;
                 for (int i = 0; i < ja.length(); i++) {
 
-                    JSONObject jo = ja.getJSONObject(i);
+                    JSONArray ja_sub = ja.getJSONArray(i);
                     position = i;
 
-                    CreateFile createFile = new CreateFile(jo.getString(C_constant.file), jo.getString(C_constant.id));
-                    createFile.setName(jo.getJSONObject(C_constant.data).getString("name"));
-                    createFile.setNotes(jo.getJSONObject(C_constant.data).getString("notes"));
-                    createFile.setRemind_days(jo.getJSONObject(C_constant.data).getString("remind_days"));
-                    createFile.setRemind_date(jo.getJSONObject(C_constant.data).getString("remind_date"));
+                    CreateFile createFile = new CreateFile(ja_sub.getJSONObject(0).getString(C_constant.file), ja_sub.getJSONObject(2).getString(C_constant.id));
+                    createFile.setName(ja_sub.getJSONObject(3).getJSONObject(C_constant.data).getString("name"));
+                    createFile.setNotes(ja_sub.getJSONObject(3).getJSONObject(C_constant.data).getString("notes"));
+                    createFile.setRemind_days(ja_sub.getJSONObject(3).getJSONObject(C_constant.data).getString("remind_days"));
+                    createFile.setRemind_date(ja_sub.getJSONObject(3).getJSONObject(C_constant.data).getString("remind_date"));
 
                     new CreateFileAPI(context, createFile, new RecordingApiListener() {
                         @Override
@@ -59,6 +64,7 @@ public class Internet_Broadcast extends BroadcastReceiver {
                                     finish();*/
                                     if (position >= (ja.length() - 1)) {
                                         sd.setOfflineFileCreate("");
+                                        sd.setIsUploading(false);
                                     }
                                 } else {
                                 }
@@ -71,18 +77,21 @@ public class Internet_Broadcast extends BroadcastReceiver {
                         @Override
                         public void onFailure(Object o) {
                             //Prg_dialog(false);
+                            sd.setIsUploading(false);
                         }
                     });
 
                 }
 
 
-                Log.e("Library", "Internet connection updated");
+                Log.e("Library-onReceive :", "Internet connection updated");
             } catch (Exception ex) {
+                sd.setIsUploading(false);
                 ex.printStackTrace();
             }
             //sendInternalBroadcast(context, "Internet Connected");
         } else {
+            sd.setIsUploading(false);
             sendInternalBroadcast(context, "Internet Not Connected");
         }
     }
@@ -95,7 +104,7 @@ public class Internet_Broadcast extends BroadcastReceiver {
             intent.setAction(NETWORK_CHANGE_ACTION);
             context.sendBroadcast(intent);
             */
-            Log.e("Library", "Internet connection updated");
+            Log.e("Library-", "InternalBroadcast : Internet connection updated");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

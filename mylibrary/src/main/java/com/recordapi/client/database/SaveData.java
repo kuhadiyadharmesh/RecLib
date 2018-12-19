@@ -102,4 +102,12 @@ public class SaveData {
     public String getOfflineFileCreated() {
         return pref.getString("offline_created_files", "");
     }
+
+    public void setIsUploading(boolean IsUploading) {
+        edit.putBoolean("IsUploading", IsUploading).commit();
+    }
+
+    public boolean getIsUploading() {
+        return pref.getBoolean("IsUploading", false);
+    }
 }
