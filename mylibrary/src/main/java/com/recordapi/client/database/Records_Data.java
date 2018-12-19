@@ -132,6 +132,7 @@ public class Records_Data
             {
                 GetFolder_Response data = (GetFolder_Response)obj;
                 ArrayList<FolderData> folderdata = data.getFolderdata();
+                Call_GetFiles_Service("all");
                 for (int i = 0; i < folderdata.size(); i++)
                 {
                     Call_GetFiles_Service(folderdata.get(i).getId());
