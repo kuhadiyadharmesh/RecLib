@@ -26,8 +26,9 @@ public class Internet_Broadcast extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, Intent intent) {
+        sd = new SaveData(context);
+
         if (isOnline(context)) {
-            sd = new SaveData(context);
 
             if (sd.getIsUploading()) {
                 return;
